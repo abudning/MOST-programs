@@ -1,0 +1,5 @@
+SCREEN=OFF
+RESOURCE=OFF
+TALK=OFF
+SAFETY=OFF
+COMMAND=DO "E:\MOST for chat\oms_vfp9_build\direct_build.prg"
