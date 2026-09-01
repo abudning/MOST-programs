@@ -99,3 +99,14 @@ The upgraded program must preserve Visual FoxPro 7-compatible DBF/DBC/CDX/FPT st
 - Confirmed EDT works when `CVF50.FLL`, `MCW32.dll`, and `CFHDR.H` are beside the v13 executable.
 - The final clean installer and upgrade package must install those three support files beside `most.exe`.
 - No patient charts, medical databases, credentials, or EDT operational files are included in the v13 snapshot.
+
+## V14 scheduler checkpoint — 2026-09-01
+
+- Built `MOST_V14_TEST.exe` with a forced VFP9 SP2 recompile.
+- Fixed the scheduler exit path so `QueryUnload`, `btnExit.Click`, and `Release` no longer call each other recursively.
+- Scheduler cleanup now checks `USED("undo_hstry")` before closing the temporary alias.
+- Temporary history deletion is limited to the exact DBF/FPT/CDX files created in the current user's Temp directory.
+- Identified the embedded scheduler as the 32-bit GravityBox `Scheduler.Schedule` control, CLSID `{CB93D4CA-F746-11D2-9118-00A0241E587F}`.
+- Verified local copies of `GbSchedule.ocx`, `GbSubclass.ocx`, and `GbXMLParse.dll`; their hashes and local paths are documented under `verified_v14`.
+- The proprietary GravityBox binaries are not committed publicly because redistribution rights have not been established.
+- Interactive scheduler testing on Windows 11 and regression testing on XP remain required, using copied databases first.
