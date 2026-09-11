@@ -7,6 +7,8 @@
   error on Windows 11 without requiring elevation.
 - Running without elevation preserves the user's normal mapped drives, including
   the `K:` database mapping.
+- V16.15 is explicitly treated as a code-only update from executable 1.7.611,
+  preventing the legacy `upgrade.fxp` database-upgrade routine from starting.
 
 Includes all cumulative V16.14 fixes. This remains a test release and does not
 alter or copy clinical database files.
