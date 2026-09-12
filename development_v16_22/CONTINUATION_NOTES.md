@@ -1,4 +1,4 @@
-# MOSt V16.22 prescription centre development checkpoint
+﻿# MOSt V16.22 prescription centre development checkpoint
 
 Executable version reserved: `1.7.623`
 
@@ -6,7 +6,7 @@ Status: **development continuation — not clinically verified and not approved 
 
 ## Purpose
 
-This checkpoint preserves the latest Windows XP prescription-centre work so investigation can continue later without losing the V16.18–V16.21 changes. The source is carried forward from the locally built V16.21 baseline. No V16.22 executable or installer is included in this checkpoint.
+This checkpoint preserves the latest Windows XP prescription-centre work so investigation can continue later without losing the V16.18–V16.21 changes. The source is carried forward from the locally built V16.21 baseline. A V16.22 executable and Windows XP upgrade ZIP were compiled successfully, but workstation functional testing remains outstanding.
 
 ## Changes carried forward
 
@@ -27,12 +27,12 @@ The V16.20/V16.21 code contains intended repairs for these observations, but the
 
 ## Resume checklist
 
-1. Build V16.22/`1.7.623` from a clean copy of the known MOSt VFP9 build tree.
+1. Install the compiled V16.22/`1.7.623` package on a Windows XP test workstation using a complete copied database.
 2. Install only on a Windows XP test workstation against a complete copied database.
 3. Test medication New Rx, glasses manual entry, Word refraction import, draft and issue, Prescription History, reopening records, and preview/print.
 4. For every error, record the exact number and message, whether Word was open, the patient and prescription type, and the last button pressed.
 5. Confirm `RXOPTICAL` and `RXMED` open in independent aliases/work areas and that closing a form does not close the history cursor.
-6. Do not publish a V16.22 installer or label this folder verified until the XP sequence passes.
+6. Do not label V16.22 verified or use it clinically until the XP sequence passes.
 
 ## Safety boundaries
 

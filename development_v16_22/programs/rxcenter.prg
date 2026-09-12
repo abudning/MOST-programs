@@ -724,6 +724,9 @@ DEFINE CLASS RxHistoryForm AS Form
     PROCEDURE LoadHistory
         LOCAL lcRxFile, lcMedFile, lcPresFile, lcGenFile, lcBrandFile
         THIS.lblPatient.Caption="Patient: "+RxPatientName(THIS.oPatient)+"     Date of birth: "+RxPatientDOB(THIS.oPatient)
+        IF USED("csrRxHistory")
+            USE IN csrRxHistory
+        ENDIF
         CREATE CURSOR csrRxHistory (sortdate T, rxtype C(12), descr C(90), prescriber C(12), status C(12), sourceid C(12), numid I)
         lcRxFile=ADDBS(path_to_data)+"rxoptical.dbf"
         IF FILE(lcRxFile)
