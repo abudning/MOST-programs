@@ -1,0 +1,5 @@
+SCREEN=OFF
+RESOURCE=OFF
+TALK=OFF
+SAFETY=OFF
+COMMAND=DO C:\Users\abudn\Documents\Codex\2026-09-09\i-a\work\patch_build_v16_17.prg
