@@ -9,6 +9,12 @@ This is a review list, not authorization to change production systems. Test each
 - Extend **Help → About MOSt** with read-only System Details showing executable version, shared data path, workstation role, effective `LETTERWR`, Word version and error-log location.
 - Record the exact error number, program, line and last action for any new failure.
 
+## XP LetterBuilder lock work in progress
+
+- V16.29/`1.7.630` is compiled as a Windows XP test build.
+- Editable letter open now checks Word's hidden owner file and offers read-only viewing or cancellation instead of entering the blocking path.
+- Letter printing opens the document read-only.
+- V16.29 must pass the documented two-workstation XP test before it replaces V16.28 as the verified baseline.
 ## 2. Consolidate releases and builds
 
 - Treat V16.28/`1.7.629` as the current prescription baseline and archive superseded test installers.
