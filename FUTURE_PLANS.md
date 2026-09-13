@@ -18,6 +18,7 @@ This is a review list, not authorization to change production systems. Test each
 - V16.30/`1.7.631` adds a shared single-instance XP LetterBuilder launcher for both the patient screen and Patients menu.
 - The patient-screen button now loads the current patient into LetterBuilder but does not open or create a letter; repeat launches restore the existing form and report that it is already open.
 - V16.31/`1.7.632` replaces V16.30: fixes the invalid form `SetFocus` call, always files/loads patient letters under legacy mnemonic `AB`, and positions LetterBuilder below or to the right of Patients.
+- V16.32/`1.7.633` extends the patient-screen workflow: selecting another patient and pressing Letters routes that ID through LetterBuilder's existing patient-number `Valid()` sequence so the current work follows the established save/completion behavior and the same LetterBuilder switches to the new patient under `AB`.
 - Letter authorship remains a manual audit when rarely needed: compare the letter date with Billing History to identify the billing physician; do not change the legacy `AB` filing identity.
 - Future enhancement: add automatic letter authorship attribution by recording or deriving the physician responsible for the letter, initially using the billing physician for the matching service date. Keep `AB` as the legacy LetterBuilder storage identity so existing letters remain accessible, and show the attribution separately as audit information.
 ## 2. Consolidate releases and builds
