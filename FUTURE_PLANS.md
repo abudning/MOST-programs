@@ -6,7 +6,7 @@ This is a review list, not authorization to change production systems. Test each
 
 - Run a repeatable XP regression checklist: medication draft/issue/print, glasses manual entry/import/issue/print, history View and Enter, and both physicians.
 - Confirm backup and restore coverage for the new `RXMED` and `RXOPTICAL` free tables.
-- Add a diagnostic screen showing executable version, shared data path and workstation role.
+- Extend **Help → About MOSt** with read-only System Details showing executable version, shared data path, workstation role, effective `LETTERWR`, Word version and error-log location.
 - Record the exact error number, program, line and last action for any new failure.
 
 ## 2. Consolidate releases and builds
@@ -19,7 +19,10 @@ This is a review list, not authorization to change production systems. Test each
 ## 3. Finish Windows 10/11 compatibility
 
 - Centralize local application and shared database paths.
-- Implement the workstation-local `PARAMETER2.DBF` plan without overwriting the server copy.
+- Keep shared-path configuration in the workstation-local `PARAMETER2.DBF` without overwriting the server copy.
+- For Windows 10/11 only, set `LETTERWR=.F.` in the workstation-local `OPTIONS` table exposed through **Setup → Options → Local Options**; leave XP unchanged.
+- Add a read-only modern-Word viewer for existing letters, independent of legacy LetterBuilder macros.
+- Detect an existing Word owner/application lock before editable open and offer **View Read-Only** or **Cancel** instead of waiting or freezing.
 - Resolve the read-only DBC/DBF update problem using copied data and verified XP share/NTFS permissions.
 - Retest patients, claims, appointments, scheduling, indexes, memo files, EDT and PDF access.
 - Preserve VFP7-compatible database structures while XP and newer workstations coexist.
@@ -44,6 +47,8 @@ This is a review list, not authorization to change production systems. Test each
 - Replace legacy HTML/browser printing only after an XP-compatible alternative is proven.
 - Document Word automation, ActiveX, VFP runtime and network-share dependencies.
 - Plan a staged migration away from unsupported XP/VFP components while preserving readable clinical history and uninterrupted office operation.
+
+See `WINDOWS_10_11_COMPATIBILITY_PLAN.md` for the approved platform separation, read-only viewer and lock-handling design.
 
 ## Suggested review order
 
