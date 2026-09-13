@@ -17,6 +17,8 @@ This is a review list, not authorization to change production systems. Test each
 - V16.29 must pass the documented two-workstation XP test before it replaces V16.28 as the verified baseline.
 - V16.30/`1.7.631` adds a shared single-instance XP LetterBuilder launcher for both the patient screen and Patients menu.
 - The patient-screen button now loads the current patient into LetterBuilder but does not open or create a letter; repeat launches restore the existing form and report that it is already open.
+- V16.31/`1.7.632` replaces V16.30: fixes the invalid form `SetFocus` call, always files/loads patient letters under legacy mnemonic `AB`, and positions LetterBuilder below or to the right of Patients.
+- Letter authorship remains a manual audit when rarely needed: compare the letter date with Billing History to identify the billing physician; do not change the legacy `AB` filing identity.
 ## 2. Consolidate releases and builds
 
 - Treat V16.28/`1.7.629` as the current prescription baseline and archive superseded test installers.
