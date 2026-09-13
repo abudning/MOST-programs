@@ -1,5 +1,14 @@
 # MOSt Visual FoxPro 9 upgrade progress
 
+## Current verified prescription checkpoint — V16.28
+
+- Windows XP executable version `1.7.629` was reported working by the user.
+- Medication and glasses prescription history, viewing and printing are repaired.
+- Glasses sphere/cylinder fields preserve explicit plus and minus signs through entry, Word import, reopening and print.
+- Both print formats include the office header, selected physician and matching CPSO number.
+- Source and notes are in `verified_v16_28/`; the XP package and checksum are in `verified_v16_28_installers/`.
+- See `FUTURE_PLANS.md` for the proposed stabilization and modernization sequence.
+
 Saved: 2026-08-23 17:10 America/Toronto
 
 ## Current result
