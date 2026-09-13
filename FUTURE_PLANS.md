@@ -19,6 +19,7 @@ This is a review list, not authorization to change production systems. Test each
 - The patient-screen button now loads the current patient into LetterBuilder but does not open or create a letter; repeat launches restore the existing form and report that it is already open.
 - V16.31/`1.7.632` replaces V16.30: fixes the invalid form `SetFocus` call, always files/loads patient letters under legacy mnemonic `AB`, and positions LetterBuilder below or to the right of Patients.
 - Letter authorship remains a manual audit when rarely needed: compare the letter date with Billing History to identify the billing physician; do not change the legacy `AB` filing identity.
+- Future enhancement: add automatic letter authorship attribution by recording or deriving the physician responsible for the letter, initially using the billing physician for the matching service date. Keep `AB` as the legacy LetterBuilder storage identity so existing letters remain accessible, and show the attribution separately as audit information.
 ## 2. Consolidate releases and builds
 
 - Treat V16.28/`1.7.629` as the current prescription baseline and archive superseded test installers.
