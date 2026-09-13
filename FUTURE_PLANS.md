@@ -15,6 +15,8 @@ This is a review list, not authorization to change production systems. Test each
 - Editable letter open now checks Word's hidden owner file and offers read-only viewing or cancellation instead of entering the blocking path.
 - Letter printing opens the document read-only.
 - V16.29 must pass the documented two-workstation XP test before it replaces V16.28 as the verified baseline.
+- V16.30/`1.7.631` adds a shared single-instance XP LetterBuilder launcher for both the patient screen and Patients menu.
+- The patient-screen button now loads the current patient into LetterBuilder but does not open or create a letter; repeat launches restore the existing form and report that it is already open.
 ## 2. Consolidate releases and builds
 
 - Treat V16.28/`1.7.629` as the current prescription baseline and archive superseded test installers.
