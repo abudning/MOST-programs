@@ -26,6 +26,7 @@ This is a review list, not authorization to change production systems. Test each
 - Future enhancement: add automatic letter authorship attribution by recording or deriving the physician responsible for the letter, initially using the billing physician for the matching service date. Keep `AB` as the legacy LetterBuilder storage identity so existing letters remain accessible, and show the attribution separately as audit information.
 ## 2. Consolidate releases and builds
 
+- Current tested checkpoint: V16.42/`1.7.643`. Office testing confirms all active billing-MD filters except Reconcile; V16.43 is reserved for the Reconcile selector repair.
 - Treat V16.28/`1.7.629` as the current prescription baseline and archive superseded test installers.
 - Make future builds repeatable from source-controlled scripts instead of cumulative manual patches.
 - Keep release notes, hashes, installation instructions and rollback steps with every build.
