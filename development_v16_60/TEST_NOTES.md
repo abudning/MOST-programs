@@ -48,3 +48,13 @@ The test archive contains the executable and instructions only. It includes no D
 The installer checks the OS, administrator access and running MOST.exe; creates and verifies a unique backup; replaces only the local executable; verifies it byte-for-byte; and attempts to restore the backup if replacement fails. It includes no clinical databases and makes no runtime registration or configuration changes. See `INSTALL_README.txt` for requirements and rollback. Package extraction and executable integrity were verified; the installer has not been run on XP. Existing functional checks remain outstanding.
 
 Installer SHA-256: `039356328E2E15D2A131772EF58A459E3BB0FE466FF2882FBEC22A2E8B209EC7`.
+
+## Complete XP workstation package (September 15, 2026)
+
+Use `MOSt_Complete_Workstation_V16.60_Windows_XP_TEST.zip` for an original VFP7 workstation or a new XP machine. It follows the V16.47 full-package format and includes the unchanged V16.60/1.7.661 executable, private VFP9 runtime, supporting DLLs, Scheduler components, help, labels, Word templates, and clean local configuration defaults.
+
+Extract every file. For an existing VFP7/VFP9 installation, run `Install-MOSt-V16.60-XP-Workstation.cmd` as a local Administrator; it preserves local configuration and backs up replaced application files. For a new workstation, run `Install-MOSt-V16.60-NEW-XP-Workstation.cmd`; the target MOSt folder must not already exist. See `COMPLETE_XP_INSTALL_README.txt` for prerequisites, per-user setup and rollback.
+
+The package supplies only workstation configuration databases and empty DAILY/MACROS tables, with no patient or claims records. It does not supply or install shared clinical databases. Word, a printer and server mappings remain prerequisites. Executable version, script syntax, local defaults and every extracted archive file checksum were checked locally. Installation and functional XP testing remain outstanding.
+
+Complete package SHA-256: `A492F0553F91CB010E77714FC029F41BA6E482E78DBCB37DE7A1B78D53D7F7FE`.
