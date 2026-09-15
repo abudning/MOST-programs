@@ -1,3 +1,5 @@
+WITHDRAWN: reported immediate Claims-opening crash on XP. See V16.62.
+
 # V16.61 source checkpoint
 
 This is the repaired source delta from V16.60, GitHub baseline commit
@@ -31,3 +33,4 @@ validation is outstanding. See README_V16.61.txt for the workstation checklist.
 
 The compiled installer has not been run here. No live clinical data or server
 installation was changed. GitHub has not been updated by this continuation.
+
