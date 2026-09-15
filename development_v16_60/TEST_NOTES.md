@@ -41,3 +41,10 @@ V16.60 is the latest Windows XP test build. It includes all work from V16.51 thr
 ## Package safety
 
 The test archive contains the executable and instructions only. It includes no DBF, DBC, FPT, CDX, patient charts, claims data, credentials, or operational logs.
+## XP installer package (September 15, 2026)
+
+`MOSt_V16.60_Windows_XP_Installer_TEST.zip` packages the unchanged V16.60/1.7.661 executable with `Install-MOSt-V16.60-XP.cmd`, installation/rollback instructions, and these test notes. Extract all files, close MOSt, and run the script as a local Administrator on an existing Windows XP workstation installation.
+
+The installer checks the OS, administrator access and running MOST.exe; creates and verifies a unique backup; replaces only the local executable; verifies it byte-for-byte; and attempts to restore the backup if replacement fails. It includes no clinical databases and makes no runtime registration or configuration changes. See `INSTALL_README.txt` for requirements and rollback. Package extraction and executable integrity were verified; the installer has not been run on XP. Existing functional checks remain outstanding.
+
+Installer SHA-256: `039356328E2E15D2A131772EF58A459E3BB0FE466FF2882FBEC22A2E8B209EC7`.
