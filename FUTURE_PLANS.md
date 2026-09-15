@@ -26,7 +26,7 @@ This is a review list, not authorization to change production systems. Test each
 - Future enhancement: add automatic letter authorship attribution by recording or deriving the physician responsible for the letter, initially using the billing physician for the matching service date. Keep `AB` as the legacy LetterBuilder storage identity so existing letters remain accessible, and show the attribution separately as audit information.
 ## 2. Consolidate releases and builds
 
-- Current XP test checkpoint: V16.50/`1.7.651`. It retains the prescription, LetterBuilder, active-MD and Reconcile repairs; routes all shared form databases through `K:\Program Files\MOSt\databases\`; keeps local options local; suppresses legacy path/code output; and uses `S:\` as the directly mapped Charts share. V16.44-V16.49 are superseded intermediate builds.
+- Current XP test checkpoint: V16.60/`1.7.661`. It retains the prescription, LetterBuilder, active-MD and Reconcile repairs; uses the approved Patients layout and `L +C` combined action; preserves the selected Claims billing MD when switching patients; opens Scheduler `schedata` from the configured shared path; routes shared form databases through `K:\Program Files\MOSt\databases\`; and uses `S:\` as the directly mapped Charts share. V16.44-V16.59 are superseded intermediate builds.
 - Treat V16.28/`1.7.629` as the current prescription baseline and archive superseded test installers.
 - Make future builds repeatable from source-controlled scripts instead of cumulative manual patches.
 - Keep release notes, hashes, installation instructions and rollback steps with every build.

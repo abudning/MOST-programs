@@ -1,5 +1,11 @@
 # MOSt Visual FoxPro 9 upgrade progress
 
+## Latest Windows XP development checkpoint — V16.60
+
+- Executable/file version: `1.7.661`.
+- Latest source, build scripts, test archive, checksum, and test notes are in `development_v16_60/`.
+- Includes the prescription and LetterBuilder work, approved Patients layout, `L +C`, Scheduler shared-data routing, and Claims billing-MD persistence between patients.
+- This remains a test checkpoint pending confirmation on the active XP workstation.
 ## Current verified prescription checkpoint — V16.28
 
 - Windows XP executable version `1.7.629` was reported working by the user.
