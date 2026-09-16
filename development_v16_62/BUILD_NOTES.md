@@ -23,3 +23,5 @@ legacy project or linking schemas. No database records or credentials included.
 First XP check: install on the test workstation, confirm 1.7.663 and open Claims.
 If it fails, restore the known-working executable backed up before V16.61.
 Follow README_V16.62.txt for additional fee and MD checks. GitHub is unchanged.
+
+Latest reports and unresolved new-code configuration: see CONTINUATION_NOTES.md.
