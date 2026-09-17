@@ -24,14 +24,13 @@ The compiler and updated synthetic VFP tests pass. Full XP testing is incomplete
 ## Visual fields / service location review
 
 The supplied screenshots show fee code **G432A** (visual-field professional
-component) submitted with **OFF**, meaning Office of community physician. The
-Ministry Interface to Health Care Systems Manual lists OFF as an accepted
-Service Location Indicator and says the SLI is required for hospital diagnostic
-services and telemedicine; four numeric characters remain acceptable for
-non-hospital diagnostic services. MOSt's OHIP export currently takes the
-provider location from `MD.locatn_cod` and writes it into the claim header; it
-does not use the Claims `facility` number for this field. No change has been
-made until the provider's intended MOH location value is confirmed.
+component) submitted by another program with **OFF**, meaning Office of
+community physician. For this office billing workflow, the user confirms that
+no location or facility code is needed. The Ministry manual says the SLI is
+required for hospital diagnostic services and telemedicine; it is not a required
+entry for this office G432A claim. MOSt may continue to leave its provider
+location field blank. The Claims `facility` number should remain unused for
+this purpose.
 - Missing OHIP/Premium/required checkbox settings affect only newly imported
   codes; older codes retain their settings. This is not a confirmed mass reset.
 
