@@ -1,6 +1,11 @@
 # Current development status
 
-Latest Windows XP test candidate: **V16.62 / 1.7.663**.
+Latest Windows XP test candidate: **V16.63 / 1.7.664**.
+
+V16.63 source changes, executable, checksum, and test notes are in
+`development_v16_63/`. It compiles successfully but has not been functionally
+verified on the XP workstation. The V16.62 package remains the last build the
+user reported working on the system.
 
 V16.62 source, executable-only upgrade, installer, checksum and test instructions
 are in development_v16_62/. It restores the V16.60 billing-MD SQL dropdown setup
