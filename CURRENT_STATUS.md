@@ -20,6 +20,18 @@ The compiler and updated synthetic VFP tests pass. Full XP testing is incomplete
   subsequently confirmed the premium workflow worked for A235. There is no
   explicit confirmation yet that every Claims-opening path is stable.
 - The user now reports that premium code billing works on the system.
+
+## Visual fields / service location review
+
+The supplied screenshots show fee code **G432A** (visual-field professional
+component) submitted with **OFF**, meaning Office of community physician. The
+Ministry Interface to Health Care Systems Manual lists OFF as an accepted
+Service Location Indicator and says the SLI is required for hospital diagnostic
+services and telemedicine; four numeric characters remain acceptable for
+non-hospital diagnostic services. MOSt's OHIP export currently takes the
+provider location from `MD.locatn_cod` and writes it into the claim header; it
+does not use the Claims `facility` number for this field. No change has been
+made until the provider's intended MOH location value is confirmed.
 - Missing OHIP/Premium/required checkbox settings affect only newly imported
   codes; older codes retain their settings. This is not a confirmed mass reset.
 
