@@ -23,5 +23,8 @@ This build has **not** been functionally verified on the XP workstation. Do not
 replace the working V16.62 copy without keeping it available for rollback.
 The Word chart itself is not yet checked for patient identity during Rx import.
 
-Still open: E185/new-code premium configuration, slow referral PDF retrieval,
+The user reports premium code billing now works on the system. Still open: slow referral PDF retrieval,
 and the visual-fields office billing field (fee code/photo needed).
+
+The installable ZIP, XP upgrade script, and installation instructions are also in
+this directory. The installer backs up and replaces the local executable only.

@@ -2,7 +2,7 @@
 
 Latest Windows XP test candidate: **V16.63 / 1.7.664**.
 
-V16.63 source changes, executable, checksum, and test notes are in
+V16.63 source changes, executable-only XP installer, checksum, and test notes are in
 `development_v16_63/`. It compiles successfully but has not been functionally
 verified on the XP workstation. The V16.62 package remains the last build the
 user reported working on the system.
@@ -19,7 +19,7 @@ The compiler and updated synthetic VFP tests pass. Full XP testing is incomplete
 - V16.62 was supplied as the targeted startup-crash test candidate. The user
   subsequently confirmed the premium workflow worked for A235. There is no
   explicit confirmation yet that every Claims-opening path is stable.
-- E185 still reports that it does not accept a premium.
+- The user now reports that premium code billing works on the system.
 - Missing OHIP/Premium/required checkbox settings affect only newly imported
   codes; older codes retain their settings. This is not a confirmed mass reset.
 
