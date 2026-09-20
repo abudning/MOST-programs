@@ -21,11 +21,9 @@ FOR lnI=1 TO _SCREEN.FormCount
     IF UPPER(ALLTRIM(loClaimForm.Caption))=="CLAIMS"
         TRY
             IF VAL(ALLTRIM(TRANSFORM(loClaimForm.id.Value)))=lnPatientId
-                loClaimForm.Show()
-                TRY
-                    loClaimForm.ZOrder(0)
-                CATCH
-                ENDTRY
+                IF !loClaimForm.Visible
+                    loClaimForm.Show()
+                ENDIF
                 IF loClaimForm.type.Enabled
                     loClaimForm.type.SetFocus()
                 ELSE
@@ -59,8 +57,9 @@ FOR lnI=_SCREEN.FormCount TO 1 STEP -1
         TRY
             loClaimForm.id.Value=ALLTRIM(STR(lnPatientId))
             IF loClaimForm.id.Valid()
-                loClaimForm.Show()
-                loClaimForm.ZOrder(0)
+                IF !loClaimForm.Visible
+                    loClaimForm.Show()
+                ENDIF
                 RETURN loClaimForm
             ENDIF
         CATCH
