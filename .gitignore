@@ -16,3 +16,7 @@ EDT/
 Databases/
 databases/
 
+
+# Generated Visual FoxPro compile artifacts
+*.FXP
+*.ERR
