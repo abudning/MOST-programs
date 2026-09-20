@@ -8,11 +8,15 @@ CATCH
 ENDTRY
 IF EMPTY(lcTemplate)
     TRY
-        IF USED("letterlist") AND !EMPTY(ALLTRIM(loForm.pageframe1.page1.letter_name.Value))
+        IF USED("letterlist")
             SELECT letterlist
-            LOCATE FOR !DELETED() AND UPPER(ALLTRIM(lettername))==UPPER(ALLTRIM(loForm.pageframe1.page1.letter_name.Value)) AND !EMPTY(ALLTRIM(location))
+            IF !EMPTY(ALLTRIM(letterlist.location))
+                lcTemplate=ALLTRIM(letterlist.location)
+            ELSE
+                LOCATE FOR !DELETED() AND UPPER(ALLTRIM(lettername))==UPPER(ALLTRIM(loForm.pageframe1.page1.letter_name.Value)) AND !EMPTY(ALLTRIM(location))
             IF FOUND()
                 lcTemplate=ALLTRIM(letterlist.location)
+            ENDIF
             ENDIF
         ENDIF
     CATCH
@@ -72,6 +76,9 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter()
     ENDPROC
 ENDDEFINE
+
+
+
 
 
 
