@@ -56,9 +56,9 @@ TRY
     loFind.Wrap=0
     IF loFind.Execute()
         loRange.Collapse(0)
-        loRange.InsertAfter(CHR(13)+lcVision+CHR(13))
+        loRange.Text=CHR(13)+lcVision+CHR(13)
     ELSE
-        loNew.Content.InsertAfter(CHR(13)+"On examination"+CHR(13)+lcVision+CHR(13))
+        loNew.Content.Text=loNew.Content.Text+CHR(13)+"On examination"+CHR(13)+lcVision+CHR(13)
     ENDIF
     loWord.Visible=.T.
     ENDIF
@@ -78,6 +78,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter(THISFORM)
     ENDPROC
 ENDDEFINE
+
 
 
 
