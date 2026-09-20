@@ -1,8 +1,9 @@
 FUNCTION CreateConsultLetter
+LPARAMETERS toForm
 LOCAL lcTemplate,loWord,loChart,loNew,loFind,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd,llAbort
 lcTemplate=""
 TRY
-    loForm=THISFORM
+    loForm=toForm
     lcTemplate=ALLTRIM(TRANSFORM(loForm.pageframe1.page1.file_name.Value))
 CATCH
 ENDTRY
@@ -72,9 +73,10 @@ DEFINE CLASS ConsultButton AS CommandButton
     Height=21
     FontSize=8
     PROCEDURE Click
-        =CreateConsultLetter()
+        =CreateConsultLetter(THISFORM)
     ENDPROC
 ENDDEFINE
+
 
 
 
