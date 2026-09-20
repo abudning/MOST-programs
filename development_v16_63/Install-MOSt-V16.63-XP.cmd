@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions DisableDelayedExpansion
-title MOSt V16.63 Windows XP Workstation Upgrade
-echo MOSt V16.63 - version 1.7.664 - XP TEST CHECKPOINT
+title MOSt V16.63 WORKING WELL Windows XP Workstation Upgrade
+echo MOSt V16.63 WORKING WELL - version 1.7.664
 echo Close MOSt. This upgrades the existing local workstation executable only.
 echo.
 ver | find "5.1" >nul
@@ -32,7 +32,7 @@ echo.
 echo SUCCESS: V16.63 / 1.7.664 installed.
 echo Previous executable saved in "%BACKUP%".
 echo Database files and workstation configuration were not changed.
-echo Follow README_V16.63_XP_INSTALL.txt before approving this test build for live use.
+echo Follow README_V16.63_WORKING_WELL_INSTALL.txt before approving this test build for live use.
 pause
 exit /b 0
 :restore
@@ -69,3 +69,4 @@ exit /b 4
 echo ERROR: Could not create and verify the backup. Upgrade stopped.
 pause
 exit /b 6
+

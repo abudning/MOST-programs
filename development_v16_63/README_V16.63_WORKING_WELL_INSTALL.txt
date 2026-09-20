@@ -1,4 +1,4 @@
-MOSt V16.63 Windows XP workstation upgrade - TEST BUILD
+MOSt V16.63 WORKING WELL Windows XP workstation upgrade
 Executable version: 1.7.664
 
 This installer upgrades an EXISTING Windows XP workstation. It replaces only
@@ -27,7 +27,7 @@ TEST FIRST
 
 The user reports premium code billing now works on the system; this update does
 not change premium logic. Referral PDF speed and visual-fields office billing
-are not fixed in this build. V16.63 compiled successfully but these workflows
+are not fixed in this build. V16.63 has been reported working well on the workstation, but these workflows
 have not been functionally verified on the XP workstation.
 
 ROLLBACK
@@ -37,3 +37,4 @@ restores the previous executable automatically if the copy/verification fails.
 
 The package contains only the executable, installer, and this README. It has no
 medical databases, charts, or credentials. Do not run this on the server.
+
