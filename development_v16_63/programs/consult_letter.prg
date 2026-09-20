@@ -1,6 +1,15 @@
 FUNCTION CreateConsultLetter
-LOCAL lcTemplate,loWord,loChart,loNew,loFind,lcVision,lcText,lnAt,loError
-lcTemplate=GETFILE("docx;dotx","Choose consult template","Create",0)
+LOCAL lcTemplate,loWord,loChart,loNew,loFind,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd
+lcTemplate=""
+TRY
+    loForm=THISFORM
+    lcTemplate=ALLTRIM(TRANSFORM(loForm.pageframe1.page1.file_name.Value))
+CATCH
+ENDTRY
+IF EMPTY(lcTemplate) OR !FILE(lcTemplate)
+    MESSAGEBOX("Choose a letter template first, then click Create Consult.",48,"Consult Letter")
+    RETURN .F.
+ENDIF
 IF EMPTY(lcTemplate)
     RETURN .F.
 ENDIF
@@ -17,7 +26,7 @@ TRY
         lnAt=RAT("REFRACTION",UPPER(lcText))
     ENDIF
     IF lnAt=0
-        MESSAGEBOX("No recent vision or refraction section was found in the open patient chart.",48,"Consult Letter")
+        MESSAGEBOX("No recent vision-to-plan, vision, or refraction section was found in the open patient chart.",48,"Consult Letter")
         RETURN .F.
     ENDIF
     lcVision=SUBSTR(lcText,lnAt)
@@ -51,3 +60,5 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter()
     ENDPROC
 ENDDEFINE
+
+
