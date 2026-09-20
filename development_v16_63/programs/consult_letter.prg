@@ -1,5 +1,5 @@
 FUNCTION CreateConsultLetter
-LOCAL lcTemplate,loWord,loChart,loNew,loFind,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd
+LOCAL lcTemplate,loWord,loChart,loNew,loFind,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd,llAbort
 lcTemplate=""
 TRY
     loForm=THISFORM
@@ -29,12 +29,14 @@ ENDIF
 IF EMPTY(lcTemplate)
     RETURN .F.
 ENDIF
+llAbort=.F.
 TRY
     loWord=GETOBJECT(,"Word.Application")
     IF loWord.Documents.Count=0
         MESSAGEBOX("Open the patient's chart in Word before creating a consult letter.",48,"Consult Letter")
-        RETURN .F.
+        llAbort=.T.
     ENDIF
+    IF !llAbort
     loChart=loWord.ActiveDocument
     lcText=loChart.Content.Text
     lnAt=RAT("VISION",UPPER(lcText))
@@ -43,8 +45,9 @@ TRY
     ENDIF
     IF lnAt=0
         MESSAGEBOX("No recent vision-to-plan, vision, or refraction section was found in the open patient chart.",48,"Consult Letter")
-        RETURN .F.
+        llAbort=.T.
     ENDIF
+    IF !llAbort
     lcVision=SUBSTR(lcText,lnAt)
     IF CHR(13)$lcVision
         lcVision=LEFT(lcVision,AT(CHR(13),lcVision)-1)
@@ -60,11 +63,12 @@ TRY
         loNew.Content.InsertAfter(CHR(13)+"On examination"+CHR(13)+lcVision+CHR(13))
     ENDIF
     loWord.Visible=.T.
-    RETURN .T.
+    ENDIF
+    ENDIF
 CATCH TO loError
     MESSAGEBOX("The consult letter could not be created."+CHR(13)+loError.Message,16,"Consult Letter")
-    RETURN .F.
 ENDTRY
+RETURN !llAbort
 ENDFUNC
 
 DEFINE CLASS ConsultButton AS CommandButton
@@ -76,6 +80,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter()
     ENDPROC
 ENDDEFINE
+
 
 
 
