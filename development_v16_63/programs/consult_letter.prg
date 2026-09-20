@@ -22,13 +22,7 @@ IF EMPTY(lcTemplate)
     CATCH
     ENDTRY
 ENDIF
-IF EMPTY(lcTemplate) OR !FILE(lcTemplate)
-    MESSAGEBOX("Choose a letter template first, then click Create Consult.",48,"Consult Letter")
-    RETURN .F.
-ENDIF
-IF EMPTY(lcTemplate)
-    RETURN .F.
-ENDIF
+
 llAbort=.F.
 TRY
     loWord=GETOBJECT(,"Word.Application")
@@ -52,7 +46,12 @@ TRY
     IF CHR(13)$lcVision
         lcVision=LEFT(lcVision,AT(CHR(13),lcVision)-1)
     ENDIF
-    loNew=loWord.Documents.Add(lcTemplate)
+    IF !EMPTY(lcTemplate) AND FILE(lcTemplate)
+        loNew=loWord.Documents.Add(lcTemplate)
+    ELSE
+        loForm.pageframe1.page1.WORD.Click()
+        loNew=loWord.ActiveDocument
+    ENDIF
     loFind=loNew.Content.Find
     loFind.Text="On examination"
     loFind.Forward=.T.
@@ -80,6 +79,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter()
     ENDPROC
 ENDDEFINE
+
 
 
 
