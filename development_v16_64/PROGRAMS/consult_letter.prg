@@ -46,12 +46,8 @@ TRY
     IF CHR(13)$lcVision
         lcVision=LEFT(lcVision,AT(CHR(13),lcVision)-1)
     ENDIF
-    IF !EMPTY(lcTemplate) AND FILE(lcTemplate)
-        loNew=loWord.Documents.Add(lcTemplate)
-    ELSE
-        loForm.pageframe1.page1.WORD.Click()
-        loNew=loWord.ActiveDocument
-    ENDIF
+    loForm.pageframe1.page1.WORD.Click()
+    loNew=loWord.ActiveDocument
     loFind=loNew.Content.Find
     loFind.Text="On examination"
     loFind.Forward=.T.
@@ -79,6 +75,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter()
     ENDPROC
 ENDDEFINE
+
 
 
 
