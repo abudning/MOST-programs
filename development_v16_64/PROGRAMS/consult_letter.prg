@@ -1,6 +1,6 @@
 FUNCTION CreateConsultLetter
 LPARAMETERS toForm
-LOCAL lcTemplate,loWord,loChart,loNew,loFind,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd,llAbort
+LOCAL lcTemplate,loWord,loChart,loNew,loFind,loRange,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd,llAbort
 lcTemplate=""
 TRY
     loForm=toForm
@@ -49,12 +49,14 @@ TRY
     ENDIF
     loForm.pageframe1.page1.WORD.Click()
     loNew=loWord.ActiveDocument
-    loFind=loNew.Content.Find
+    loRange=loNew.Content
+    loFind=loRange.Find
     loFind.Text="On examination"
     loFind.Forward=.T.
     loFind.Wrap=0
     IF loFind.Execute()
-        loNew.Range(loFind.Parent.End,loFind.Parent.End).InsertAfter(CHR(13)+lcVision+CHR(13))
+        loRange.Collapse(0)
+        loRange.InsertAfter(CHR(13)+lcVision+CHR(13))
     ELSE
         loNew.Content.InsertAfter(CHR(13)+"On examination"+CHR(13)+lcVision+CHR(13))
     ENDIF
@@ -76,6 +78,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter(THISFORM)
     ENDPROC
 ENDDEFINE
+
 
 
 
