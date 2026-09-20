@@ -24,9 +24,6 @@ IF EMPTY(lcTemplate)
     ENDTRY
 ENDIF
 
-IF !EMPTY(lcTemplate)
-    loForm.pageframe1.page1.file_name.Value=lcTemplate
-ENDIF
 llAbort=.F.
 TRY
     loWord=GETOBJECT(,"Word.Application")
@@ -81,6 +78,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter(THISFORM)
     ENDPROC
 ENDDEFINE
+
 
 
 
