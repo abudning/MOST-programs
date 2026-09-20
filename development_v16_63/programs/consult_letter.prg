@@ -6,6 +6,19 @@ TRY
     lcTemplate=ALLTRIM(TRANSFORM(loForm.pageframe1.page1.file_name.Value))
 CATCH
 ENDTRY
+IF EMPTY(lcTemplate)
+    TRY
+        IF USED("letterlist") AND !EMPTY(ALLTRIM(loForm.pageframe1.page1.letter_name.Value))
+            SELECT letterlist
+            SET ORDER TO TAG lttrnm_own
+            SEEK ALLTRIM(UPPER(loForm.pageframe1.page1.letter_name.Value))+ALLTRIM(UPPER(loForm.pageframe1.page1.md.Value))
+            IF FOUND()
+                lcTemplate=ALLTRIM(letterlist.location)
+            ENDIF
+        ENDIF
+    CATCH
+    ENDTRY
+ENDIF
 IF EMPTY(lcTemplate) OR !FILE(lcTemplate)
     MESSAGEBOX("Choose a letter template first, then click Create Consult.",48,"Consult Letter")
     RETURN .F.
@@ -60,5 +73,6 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter()
     ENDPROC
 ENDDEFINE
+
 
 
