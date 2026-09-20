@@ -21,6 +21,9 @@ TEST FIRST
 - Open L+C with an empty old claim and with an unfinished claim.
 - Enter a new health card on Patients; confirm the Add Patient prompt and form.
 - Check referring-MD phone/fax boxes and a sample Word fax output.
+- Open Claims and L+C repeatedly for different patients. An empty Claims form
+  should now be reused in place, preserving OHIP or Third Party type.
+- Open LetterBuilder. The physician selector is hidden and the letter uses AB.
 
 The user reports premium code billing now works on the system; this update does
 not change premium logic. Referral PDF speed and visual-fields office billing

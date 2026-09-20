@@ -53,7 +53,20 @@ FOR lnI=_SCREEN.FormCount TO 1 STEP -1
             loClaimForm.Show()
             RETURN loClaimForm
         ENDIF
-        loClaimForm.Release()
+        * Reuse an empty Claims form instead of closing and recreating it.
+        * This preserves the selected claim type (for example, OHIP) and is
+        * much faster when switching the active patient from Claims or L+C.
+        TRY
+            loClaimForm.id.Value=ALLTRIM(STR(lnPatientId))
+            IF loClaimForm.id.Valid()
+                loClaimForm.Show()
+                loClaimForm.ZOrder(0)
+                RETURN loClaimForm
+            ENDIF
+        CATCH
+        ENDTRY
+        * If the existing form cannot be updated safely, fall through to the
+        * normal new-form path.
     ENDIF
 ENDFOR
 DO FORM enter_claims WITH ALLTRIM(STR(lnPatientId)) NAME loClaimForm

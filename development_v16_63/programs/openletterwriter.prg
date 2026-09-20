@@ -32,6 +32,12 @@ FOR lnI=1 TO _SCREEN.FormCount
             ENDIF
         ENDFOR
         loLetterForm.pageframe1.page1.MD.Click()
+        * All charts and letters use AB. Keep the historical value but remove
+        * the unnecessary physician-choice control from the LetterBuilder UI.
+        loLetterForm.pageframe1.page1.MD.Value="AB"
+        loLetterForm.pageframe1.page1.MD.Enabled=.F.
+        loLetterForm.pageframe1.page1.MD.Visible=.F.
+        loLetterForm.pageframe1.page1.lblmd.Visible=.F.
         IF llHasPatient AND lnOpenPatient#lnPatientId
             DO LoadLetterPatient WITH loLetterForm,lnPatientId,lnSavedLeft,lnSavedTop,lnSavedState
         ENDIF
@@ -65,6 +71,10 @@ IF VARTYPE(loNewLetterForm)=="O"
         ENDIF
     ENDFOR
     loNewLetterForm.pageframe1.page1.MD.Click()
+    loNewLetterForm.pageframe1.page1.MD.Value="AB"
+    loNewLetterForm.pageframe1.page1.MD.Enabled=.F.
+    loNewLetterForm.pageframe1.page1.MD.Visible=.F.
+    loNewLetterForm.pageframe1.page1.lblmd.Visible=.F.
 ENDIF
 * Resolve the real Claims window. Older Patients code passed the Patients form
 * in the third parameter, which made the extra Patients row shift LetterWriter.
