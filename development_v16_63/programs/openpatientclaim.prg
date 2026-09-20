@@ -70,12 +70,10 @@ FOR lnI=_SCREEN.FormCount TO 1 STEP -1
         * Dispose of an empty stale instance. Otherwise each failed reuse
         * remains in _SCREEN.Forms and is exposed one at a time when Exit is
         * clicked, forcing the operator to close the form repeatedly.
-        IF !loClaimForm.Visible
-            TRY
-                loClaimForm.Release()
-            CATCH
-            ENDTRY
-        ENDIF
+        TRY
+            loClaimForm.Release()
+        CATCH
+        ENDTRY
     ENDIF
 ENDFOR
 DO FORM enter_claims WITH ALLTRIM(STR(lnPatientId)) NAME loClaimForm
