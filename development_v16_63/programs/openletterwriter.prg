@@ -40,8 +40,9 @@ FOR lnI=1 TO _SCREEN.FormCount
         loLetterForm.pageframe1.page1.lblmd.Visible=.F.
         IF !PEMSTATUS(loLetterForm,"cmdConsult",5)
             loLetterForm.AddObject("cmdConsult","ConsultButton")
-            loLetterForm.cmdConsult.Left=loLetterForm.pageframe1.page1.WORD.Left-34
-            loLetterForm.cmdConsult.Top=loLetterForm.pageframe1.page1.WORD.Top-24
+            loLetterForm.cmdConsult.Left=loLetterForm.Command1.Left
+            loLetterForm.cmdConsult.Top=loLetterForm.Command1.Top
+            loLetterForm.Command1.Left=loLetterForm.cmdConsult.Left+loLetterForm.cmdConsult.Width+6
             loLetterForm.cmdConsult.Visible=.T.
         ENDIF
         IF llHasPatient AND lnOpenPatient#lnPatientId
@@ -72,8 +73,9 @@ SET PROCEDURE TO consult_letter ADDITIVE
 DO FORM letterform NAME loNewLetterForm
 IF VARTYPE(loNewLetterForm)=="O"
     loNewLetterForm.AddObject("cmdConsult","ConsultButton")
-    loNewLetterForm.cmdConsult.Left=loNewLetterForm.pageframe1.page1.WORD.Left-34
-    loNewLetterForm.cmdConsult.Top=loNewLetterForm.pageframe1.page1.WORD.Top-24
+    loNewLetterForm.cmdConsult.Left=loNewLetterForm.Command1.Left
+    loNewLetterForm.cmdConsult.Top=loNewLetterForm.Command1.Top
+    loNewLetterForm.Command1.Left=loNewLetterForm.cmdConsult.Left+loNewLetterForm.cmdConsult.Width+6
     loNewLetterForm.cmdConsult.Visible=.T.
     FOR lnRow=1 TO loNewLetterForm.pageframe1.page1.MD.ListCount
         IF ALLTRIM(loNewLetterForm.pageframe1.page1.MD.List(lnRow,1))==ALLTRIM(lcSelectedMd)
@@ -184,3 +186,4 @@ ELSE
 ENDIF
 toLetterForm.PatientReloadTimer.Enabled=.T.
 ENDPROC
+
