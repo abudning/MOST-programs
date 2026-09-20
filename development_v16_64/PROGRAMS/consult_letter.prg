@@ -53,7 +53,8 @@ TRY
         DOEVENTS
         INKEY(0.1)
     ENDFOR
-    loNew=loWord.Documents.Item(loWord.Documents.Count)
+    loNew=loWord.ActiveDocument
+    loNew.Activate()
     loRange=loNew.Content
     loFind=loRange.Find
     loFind.Text="On examination"
@@ -83,6 +84,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter(THISFORM)
     ENDPROC
 ENDDEFINE
+
 
 
 
