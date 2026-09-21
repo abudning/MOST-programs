@@ -5,7 +5,7 @@
 - Start from the stable consultation workflow baseline at GitHub commit `5073cab`.
 - Preserve LetterBuilder's existing Word merge action.
 - Make sure the operator can open the chart, choose a template after New, click Create Consult, and receive the merged consultation letter with the latest Vision to Plan information inserted.
-- Test the generated document and confirm the chart is not replaced or left as a blank document.
+- Test the generated document and confirm the chart is not replaced or left as a blank document.`r`n- **Open issue:** the consultation merge still does not place the chart data into the merged template; keep this as the next consultation task.
 
 ## 2. Third party billing
 
@@ -71,6 +71,7 @@
 
 ## Chart and PDF path normalization
 
-- Status: Resolver routine saved; PDF button integration remains to be applied from the 5073cab baseline.
+- Status: Resolver routine saved; PDF button integration remains to be applied from the 5073cab baseline.`r`n- The current release installer works for the other tested functions; consultation merge remains unresolved.
 - Resolve both S:\ mapped to the share root and S:\charts\ mapped directly to the charts folder.
+
 
