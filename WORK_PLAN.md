@@ -75,3 +75,9 @@
 - Resolve both S:\ mapped to the share root and S:\charts\ mapped directly to the charts folder.
 
 
+
+## PDF chart search mapping — unresolved
+
+- The current installer still does not reliably find PDFs across the workstation and server mappings.
+- Confirm the working server root is the D share and test workstation S: mapping, direct server D share, and paths that incorrectly include a charts subfolder.
+- Fix and test the resolver before the next release.
