@@ -1,6 +1,6 @@
 FUNCTION CreateConsultLetter
 LPARAMETERS toForm
-LOCAL lcTemplate,loWord,loChart,loNew,loFind,loRange,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd,llAbort,lnBefore,lnWait
+LOCAL lcTemplate,loWord,loChart,loNew,loFind,loRange,lcVision,lcText,lnAt,loError,loForm,lcMarker,lnStart,lnEnd,llAbort,lnBefore,lnWait,lcChartName
 lcTemplate=""
 TRY
     loForm=toForm
@@ -33,6 +33,7 @@ TRY
     ENDIF
     IF !llAbort
     loChart=loWord.ActiveDocument
+    lcChartName=loChart.Name
     lcText=loChart.Content.Text
     lnAt=RAT("VISION",UPPER(lcText))
     IF lnAt=0
@@ -49,10 +50,17 @@ TRY
     ENDIF
     lnBefore=loWord.Documents.Count
     loForm.pageframe1.page1.WORD.Click()
-    FOR lnWait=1 TO 30
+    FOR lnWait=1 TO 100
         DOEVENTS
         INKEY(0.1)
+        IF loWord.Documents.Count>lnBefore AND UPPER(ALLTRIM(loWord.ActiveDocument.Name))#UPPER(ALLTRIM(lcChartName))
+            EXIT
+        ENDIF
     ENDFOR
+    IF UPPER(ALLTRIM(loWord.ActiveDocument.Name))==UPPER(ALLTRIM(lcChartName))
+        MESSAGEBOX("Word did not finish opening the merged consultation letter.",48,"Consult Letter")
+        llAbort=.T.
+    ENDIF
     loNew=loWord.ActiveDocument
     loNew.Activate()
     loRange=loNew.Content
@@ -84,6 +92,7 @@ DEFINE CLASS ConsultButton AS CommandButton
         =CreateConsultLetter(THISFORM)
     ENDPROC
 ENDDEFINE
+
 
 
 
