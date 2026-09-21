@@ -18,3 +18,10 @@
 - GitHub branch: `codex/v16.28-verified`
 - Consultation work baseline to use: `5073cab`
 - Later commit `26fa460` should not be used as the starting point because it produced a blank document with partial text.
+
+## Future plans
+
+- Complete and validate the consultation mail merge workflow.
+- Continue and finish the third party billing work in V16.64.
+- Build, checksum, and archive installers for each validated release.
+
