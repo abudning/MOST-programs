@@ -38,3 +38,10 @@ restores the previous executable automatically if the copy/verification fails.
 The package contains only the executable, installer, and this README. It has no
 medical databases, charts, or credentials. Do not run this on the server.
 
+
+CHART PDF DRIVE MAPPING
+-----------------------
+The working chart share is the server D share.
+
+On workstations, S: may be mapped to the server D share. The PDF search should resolve both S:\ and the server D share to the same chart root.
+Do not use a separate server charts share as the chart root. If a configured path ends in \charts, normalize it back to the working D share root when needed.
