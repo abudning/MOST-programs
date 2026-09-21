@@ -25,3 +25,46 @@
 - Continue and finish the third party billing work in V16.64.
 - Build, checksum, and archive installers for each validated release.
 
+
+## 3. MOSt future roadmap from FUTURE_PLANS.md
+
+### Stabilization and prescriptions — Planned
+
+- Run the XP prescription regression checklist and confirm backup/restore coverage for RXMED and RXOPTICAL.
+- Add read-only System Details to Help → About MOSt.
+- Record exact error number, program, line, and last action for new failures.
+
+### LetterBuilder and XP lock work — In progress / verify
+
+- Complete the documented two-workstation XP LetterBuilder test.
+- Keep the V16.29–V16.35 lock, launcher, patient routing, ID validation, and layout changes documented and regression-tested.
+- Consider separate letter authorship attribution while preserving legacy AB filing.
+
+### Release and build discipline — Planned
+
+- Make builds repeatable from source controlled scripts.
+- Keep release notes, hashes, install instructions, and rollback steps with every installer.
+- Reject packages containing patient data, charts, credentials, claims files, or logs.
+
+### Windows 10/11 compatibility — Planned
+
+- Centralize workstation and shared paths while preserving XP behavior.
+- Add a modern read-only Word viewer and lock handling.
+- Retest patients, claims, appointments, scheduling, indexes, memo files, EDT, and PDF access.
+
+### Data integrity — Planned; copies only
+
+- Inventory and validate DBC/DBF/CDX/FPT sets.
+- Investigate known error and scheduling files.
+- Use reversible repairs and compare record counts, indexes, and memo references.
+
+### Clinical workflow improvements — Future
+
+- Make office and prescriber details configurable.
+- Add prescription filters, validation, correction/cancellation, and audit support.
+
+### Deployment and modernization — Future
+
+- Pilot Windows 10/11 with rollback documentation.
+- Document Word, ActiveX, VFP runtime, and network-share dependencies.
+- Plan a staged migration away from unsupported XP/VFP components.
