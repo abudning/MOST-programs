@@ -68,3 +68,9 @@
 - Pilot Windows 10/11 with rollback documentation.
 - Document Word, ActiveX, VFP runtime, and network-share dependencies.
 - Plan a staged migration away from unsupported XP/VFP components.
+
+## Chart and PDF path normalization
+
+- Status: Resolver routine saved; PDF button integration remains to be applied from the 5073cab baseline.
+- Resolve both S:\ mapped to the share root and S:\charts\ mapped directly to the charts folder.
+
