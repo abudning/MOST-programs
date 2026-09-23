@@ -81,3 +81,10 @@
 - The current installer still does not reliably find PDFs across the workstation and server mappings.
 - Confirm the working server root is the D share and test workstation S: mapping, direct server D share, and paths that incorrectly include a charts subfolder.
 - Fix and test the resolver before the next release.
+
+## Version and premium-claim regressions — unresolved
+
+- Separate the executable/file version from the database schema `VERSION` shown in About MOSt. The stale database value (currently reported as 1.7.609) must not cause the program to run the legacy automatic upgrade when the executable is a later validated build.
+- Assign each release a distinct incremented build ID and show the same ID consistently in the executable, About MOSt, installer name, and release notes.
+- Preserve the database schema version as its own value; do not overwrite it merely to make the file version match.
+- Reproduce the premium-code claim edit path: Billing -> Modify Billing -> Claims. A premium claim currently opens, but editing it jumps to another folder instead of opening the premium-code calculator/update selection. Restore the older behavior and test E409/E410 claims.
