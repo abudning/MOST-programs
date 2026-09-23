@@ -467,7 +467,7 @@ DO wwCodeUpdate
 *** Profile INI usage
 SET PROCEDURE TO wwAPI Additive
 
-IF FILE(gc_datadrive+"update\fileversion.xml")
+IF .F. AND FILE(gc_datadrive+"update\fileversion.xml")
 
 	LOCAL cXMLContent,lcVersion , strCur_ver
 	LOCAL ARRAY averarray(1)
@@ -562,7 +562,7 @@ IF !(JUSTDRIVE(path_to_data) == JUSTDRIVE(oms_local_fullpath)) && this is a clie
 	IF AGETFILEVERSION(aServerExeVersion, gc_datadrive + "MOSt.exe") > 0
 		server_vsn = ALLTRIM(aServerExeVersion(4))
 	ENDIF
-	IF !(server_vsn == m_current_most_ver) AND !llV1615CodeOnly AND !llLegacySchemaVersion
+	IF .F. AND !(server_vsn == m_current_most_ver) AND !llV1615CodeOnly AND !llLegacySchemaVersion
 		IF normalized_version(server_vsn) < normalized_version(m_current_most_ver)
 			IF (server_database_ver = local_database_ver) ;
 					AND (normalized_version(m_current_most_ver) == normalized_version(most_ver))
@@ -592,7 +592,7 @@ IF !(JUSTDRIVE(path_to_data) == JUSTDRIVE(oms_local_fullpath)) && this is a clie
 	ENDIF
 ENDIF
 
-IF normalized_version(m_current_most_ver) > normalized_version(most_ver) AND !llV1615CodeOnly AND !llLegacySchemaVersion
+IF .F. AND normalized_version(m_current_most_ver) > normalized_version(most_ver) AND !llV1615CodeOnly AND !llLegacySchemaVersion
 	WAIT "New version of MOSt detected - Upgrading..." WINDOW AT 16,40 TIMEOUT 2
 	DO upgrade.prg && after running this, it will quit
 ENDIF
