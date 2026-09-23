@@ -441,8 +441,10 @@ FOR gnCount = 1 TO FCOUNT( )  && Loop for number of fields
 	ENDIF
 ENDFOR
 IF gnFlag = 0
-	WAIT "New version of MOSt detected - Upgrading..." WINDOW AT 16,40 TIMEOUT 2
-	DO upgrade.prg && after running this, it will quit
+	* V16.63.1 is a code-only workstation release.  Older parameter2 tables
+	* may not contain MOST_VSN; do not interpret that as a schema upgrade.
+	most_ver = "1.7.609"
+	local_database_ver = "1.7.609"
 ENDIF
 *** <- 2002.05.02
 
