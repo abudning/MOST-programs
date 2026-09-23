@@ -172,6 +172,13 @@ ENDIF
 RETURN lcValue
 ENDFUNC
 
+FUNCTION RxSignedHtml
+LPARAMETERS tvValue
+LOCAL lcValue
+lcValue=RxSigned(tvValue)
+RETURN "<b>"+LEFT(lcValue,1)+"</b>"+SUBSTR(lcValue,2)
+ENDFUNC
+
 
 FUNCTION RxHtml
 LPARAMETERS tcValue
@@ -577,15 +584,15 @@ DEFINE CLASS RxGlassesForm AS Form
     ADD OBJECT cboMD AS ComboBox WITH Top=35,Left=330,Width=260,Height=22,Style=2,RowSourceType=1,RowSource="Andrew Budning MD FRCSC CPSO 60349,Hassan Hazari MD FRCS(C) CPSO 121051",Value="Andrew Budning MD FRCSC CPSO 60349"
     ADD OBJECT lblHeader AS Label WITH Top=76,Left=15,Width=560,Height=18,Caption="Eye       Sphere       Cylinder       Axis       Add",FontBold=.T.
     ADD OBJECT lblOD AS Label WITH Top=105,Left=20,Width=30,Height=20,Caption="OD",FontBold=.T.
-    ADD OBJECT txtODSph AS RxSignedTextBox WITH Top=100,Left=75,Width=75,Height=24,FontBold=.T.
-    ADD OBJECT txtODCyl AS RxSignedTextBox WITH Top=100,Left=175,Width=75,Height=24,FontBold=.T.
+    ADD OBJECT txtODSph AS RxSignedTextBox WITH Top=100,Left=75,Width=75,Height=24
+    ADD OBJECT txtODCyl AS RxSignedTextBox WITH Top=100,Left=175,Width=75,Height=24
     ADD OBJECT txtODAxis AS TextBox WITH Top=100,Left=275,Width=60,Height=24,Value=0,InputMask="999"
-    ADD OBJECT txtODAdd AS RxSignedTextBox WITH Top=100,Left=365,Width=75,Height=24,FontBold=.T.
+    ADD OBJECT txtODAdd AS RxSignedTextBox WITH Top=100,Left=365,Width=75,Height=24
     ADD OBJECT lblOS AS Label WITH Top=139,Left=20,Width=30,Height=20,Caption="OS",FontBold=.T.
-    ADD OBJECT txtOSSph AS RxSignedTextBox WITH Top=134,Left=75,Width=75,Height=24,FontBold=.T.
-    ADD OBJECT txtOSCyl AS RxSignedTextBox WITH Top=134,Left=175,Width=75,Height=24,FontBold=.T.
+    ADD OBJECT txtOSSph AS RxSignedTextBox WITH Top=134,Left=75,Width=75,Height=24
+    ADD OBJECT txtOSCyl AS RxSignedTextBox WITH Top=134,Left=175,Width=75,Height=24
     ADD OBJECT txtOSAxis AS TextBox WITH Top=134,Left=275,Width=60,Height=24,Value=0,InputMask="999"
-    ADD OBJECT txtOSAdd AS RxSignedTextBox WITH Top=134,Left=365,Width=75,Height=24,FontBold=.T.
+    ADD OBJECT txtOSAdd AS RxSignedTextBox WITH Top=134,Left=365,Width=75,Height=24
     ADD OBJECT lblPrism AS Label WITH Top=176,Left=15,Width=570,Height=18,Caption="Prism (optional):       Horizontal / Base                 Vertical / Base",FontBold=.T.
     ADD OBJECT txtODHP AS TextBox WITH Top=201,Left=75,Width=55,Height=22,Value=0.00
     ADD OBJECT txtODHB AS TextBox WITH Top=201,Left=135,Width=45,Height=22,Value=""
@@ -765,8 +772,8 @@ DEFINE CLASS RxGlassesForm AS Form
         lcHtml=lcHtml+"<p><b>Exam date:</b> "+RxHtml(DTOC(THIS.txtExam.Value))+" &nbsp; <b>Issue date:</b> "+RxHtml(DTOC(THIS.txtIssue.Value))+"</p>"
         lcHtml=lcHtml+"<p><b>Prescriber:</b> "+RxHtml(RxPrescriberPrint(THIS.cboMD.Value))+"<br><b>"+RxHtml(RxPrescriberCPSO(THIS.cboMD.Value))+"</b></p>"
         lcHtml=lcHtml+"<table><tr><th>Eye</th><th>Sphere</th><th>Cylinder</th><th>Axis</th><th>Add</th></tr>"
-        lcHtml=lcHtml+"<tr><td>OD</td><td class='sign'>"+RxHtml(RxSigned(THIS.txtODSph.Value))+"</td><td>"+RxHtml(RxSigned(THIS.txtODCyl.Value))+"</td><td>"+RxHtml(THIS.txtODAxis.Value)+"</td><td>"+RxHtml(RxSigned(THIS.txtODAdd.Value))+"</td></tr>"
-        lcHtml=lcHtml+"<tr><td>OS</td><td class='sign'>"+RxHtml(RxSigned(THIS.txtOSSph.Value))+"</td><td>"+RxHtml(RxSigned(THIS.txtOSCyl.Value))+"</td><td>"+RxHtml(THIS.txtOSAxis.Value)+"</td><td>"+RxHtml(RxSigned(THIS.txtOSAdd.Value))+"</td></tr></table>"
+        lcHtml=lcHtml+"<tr><td>OD</td><td>"+RxSignedHtml(THIS.txtODSph.Value)+"</td><td>"+RxSignedHtml(THIS.txtODCyl.Value)+"</td><td>"+RxHtml(THIS.txtODAxis.Value)+"</td><td>"+RxHtml(RxSigned(THIS.txtODAdd.Value))+"</td></tr>"
+        lcHtml=lcHtml+"<tr><td>OS</td><td>"+RxSignedHtml(THIS.txtOSSph.Value)+"</td><td>"+RxSignedHtml(THIS.txtOSCyl.Value)+"</td><td>"+RxHtml(THIS.txtOSAxis.Value)+"</td><td>"+RxHtml(RxSigned(THIS.txtOSAdd.Value))+"</td></tr></table>"
         IF !EMPTY(lcPrism)
             lcHtml=lcHtml+"<p><b>Prism:</b> "+RxHtml(lcPrism)+"</p>"
         ENDIF
