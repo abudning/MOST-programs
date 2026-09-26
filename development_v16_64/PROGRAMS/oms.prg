@@ -551,7 +551,7 @@ CLOSE DATA ALL
 LOCAL llV1615CodeOnly, llLegacySchemaVersion
 llLegacySchemaVersion = normalized_version(server_database_ver) <= normalized_version("1.7.609")
 llV1615CodeOnly = BETWEEN(normalized_version(m_current_most_ver), ;
-    normalized_version("1.7.640"), normalized_version("1.7.665")) ;
+    normalized_version("1.7.640"), normalized_version("1.7.681")) ;
     AND INLIST(normalized_version(most_ver), ;
     normalized_version("1.7.611"), normalized_version("1.7.612"))
 IF !(JUSTDRIVE(path_to_data) == JUSTDRIVE(oms_local_fullpath)) && this is a client machine
@@ -842,5 +842,4 @@ FUNCTION network_error
 
 	ENDCASE
 ENDFUNC
-
 

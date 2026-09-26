@@ -45,7 +45,7 @@ toPatient.outstand_3p()
 RETURN
 
 DEFINE CLASS TpChoiceForm AS Form
-    Caption="Third Party Billing - V16.64 TEST"
+    Caption="Third Party Billing - V16.64.1 TEST"
     Width=390
     Height=265
     AutoCenter=.T.
@@ -73,7 +73,7 @@ DEFINE CLASS TpChoiceButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS TpEntryForm AS Form
-    Caption="Manual Third Party Invoice - V16.64 TEST"
+    Caption="Manual Third Party Invoice - V16.64.1 TEST"
     Width=675
     Height=365
     AutoCenter=.T.
@@ -187,3 +187,4 @@ DEFINE CLASS TpCancelButton AS CommandButton
         THISFORM.Hide()
     ENDPROC
 ENDDEFINE
+
