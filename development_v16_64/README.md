@@ -16,4 +16,11 @@ This snapshot is rebased on the tested V16.63.16 source and extends it with manu
 A synthetic Visual FoxPro test passed for form totals, saved service lines and cents, invoice numbering, validation, rollback, partial and paid previews, and paid-history linkage. Individual changed programs and forms compiled. The V16.64.1 executable must still be treated as a test build until the premium-code, consultation, and third-party billing workflows are verified on an XP workstation.
 
 The completed V16.63 WORKING WELL release remains under `development_v16_63/`.
+## Confirmed next-step requirements
 
+- The Patients `3rd Party` button opens the new billing menu.
+- Five manual service lines are sufficient; no separate payer/company fields are needed.
+- Payments are allocated manually; overpayments and refunds are allowed.
+- Saved invoices may be edited, voided, or deleted/cancelled when entered in error.
+- Prefer the existing FoxPro invoice report when it can accurately show the manual line details and payment state.
+- V16.64.2 is the next implementation checkpoint.
