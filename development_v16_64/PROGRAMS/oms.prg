@@ -136,7 +136,7 @@ ENDWITH
 
 && set sysmenu to   && turn off system menu
 ON ERROR DO ERR_FIX WITH ERROR(), MESSAGE(), SYS(16), LINENO()
-ON SHUTDOWN DO quit_mos
+ON SHUTDOWN DO quit_most
 
 SET HELP ON  && Erick - 2003.10.01
 SET DEFAULT TO (gc_localapp)

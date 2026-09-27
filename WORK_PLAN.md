@@ -33,11 +33,11 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 
 ### V16.64.2 implementation checkpoint — September 27
 
-- Source targets V16.64.2 / executable build ID 1.7.682. No installer or validated executable is available yet.
+- V16.64.2 / executable build ID 1.7.682 compiled successfully September 27. It is an XP/workstation TEST build, not a validated production release. No installer has been built.
 - HTML printing is retained for outstanding and paid-history invoices. Added a Print button, billing-physician address/phone from invoice data (no hard-coded office address), and explicit credit-balance wording for overpaid previews.
 - Synthetic VFP tests pass: five service lines, escaped HTML, print control, credit/partial/paid balances, form totals, saved history linkage, cents, unique numbering, invalid input rejection, and transactional rollback.
 - Reproducible source test: run `DO build_tools/test_thirdparty_v16_64_2.prg` from the repository root in a separate VFP session. It creates only synthetic fixtures under the temporary directory and exits that session; result is `tp_store_test.log` there.
-- Full project compilation does not finish unattended in this environment. The launcher was found pointing to a nonexistent older build script and corrected locally, but the legacy project still stalls at build. Individual changed PRGs/forms compile successfully. Resolve this before supplying an XP test executable.
+- Full project compilation is now successful. Hidden Locate File dialogs were caused by the misspelled shutdown target `quit_mos` and the undeclared array parameter `taLines`; both are fixed in source. A prior workaround replacing native menu project entries with generated MPRs caused duplicate linker objects and was removed. The build launcher now points to the correct script. Temporary printer metadata experiments were reverted; original report layouts/settings are retained. The repeatable build script is `build_tools/build_v16_64_2.prg` (see development README).
 - Next functional checkpoint remains V16.64.3: editing, void/error-cancellation, manual allocation, overpayments and refunds. Credit-balance preview testing is not evidence that those payment workflows are implemented.
 - V16.63.16 remains untouched and consultation work stays parked.
 

@@ -2,6 +2,7 @@
 * Each invoice is one type-T claim. Guarantor.comments holds its five detail lines.
 FUNCTION TpSaveBill
 LPARAMETERS tcPath, tnPatient, tcMD, tdService, taLines, tcError
+EXTERNAL ARRAY taLines
 LOCAL lnArea, lnBill, lnI, lnCount, lnTotal, lcMemo, lcDescription
 LOCAL loError, llTransaction
 LOCAL ARRAY laMax[1]
