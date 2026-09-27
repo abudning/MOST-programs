@@ -180,8 +180,18 @@ lcHtml=lcHtml+"<title>Third Party Invoice</title><style>body{font-family:Arial;m
 lcHtml=lcHtml+".office{text-align:center;line-height:1.4}h1{font-size:22px}table{width:100%;border-collapse:collapse}"
 lcHtml=lcHtml+"th,td{padding:8px;border-bottom:1px solid #bbb;text-align:left}.money{text-align:right;white-space:nowrap}"
 lcHtml=lcHtml+".totals{text-align:right;line-height:1.8;margin-top:20px}@media print{.tools{display:none}body{margin:10mm}}</style></head><body>"
-lcHtml=lcHtml+"<div class='tools'>Use your browser's Print command (Ctrl+P) to print this invoice.</div>"
-lcHtml=lcHtml+"<div class='office'><b>Budning Eye Institute</b><br>2300 Eglinton Avenue West<br>Suite 305<br>Mississauga, Ontario L5M 2V8<br>Tel: 905-820-5464<br>Fax: 905-569-2377</div><hr>"
+lcHtml=lcHtml+"<div class='tools'><button type='button' onclick='window.print()'>Print invoice</button> &nbsp; You can also use Ctrl+P.</div>"
+lcHtml=lcHtml+"<div class='office'><b>Dr. "+TpHtml(ALLTRIM(invoice.md_firs)+" "+ALLTRIM(invoice.md_surn))+"</b>"
+IF TYPE("invoice.md_address")="C"
+    lcHtml=lcHtml+"<br>"+TpHtml(ALLTRIM(invoice.md_address))
+ENDIF
+IF TYPE("invoice.md_city")="C" AND TYPE("invoice.md_prov")="C" AND TYPE("invoice.md_postal")="C"
+    lcHtml=lcHtml+"<br>"+TpHtml(ALLTRIM(invoice.md_city)+" "+ALLTRIM(invoice.md_prov)+" "+ALLTRIM(invoice.md_postal))
+ENDIF
+IF TYPE("invoice.md_phone_w")="C"
+    lcHtml=lcHtml+"<br>Tel: "+TpHtml(ALLTRIM(invoice.md_phone_w))
+ENDIF
+lcHtml=lcHtml+"</div><hr>"
 lcHtml=lcHtml+"<h1>Third Party Invoice</h1><p><b>Patient:</b> "+TpHtml(ALLTRIM(invoice.firstname)+" "+ALLTRIM(invoice.surname))+"<br>"
 lcHtml=lcHtml+TpHtml(ALLTRIM(invoice.address))+"<br>"+TpHtml(ALLTRIM(invoice.city)+" "+ALLTRIM(invoice.prov)+" "+ALLTRIM(invoice.postal))+"</p>"
 lcHtml=lcHtml+"<p><b>Patient ID:</b> "+TpHtml(invoice.id)+"<br><b>Physician:</b> "+TpHtml(ALLTRIM(invoice.md_firs)+" "+ALLTRIM(invoice.md_surn))+"</p>"
@@ -205,7 +215,8 @@ SCAN
         ENDFOR
     ENDIF
 ENDSCAN
-lcHtml=lcHtml+"</tbody></table><div class='totals'>Total: $"+ALLTRIM(STR(lnTotal,12,2))+"<br>Paid: $"+ALLTRIM(STR(lnPaid,12,2))+"<br><b>Balance due: $"+ALLTRIM(STR(lnTotal-lnPaid,12,2))+"</b></div></body></html>"
+lcHtml=lcHtml+"</tbody></table><div class='totals'>Total: $"+ALLTRIM(STR(lnTotal,12,2))+"<br>Paid: $"+ALLTRIM(STR(lnPaid,12,2))+"<br><b>"+;
+    IIF(lnPaid>lnTotal,"Credit balance: $","Balance due: $")+ALLTRIM(STR(ABS(lnTotal-lnPaid),12,2))+"</b></div></body></html>"
 IF lnRecord<=RECCOUNT()
     GOTO lnRecord
 ENDIF
