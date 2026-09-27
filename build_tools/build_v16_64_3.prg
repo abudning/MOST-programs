@@ -20,9 +20,15 @@ STRTOFILE("START"+CHR(13)+CHR(10),lcLog,0)
 IF !FILE(lcMost+"most.pjx") OR !FILE(lcRoot+"genmenu.prg")
     ERROR "Supply an isolated full MOSt source copy and local genmenu.prg."
 ENDIF
+IF !FILE(lcMost+"databases\oms.dbc") OR !FILE(lcMost+"databases\oms.dct") OR !FILE(lcMost+"databases\oms.dcx")
+    ERROR "The isolated source copy is missing OMS database procedure metadata. Close old build sessions and copy OMS.DBC/DCT/DCX again."
+ENDIF
 SET DEFAULT TO (lcMost)
 SET PATH TO (lcMost+";"+lcMost+"PROGRAMS;"+lcMost+"FORMS;"+lcMost+"Classes;"+lcMost+"MENU;"+lcMost+"ICONS;"+lcMost+"REPORTS;"+lcMost+"labels")
 USE (lcMost+"most.pjx") EXCLUSIVE ALIAS patchproject
+* A complete source copy must retain the excluded database's stored-procedure
+* metadata. Missing metadata causes a hidden Locate File prompt for STP_FAXJOBS.
+RECALL FOR type='d' AND FILE(STRTRAN(name,CHR(0),'')) IN patchproject
 REPLACE name WITH LOWER(lcMost+"most.pjx")+CHR(0), homedir WITH LOWER(lcMost)+CHR(0) FOR type='H' IN patchproject
 REPLACE ALL homedir WITH LOWER(lcMost)+CHR(0) FOR !EMPTY(homedir) IN patchproject
 * Keep excluded database/table metadata present for the legacy linker.

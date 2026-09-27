@@ -128,10 +128,6 @@ DEFINE CLASS TpEntryForm AS Form
         THIS.patient.Caption="Patient #"+TRANSFORM(tnPatient)+": "+ALLTRIM(surname)+", "+ALLTRIM(firstname)
         USE IN tpentrypatient
         SELECT (lnArea)
-        IF THIS.billingMD.ListIndex<=0
-            MESSAGEBOX("Select an active billing physician.",48,"Invoice was not saved")
-            RETURN
-        ENDIF
         FOR lnI=1 TO 5
             lcName="description"+TRANSFORM(lnI)
             THIS.AddObject(lcName,"TextBox")
@@ -172,6 +168,10 @@ DEFINE CLASS TpEntryForm AS Form
         LOCAL lnI,lcError,lnBill,loControl
         LOCAL ARRAY laLines[5,2]
         IF THIS.lSaving OR THIS.nSaved>0
+            RETURN
+        ENDIF
+        IF THIS.billingMD.ListIndex<=0
+            MESSAGEBOX("Select an active billing physician.",48,"Invoice was not saved")
             RETURN
         ENDIF
         FOR lnI=1 TO 5

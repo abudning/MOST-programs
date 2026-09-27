@@ -18,7 +18,8 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 ### Planned V16.64 sequence
 
 - V16.64.2: produce a runnable XP billing test build, connect the `3rd Party` button to the new menu, and integrate HTML invoice review/printing.
-- V16.64.3: implement and test edit, void, error-deletion/cancellation, manual payment allocation, overpayments, and refunds.
+- V16.64.3: compiled invoice review/printing and active-MD selection checkpoint, with XP test installer.
+- V16.64.4: implement and test edit, void, error-deletion/cancellation, manual payment allocation, overpayments, and refunds.
 - V16.64.4: run two-workstation invoice-number tests plus billing, premium-code, PDF, Claims, and rollback regressions; then package a release candidate with installer, notes, and checksum.
 
 ## 2. Consultation letter workflow — parked until billing is complete
@@ -38,7 +39,14 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 - Synthetic VFP tests pass: five service lines, escaped HTML, print control, credit/partial/paid balances, form totals, saved history linkage, cents, unique numbering, invalid input rejection, and transactional rollback.
 - Reproducible source test: run `DO build_tools/test_thirdparty_v16_64_2.prg` from the repository root in a separate VFP session. It creates only synthetic fixtures under the temporary directory and exits that session; result is `tp_store_test.log` there.
 - Full project compilation is now successful. Hidden Locate File dialogs were caused by the misspelled shutdown target `quit_mos` and the undeclared array parameter `taLines`; both are fixed in source. A prior workaround replacing native menu project entries with generated MPRs caused duplicate linker objects and was removed. The build launcher now points to the correct script. Temporary printer metadata experiments were reverted; original report layouts/settings are retained. The repeatable build script is `build_tools/build_v16_64_2.prg` (see development README).
-- Next functional checkpoint remains V16.64.3: editing, void/error-cancellation, manual allocation, overpayments and refunds. Credit-balance preview testing is not evidence that those payment workflows are implemented.
+- Next functional checkpoint is now V16.64.4: editing, void/error-cancellation, manual allocation, overpayments and refunds. Credit-balance preview testing is not evidence that those payment workflows are implemented.
+
+### V16.64.3 build and XP installer checkpoint — September 27
+
+- Full EXE build completed with file/product version 1.7.683. The hidden Locate File prompt for STP_FAXJOBS was resolved by restoring missing OMS.DBC/DCT/DCX in the isolated source copy and recalling the excluded DBC project entry. Build preflight now checks these metadata files; an explicit FPW launcher verifies fresh build output.
+- Active-MD selector, unselected-MD form controls, inactive-MD rejection, native invoice Print/Exit controls, quantity/unit pricing, physician footer, persistence and rollback passed synthetic tests.
+- The XP upgrade package is in `releases/V16.64.3_XP_TEST/`. It contains the compiled EXE, Claims form pair, English VFP9 runtime and reporting support. No database files are packaged. Installer copying/backup and injected-failure rollback were tested in scratch folders; archive payload hashes were verified after extraction.
+- Next acceptance step: install on the XP test workstation and verify the actual printer dialog/output, premium-code bubbles, Claims and PDF navigation. V16.63.16 remains the last validated release. Consultation merge remains parked.
 - V16.63.16 remains untouched and consultation work stays parked.
 
 - GitHub branch: `codex/v16.28-verified`

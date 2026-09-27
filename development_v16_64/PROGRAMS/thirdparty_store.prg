@@ -204,7 +204,7 @@ SCAN
     lnPaid=lnPaid+invoice.fee_paid
     lcMemo=TpBillMemo(invoice.guarantor)
     IF EMPTY(lcMemo)
-        lcHtml=lcHtml+"<tr><td>"+ALLTRIM(STR(invoice.num_serv,12,0))+"</td><td>"+TpHtml(ALLTRIM(invoice.service)+" - "+ALLTRIM(invoice.feedesc))+"</td><td class='money'>$"+ALLTRIM(STR(invoice.fee_submit,12,2))+"</td><td class='money'>$"+ALLTRIM(STR(invoice.fee_submit,12,2))+"</td></tr>"
+        lcHtml=lcHtml+"<tr><td>"+ALLTRIM(STR(MAX(1,invoice.num_serv),12,0))+"</td><td>"+TpHtml(ALLTRIM(invoice.service)+" - "+ALLTRIM(invoice.feedesc))+"</td><td class='money'>$"+ALLTRIM(STR(invoice.fee_submit/MAX(1,invoice.num_serv),12,2))+"</td><td class='money'>$"+ALLTRIM(STR(invoice.fee_submit,12,2))+"</td></tr>"
     ELSE
         lcHtml=lcHtml+"<tr><td>1</td><td colspan='3'><b>Invoice #"+TRANSFORM(invoice.guarantor)+"</b></td></tr>"
         =ALINES(laText,lcMemo,.T.)
@@ -216,6 +216,7 @@ SCAN
         ENDFOR
     ENDIF
 ENDSCAN
+GO TOP
 lcHtml=lcHtml+"</tbody></table><div class='totals'>Subtotal: $"+ALLTRIM(STR(lnTotal,12,2))+"<br>Paid: $"+ALLTRIM(STR(lnPaid,12,2))+"<br><b>"+;
     IIF(lnPaid>lnTotal,"Credit balance: $","Balance due: $")+ALLTRIM(STR(ABS(lnTotal-lnPaid),12,2))+"</b></div><div class='footer'><b>Make all checks payable to Dr. "+TpHtml(ALLTRIM(invoice.md_firs)+" "+ALLTRIM(invoice.md_surn))+"</b><br>"+TpHtml(ALLTRIM(invoice.md_address))+" | Telephone: "+TpHtml(ALLTRIM(invoice.md_phone_w))+"</div></body></html>"
 IF lnRecord<=RECCOUNT()
@@ -242,7 +243,7 @@ DEFINE CLASS TpInvoicePreview AS Form
     Height=720
     AutoCenter=.T.
     ADD OBJECT browser AS OleControl WITH OleClass="Shell.Explorer.2",Left=140,Top=10,Width=840,Height=680
-    ADD OBJECT printInvoice AS TpInvoicePrint WITH Caption="Print invoice",Left=10,Top=18,Width=115,Height=32
+    ADD OBJECT printButton AS TpInvoicePrint WITH Caption="Print invoice",Left=10,Top=18,Width=115,Height=32
     ADD OBJECT exitInvoice AS TpInvoiceExit WITH Caption="Exit",Left=10,Top=58,Width=115,Height=32,Cancel=.T.
     ADD OBJECT help AS Label WITH Caption="Ctrl+P also works inside the invoice.",Left=10,Top=105,Width=115,WordWrap=.T.
     PROCEDURE Init
