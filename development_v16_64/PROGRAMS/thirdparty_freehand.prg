@@ -45,7 +45,7 @@ toPatient.outstand_3p()
 RETURN
 
 DEFINE CLASS TpChoiceForm AS Form
-    Caption="Third Party Billing - V16.64.2 TEST"
+    Caption="Third Party Billing - V16.64.3 TEST"
     Width=390
     Height=265
     AutoCenter=.T.
@@ -73,7 +73,7 @@ DEFINE CLASS TpChoiceButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS TpEntryForm AS Form
-    Caption="Manual Third Party Invoice - V16.64.2 TEST"
+    Caption="Manual Third Party Invoice - V16.64.3 TEST"
     Width=675
     Height=365
     AutoCenter=.T.
@@ -87,7 +87,7 @@ DEFINE CLASS TpEntryForm AS Form
     ADD OBJECT dateLabel AS Label WITH Caption="Service date",Left=18,Top=47,Width=85
     ADD OBJECT serviceDate AS TextBox WITH Left=106,Top=43,Width=110,Value=DATE()
     ADD OBJECT mdLabel AS Label WITH Caption="Billing MD",Left=260,Top=47,Width=75
-    ADD OBJECT billingMD AS TextBox WITH Left=340,Top=43,Width=55,MaxLength=2
+    ADD OBJECT billingMD AS ComboBox WITH Left=340,Top=43,Width=300,Style=2,ColumnCount=2,ColumnWidths="45,230",BoundColumn=1,BoundTo=.T.
     ADD OBJECT descLabel AS Label WITH Caption="Service description",Left=18,Top=83,Width=480
     ADD OBJECT feeLabel AS Label WITH Caption="Fee ($)",Left=537,Top=83,Width=95
     ADD OBJECT total AS Label WITH Caption="Total: $0.00",Left=450,Top=278,Width=200,FontBold=.T.,Alignment=1
@@ -97,7 +97,30 @@ DEFINE CLASS TpEntryForm AS Form
         LPARAMETERS tnPatient,tcMD
         LOCAL lnI,lcName,lnArea,loControl
         THIS.nPatient=tnPatient
-        THIS.billingMD.Value=tcMD
+        THIS.billingMD.RowSourceType=0
+        lnArea=SELECT()
+        TRY
+            USE (ADDBS(path_to_data)+"md.dbf") AGAIN SHARED IN 0 ALIAS tpentrymd
+            SELECT tpentrymd
+            SCAN FOR payment<>0 AND !DELETED() AND !EMPTY(mnemonic)
+                THIS.billingMD.AddItem(ALLTRIM(mnemonic))
+                THIS.billingMD.List(THIS.billingMD.ListCount,2)=ALLTRIM(surname)+", "+ALLTRIM(firstname)
+            ENDSCAN
+        FINALLY
+            IF USED("tpentrymd")
+                USE IN tpentrymd
+            ENDIF
+            SELECT (lnArea)
+        ENDTRY
+        FOR lnI=1 TO THIS.billingMD.ListCount
+            IF UPPER(ALLTRIM(THIS.billingMD.List(lnI,1)))=UPPER(ALLTRIM(tcMD))
+                THIS.billingMD.ListIndex=lnI
+                EXIT
+            ENDIF
+        ENDFOR
+        IF THIS.billingMD.ListIndex=0 AND THIS.billingMD.ListCount=1
+            THIS.billingMD.ListIndex=1
+        ENDIF
         lnArea=SELECT()
         USE (ADDBS(path_to_data)+"patients.dbf") AGAIN SHARED IN 0 ALIAS tpentrypatient
         SELECT tpentrypatient
@@ -105,6 +128,10 @@ DEFINE CLASS TpEntryForm AS Form
         THIS.patient.Caption="Patient #"+TRANSFORM(tnPatient)+": "+ALLTRIM(surname)+", "+ALLTRIM(firstname)
         USE IN tpentrypatient
         SELECT (lnArea)
+        IF THIS.billingMD.ListIndex<=0
+            MESSAGEBOX("Select an active billing physician.",48,"Invoice was not saved")
+            RETURN
+        ENDIF
         FOR lnI=1 TO 5
             lcName="description"+TRANSFORM(lnI)
             THIS.AddObject(lcName,"TextBox")

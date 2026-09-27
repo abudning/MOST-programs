@@ -17,7 +17,7 @@ A full V16.64.2 executable (file/product version 1.7.682) has compiled successfu
 
 Build blockers fixed: the shutdown target is `quit_most` (not `quit_mos`), and `TpSaveBill` declares its passed invoice array with `EXTERNAL ARRAY taLines`. Retain native menu project entries; replacing them with generated MPR entries introduces duplicate linker objects.
 
-For a repeat build, prepare an isolated full MOSt source copy, overlay this snapshot's FORMS and PROGRAMS, and copy VFP's `genmenu.prg` into the parent working folder. In a separate VFP session run `DO build_tools/build_v16_64_2.prg WITH "<working-copy-parent>"` from the repository root. The working folder must contain `MOSt/most.pjx`; output and log are written to `output/`. The script updates only the supplied working-copy project and exits VFP. Never point it at a production installation or the frozen V16.63.16 package.
+For a repeat build, prepare an isolated full MOSt source copy, overlay this snapshot's FORMS and PROGRAMS, and copy VFP's `genmenu.prg` into the parent working folder. In a separate VFP session run `DO build_tools/build_v16_64_3.prg WITH "<working-copy-parent>"` from the repository root. The working folder must contain `MOSt/most.pjx`; output and log are written to `output/`. The script updates only the supplied working-copy project and exits VFP. Never point it at a production installation or the frozen V16.63.16 package.
 
 The completed V16.63 WORKING WELL release remains under `development_v16_63/`.
 ## Confirmed next-step requirements
