@@ -39,13 +39,14 @@ CASE lnChoice=2
 CASE lnChoice=3
     DO create_invoice WITH toPatient.keep_id
 CASE lnChoice=4
-    DO FORM invoicehist WITH toPatient.keep_id
+    SET PROCEDURE TO thirdparty_history ADDITIVE
+    =TpShowPaidHistory(toPatient.keep_id)
 ENDCASE
 toPatient.outstand_3p()
 RETURN
 
 DEFINE CLASS TpChoiceForm AS Form
-    Caption="Third Party Billing - V16.64.3 TEST"
+    Caption="Third Party Billing - V16.64.4 TEST"
     Width=390
     Height=265
     AutoCenter=.T.
@@ -73,7 +74,7 @@ DEFINE CLASS TpChoiceButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS TpEntryForm AS Form
-    Caption="Manual Third Party Invoice - V16.64.3 TEST"
+    Caption="Manual Third Party Invoice - V16.64.4 TEST"
     Width=675
     Height=365
     AutoCenter=.T.

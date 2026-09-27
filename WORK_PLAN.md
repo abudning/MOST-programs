@@ -123,3 +123,6 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 - Assign each release a distinct incremented build ID and show the same ID consistently in the executable, About MOSt, installer name, and release notes.
 - Preserve the database schema version as its own value; do not overwrite it merely to make the file version match.
 - The V16.63.16 premium-code bubble fix is carried into V16.64.1. Re-test E409/E410 editing in every V16.64 release candidate.
+# September 27, 2026 — V16.64.4 regression checkpoint
+
+Paid billing history now uses the configured data path, no doctor selector, safe empty state, and a private read-only session. Both menu and invoice History button use it. Selected-invoice HTML rendering and patient/doctor/cursor-isolation tests pass. Native Print allows dialogs, focuses the browser and has a document-print fallback. EXE 1.7.684 compiled; actual XP printing is still an acceptance check. Finish saved-invoice edit/void and manual payment/overpayment/refund workflows next, in V16.64.5. Consultation merge remains pending. Keep V16.63.16 frozen as known good.

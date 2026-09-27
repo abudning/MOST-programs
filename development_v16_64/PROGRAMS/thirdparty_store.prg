@@ -238,7 +238,7 @@ RETURN lcFile
 ENDFUNC
 
 DEFINE CLASS TpInvoicePreview AS Form
-    Caption="Invoice review - V16.64.3 TEST"
+    Caption="Invoice review - V16.64.4 TEST"
     Width=1000
     Height=720
     AutoCenter=.T.
@@ -248,7 +248,7 @@ DEFINE CLASS TpInvoicePreview AS Form
     ADD OBJECT help AS Label WITH Caption="Ctrl+P also works inside the invoice.",Left=10,Top=105,Width=115,WordWrap=.T.
     PROCEDURE Init
         LPARAMETERS tcFile
-        THIS.browser.Object.Silent=.T.
+        THIS.browser.Object.Silent=.F.
         THIS.browser.Object.Navigate(FULLPATH(tcFile))
     ENDPROC
     PROCEDURE PrintInvoice
@@ -258,9 +258,14 @@ DEFINE CLASS TpInvoicePreview AS Form
             RETURN
         ENDIF
         TRY
+            THIS.browser.SetFocus()
             THIS.browser.Object.ExecWB(6,1)
         CATCH TO loError
-            MESSAGEBOX("The print dialog could not be opened. Click inside the invoice and press Ctrl+P."+CHR(13)+loError.Message,48,"Invoice printing")
+            TRY
+                THIS.browser.Object.Document.parentWindow.print()
+            CATCH
+                MESSAGEBOX("Click inside the invoice and press Ctrl+P to open the print dialog."+CHR(13)+loError.Message,48,"Invoice printing")
+            ENDTRY
         ENDTRY
     ENDPROC
     PROCEDURE QueryUnload

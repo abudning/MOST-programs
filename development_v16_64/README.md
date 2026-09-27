@@ -1,4 +1,6 @@
-# MOSt V16.64.3 Third Party Billing — XP test build 1.7.683
+# MOSt V16.64.4 Third Party Billing — XP test build 1.7.684
+
+V16.64.4 repairs paid history using a patient-only, read-only private-session form (`thirdparty_history.prg`), updates both history entry points, and improves the native HTML viewer Print command. Synthetic checks include both doctors, empty history, excluded/deleted records, selected-invoice rendering and caller-cursor isolation. Full EXE 1.7.684 compiled successfully. Actual XP printer output still requires workstation acceptance. Saved-invoice edit/void and manual payment/refund work move to the next V16.64.5 checkpoint; consultation merge remains pending. V16.63.16 stays unchanged. Use `launch_v16_64_4.ps1` / `build_v16_64_4.prg` for the current build; the older notes below describe the V16.64.3 baseline.
 
 This snapshot is rebased on the tested V16.63.16 source and extends it with manual third-party invoices, claim storage, invoice preview, payment history, and the Patients button entry point. V16.63.16 remains unchanged as the last known-good V16.63 release. The billing details use the existing Guarantor memo field; no shared database schema change is intended.
 
