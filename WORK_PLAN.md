@@ -126,3 +126,9 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 # September 27, 2026 — V16.64.4 regression checkpoint
 
 Paid billing history now uses the configured data path, no doctor selector, safe empty state, and a private read-only session. Both menu and invoice History button use it. Selected-invoice HTML rendering and patient/doctor/cursor-isolation tests pass. Native Print allows dialogs, focuses the browser and has a document-print fallback. EXE 1.7.684 compiled; actual XP printing is still an acceptance check. Finish saved-invoice edit/void and manual payment/overpayment/refund workflows next, in V16.64.5. Consultation merge remains pending. Keep V16.63.16 frozen as known good.
+
+# September 29, 2026 — V16.64.4 printer acceptance and V16.65.1 start
+
+Actual workstation printing from V16.64.4 was confirmed working. Claims, premium-code handling, manual invoices, and normal PDF access were also confirmed working. PDF completeness remains a deferred audit because occasional letters may be missed; retain this item until the complete approximately 6 GB chart set is available for comparison. V16.65.1 now starts from that source baseline for the consultation-letter workflow. The first performance change reduces LetterBuilder's deliberate reload delay. The merge now polls without a fixed three-second sleep, while deterministic selection of the newly created Word document remains the next implementation step.
+
+V16.65.1 / executable 1.7.685 compiled successfully from a fresh isolated copy of `v16_63_build` with the V16.65 source overlaid. The hidden prompt was caused by stale project state in the reused V16.64 build directory, not a syntax error in `consult_letter.prg`; its standalone compile also passed. Keep future V16.65 builds fresh and add project members only when absent.

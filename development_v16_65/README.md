@@ -1,6 +1,19 @@
-# MOSt V16.64.4 Third Party Billing — XP test build 1.7.684
+# MOSt V16.65.1 Consultation Letters — development build 1.7.685
 
-V16.64.4 repairs paid history using a patient-only, read-only private-session form (`thirdparty_history.prg`), updates both history entry points, and improves the native HTML viewer Print command. Synthetic checks include both doctors, empty history, excluded/deleted records, selected-invoice rendering and caller-cursor isolation. Full EXE 1.7.684 compiled successfully. Actual XP printing was confirmed working September 29, 2026. Saved-invoice edit/void and manual payment/refund work remain pending; consultation work continues separately in V16.65.1. V16.63.16 stays unchanged. Use `launch_v16_64_4.ps1` / `build_v16_64_4.prg` for the current build; the older notes below describe the V16.64.3 baseline.
+V16.65.1 starts from the tested V16.64.4 source and resumes consultation-letter work. It preserves the V16.64.4 third-party billing fixes while keeping that release unchanged.
+
+Current changes:
+
+- LetterBuilder's delayed patient reload now uses one 100 ms UI-cycle timer instead of the previous 400 ms plus 500 ms two-phase delay.
+- The consultation merge polls in 50 ms slices and stops as soon as Word reports a new, active merge document, instead of sleeping for a fixed three seconds.
+- Deterministic selection of the new merge result remains the active consultation-letter task; the current guard refuses insertion if the patient chart is still active.
+- The wait still has a 10-second failure ceiling, but it is no longer a fixed delay.
+
+Build target: V16.65.1 / file version 1.7.685. A full EXE compiled successfully September 29, 2026 from a fresh `v16_63_build` working copy with the V16.65 source overlaid. The earlier hidden compiler prompt belonged to stale state in the repeatedly reused V16.64 project; standalone compilation had already confirmed `consult_letter.prg` was valid. Use a fresh isolated build copy for subsequent V16.65 builds and conditionally add new project members instead of adding duplicates. Workstation verification is still required with the real LetterBuilder template, open patient chart, and XP Word version. The inherited V16.64.4 printing, Claims, premium-code handling, manual invoices, and normal PDF access were confirmed working on the workstation September 29, 2026. A full PDF completeness audit remains on the to-do list until the approximately 6 GB complete chart set is available; occasional letters may otherwise be missed.
+
+## Inherited V16.64.4 baseline
+
+V16.64.4 repairs paid history using a patient-only, read-only private-session form (`thirdparty_history.prg`), updates both history entry points, and improves the native HTML viewer Print command. Synthetic checks include both doctors, empty history, excluded/deleted records, selected-invoice rendering and caller-cursor isolation. Full EXE 1.7.684 compiled successfully. Actual XP printer output still requires workstation acceptance. Saved-invoice edit/void and manual payment/refund work move to the next V16.64.5 checkpoint; consultation merge remains pending. V16.63.16 stays unchanged. Use `launch_v16_64_4.ps1` / `build_v16_64_4.prg` for the current build; the older notes below describe the V16.64.3 baseline.
 
 This snapshot is rebased on the tested V16.63.16 source and extends it with manual third-party invoices, claim storage, invoice preview, payment history, and the Patients button entry point. V16.63.16 remains unchanged as the last known-good V16.63 release. The billing details use the existing Guarantor memo field; no shared database schema change is intended.
 
