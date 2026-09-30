@@ -157,3 +157,8 @@ patient ID and exact packed unregistered-patient fallback paths are implemented;
 the full executable compiles successfully from a fresh source copy. Workstation
 acceptance is still required for the five cases above. V16.65.1 consult work was
 not included in this build.
+
+The V16.64.5 XP test installer is packaged with executable 1.7.686, the same
+verified V16.64.4 forms/runtime payload, automatic binary-verified backup and
+rollback, acceptance instructions, and SHA-256 manifest. All 13 payload files
+listed in the manifest verified successfully after extracting the final ZIP.
