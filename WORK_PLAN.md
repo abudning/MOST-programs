@@ -149,3 +149,11 @@ Implementation requirements:
 - A waiting-list click must not create, change, or delete an appointment by itself.
 - Preserve the selected waiting-list row and Scheduler state when the search opens and when the operator returns.
 - Test patients with one appointment, multiple appointments, no appointments, duplicate names, and an unlinked/free-text waiting-list entry.
+
+Implementation checkpoint: the change is now isolated in the V16.64 series as
+V16.64.5 (executable 1.7.686). The Waiting List left-click handler invokes the
+existing Scheduler Find Appointment controls for patient leaf nodes only. Stable
+patient ID and exact packed unregistered-patient fallback paths are implemented;
+the full executable compiles successfully from a fresh source copy. Workstation
+acceptance is still required for the five cases above. V16.65.1 consult work was
+not included in this build.
