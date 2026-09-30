@@ -50,19 +50,21 @@ TRY
         lcVision=LEFT(lcVision,AT(CHR(13),lcVision)-1)
     ENDIF
     lnBefore=loWord.Documents.Count
+    loNew=.NULL.
     loForm.pageframe1.page1.WORD.Click()
     FOR lnWait=1 TO 200
         DOEVENTS
-        INKEY(0.05)
-        IF loWord.Documents.Count>lnBefore AND UPPER(ALLTRIM(loWord.ActiveDocument.Name))#UPPER(ALLTRIM(lcChartName))
+        IF loWord.Documents.Count>lnBefore
+            loNew=loWord.Documents.Item(lnBefore+1)
             EXIT
         ENDIF
+        INKEY(0.05)
     ENDFOR
-    IF UPPER(ALLTRIM(loWord.ActiveDocument.Name))==UPPER(ALLTRIM(lcChartName))
+    IF VARTYPE(loNew)#"O"
         MESSAGEBOX("Word did not finish opening the merged consultation letter.",48,"Consult Letter")
         llAbort=.T.
     ENDIF
-    loNew=loWord.ActiveDocument
+    IF !llAbort
     loNew.Activate()
     loRange=loNew.Content
     loFind=loRange.Find
@@ -76,6 +78,7 @@ TRY
         loNew.Content.Text=loNew.Content.Text+CHR(13)+"On examination"+CHR(13)+lcVision+CHR(13)
     ENDIF
     loWord.Visible=.T.
+    ENDIF
     ENDIF
     ENDIF
 CATCH TO loError

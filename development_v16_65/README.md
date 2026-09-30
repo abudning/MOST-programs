@@ -5,11 +5,12 @@ V16.65.1 starts from the tested V16.64.4 source and resumes consultation-letter 
 Current changes:
 
 - LetterBuilder's delayed patient reload now uses one 100 ms UI-cycle timer instead of the previous 400 ms plus 500 ms two-phase delay.
-- The consultation merge polls in 50 ms slices and stops as soon as Word reports a new, active merge document, instead of sleeping for a fixed three seconds.
-- Deterministic selection of the new merge result remains the active consultation-letter task; the current guard refuses insertion if the patient chart is still active.
+- The consultation merge polls in 50 ms slices and stops as soon as Word adds a document, instead of sleeping for a fixed three seconds.
+- The merge result is selected from the Word Documents collection at the first position added after the chart snapshot; insertion no longer depends on which Word window happens to be active.
+- If Word does not add a merge document, the operation warns and exits without inserting into the patient chart.
 - The wait still has a 10-second failure ceiling, but it is no longer a fixed delay.
 
-Build target: V16.65.1 / file version 1.7.685. A full EXE compiled successfully September 29, 2026 from a fresh `v16_63_build` working copy with the V16.65 source overlaid. The earlier hidden compiler prompt belonged to stale state in the repeatedly reused V16.64 project; standalone compilation had already confirmed `consult_letter.prg` was valid. Use a fresh isolated build copy for subsequent V16.65 builds and conditionally add new project members instead of adding duplicates. Workstation verification is still required with the real LetterBuilder template, open patient chart, and XP Word version. The inherited V16.64.4 printing, Claims, premium-code handling, manual invoices, and normal PDF access were confirmed working on the workstation September 29, 2026. A full PDF completeness audit remains on the to-do list until the approximately 6 GB complete chart set is available; occasional letters may otherwise be missed.
+Build target: V16.65.1 / file version 1.7.685. The final consultation source passed standalone compilation and a full EXE compiled successfully September 30, 2026 from a fresh `v16_63_build` working copy with the V16.65 source overlaid. The XP test package is under `releases/V16.65.1_XP_TEST/`; all 13 payload hashes passed after archive extraction. The earlier hidden compiler prompt belonged to stale state in the repeatedly reused V16.64 project. Use a fresh isolated build copy for subsequent V16.65 builds and conditionally add new project members instead of adding duplicates. Workstation verification is still required with the real LetterBuilder template, open patient chart, and XP Word version. The inherited V16.64.4 printing, Claims, premium-code handling, manual invoices, and normal PDF access were confirmed working on the workstation September 29, 2026. A full PDF completeness audit remains on the to-do list until the approximately 6 GB complete chart set is available; occasional letters may otherwise be missed.
 
 ## Inherited V16.64.4 baseline
 
