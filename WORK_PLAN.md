@@ -136,3 +136,16 @@ V16.65.1 / executable 1.7.685 compiled successfully from a fresh isolated copy o
 # September 30, 2026 — V16.65.1 consultation test package
 
 The consultation merge now selects the first Word document added after LetterBuilder starts the merge, instead of relying on `ActiveDocument`. Failure to add a document within ten seconds leaves the patient chart untouched. The source passed standalone compilation and full EXE 1.7.685 compilation from a fresh isolated project. The XP test archive contains the installer, runtime support, forms, README, and checksums; all 13 payload hashes passed after extraction. Remaining step: workstation acceptance using the real chart, template, and XP Word merge workflow.
+
+# Next item — Waiting list appointment lookup
+
+When Scheduler is opened from the Patients tab, its separate Waiting List window should connect to the existing Find Appointment workflow. Clicking a patient on the waiting list should automatically run the equivalent patient appointment search and display any appointments found. The operator should then be able to review the existing appointment information immediately and book or adjust the waiting-list request accordingly.
+
+Implementation requirements:
+
+- Reuse the Scheduler's existing Find button/search behavior rather than creating a separate appointment-search implementation.
+- Pass the selected waiting-list patient's stable identifier when available; use a carefully validated name fallback only if the waiting-list record has no usable patient ID.
+- Show all matching appointments in the normal Find Appointment results screen, including the normal empty-result state when none exist.
+- A waiting-list click must not create, change, or delete an appointment by itself.
+- Preserve the selected waiting-list row and Scheduler state when the search opens and when the operator returns.
+- Test patients with one appointment, multiple appointments, no appointments, duplicate names, and an unlinked/free-text waiting-list entry.
