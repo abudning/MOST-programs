@@ -1,6 +1,15 @@
-# MOSt V16.66.1 LetterBuilder Eye Diagram — development build 1.7.687
+# MOSt V16.66.2 LetterBuilder Eye Diagram — development build 1.7.688
 
 V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9ab7bc37e904fa6c64ad36b352f8fdff4813d9`. It does not include the separate V16.65 consultation-letter experiment.
+
+## V16.66.2 layout correction
+
+- The experimental Consult button is removed from LetterBuilder for now.
+- The existing Letters button is retained because it returns to the main letters page and refreshes the available letter list after Templates or Canned Text administration.
+- The controls now fit in the order `Letters`, `Diagram`, `Exit` without overlap.
+- The unwanted fourth centre field beneath the middle measurement is removed; the diagram has only top, middle, and bottom centre positions.
+- The two lower head-tilt measurements are moved farther outward.
+- Short diagonal head-tilt indicator lines appear between the lower eye positions and those measurements.
 
 ## V16.66.1 eye diagram
 

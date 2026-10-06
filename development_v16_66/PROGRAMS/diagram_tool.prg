@@ -1,4 +1,4 @@
-* LetterBuilder eye-diagram helper, V16.66.1.
+* LetterBuilder eye-diagram helper, V16.66.2.
 * Draws a clean monochrome bitmap with Win32 GDI and places it on the
 * Windows clipboard. This avoids dependencies on Paint, modern Office,
 * .NET, or browser clipboard support.
@@ -76,6 +76,13 @@ lnOldPen=SelectObject(lnMemoryDC,lnPen)
 =LineTo(lnMemoryDC,485,147)
 =LineTo(lnMemoryDC,525,133)
 =LineTo(lnMemoryDC,555,110)
+* Head-tilt indicators lead outward from the lower eye positions.
+=MoveToEx(lnMemoryDC,150,154,0)
+=LineTo(lnMemoryDC,143,163)
+=LineTo(lnMemoryDC,125,171)
+=MoveToEx(lnMemoryDC,490,154,0)
+=LineTo(lnMemoryDC,497,163)
+=LineTo(lnMemoryDC,515,171)
 lnFont=CreateFontA(-17,0,0,0,400,0,0,0,0,0,0,0,0,"Arial")
 lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =SetTextAlign(lnMemoryDC,6)
@@ -83,12 +90,11 @@ lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =GdiDiagramText(lnMemoryDC,toForm.leftTop.Value,180,43)
 =GdiDiagramText(lnMemoryDC,toForm.rightTop.Value,460,43)
 =GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,42,99)
-=GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,315,99)
-=GdiDiagramText(lnMemoryDC,toForm.rightInner.Value,325,137)
+=GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,320,99)
 =GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,598,99)
-=GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,160,174)
+=GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,105,177)
 =GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,320,211)
-=GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,480,174)
+=GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,535,177)
 =SelectObject(lnMemoryDC,lnOldFont)
 =SelectObject(lnMemoryDC,lnOldPen)
 =SelectObject(lnMemoryDC,lnOldBrush)
@@ -178,7 +184,7 @@ DEFINE CLASS DiagramButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS EyeDiagramForm AS Form
-    Caption="Eye Diagram - V16.66.1"
+    Caption="Eye Diagram - V16.66.2"
     Width=670
     Height=370
     AutoCenter=.T.
@@ -191,12 +197,11 @@ DEFINE CLASS EyeDiagramForm AS Form
     ADD OBJECT leftTop AS DiagramEntry WITH Left=130,Top=70,Width=100,Height=24
     ADD OBJECT rightTop AS DiagramEntry WITH Left=440,Top=70,Width=100,Height=24
     ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=132,Width=92,Height=24
-    ADD OBJECT leftInner AS DiagramEntry WITH Left=275,Top=132,Width=92,Height=24
-    ADD OBJECT rightInner AS DiagramEntry WITH Left=303,Top=174,Width=92,Height=24
+    ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=132,Width=92,Height=24
     ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=132,Width=92,Height=24
-    ADD OBJECT leftBottom AS DiagramEntry WITH Left=110,Top=225,Width=110,Height=24
+    ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=228,Width=110,Height=24
     ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=266,Width=110,Height=24
-    ADD OBJECT rightBottom AS DiagramEntry WITH Left=450,Top=225,Width=110,Height=24
+    ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=228,Width=110,Height=24
     ADD OBJECT leye1 AS Line WITH Left=105,Top=112,Width=45,Height=16,LineSlant="/",BorderWidth=1
     ADD OBJECT leye2 AS Line WITH Left=150,Top=105,Width=75,Height=7,LineSlant="/",BorderWidth=1
     ADD OBJECT leye3 AS Line WITH Left=225,Top=105,Width=45,Height=18,LineSlant="\\",BorderWidth=1
@@ -209,6 +214,8 @@ DEFINE CLASS EyeDiagramForm AS Form
     ADD OBJECT reye4 AS Line WITH Left=400,Top=159,Width=45,Height=16,LineSlant="\\",BorderWidth=1
     ADD OBJECT reye5 AS Line WITH Left=445,Top=175,Width=75,Height=7,LineSlant="\\",BorderWidth=1
     ADD OBJECT reye6 AS Line WITH Left=520,Top=160,Width=45,Height=15,LineSlant="/",BorderWidth=1
+    ADD OBJECT leftTilt AS Line WITH Left=125,Top=190,Width=25,Height=28,LineSlant="/",BorderWidth=1
+    ADD OBJECT rightTilt AS Line WITH Left=490,Top=190,Width=25,Height=28,LineSlant="\\",BorderWidth=1
     ADD OBJECT copyButton AS DiagramCopyButton WITH Caption="Copy Diagram",Left=258,Top=320,Width=115,Height=30,Default=.T.
     ADD OBJECT insertButton AS DiagramInsertButton WITH Caption="Insert into Word",Left=382,Top=320,Width=125,Height=30
     ADD OBJECT clearButton AS DiagramClearButton WITH Caption="Clear",Left=516,Top=320,Width=65,Height=30

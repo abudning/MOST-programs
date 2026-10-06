@@ -4,7 +4,6 @@ LOCAL lcSelectedMd, lnRow, lnTop, lnLeft, lnSavedLeft, lnSavedTop, lnSavedState,
 llHasPatient=.F.
 lnPatientId=0
 lcSelectedMd="AB"
-SET PROCEDURE TO consult_letter ADDITIVE
 SET PROCEDURE TO diagram_tool ADDITIVE
 IF PCOUNT()>=1 AND VARTYPE(tnPatientId)$"NIFYB"
     lnPatientId=INT(tnPatientId)
@@ -40,18 +39,18 @@ FOR lnI=1 TO _SCREEN.FormCount
         loLetterForm.pageframe1.page1.MD.Enabled=.F.
         loLetterForm.pageframe1.page1.MD.Visible=.F.
         loLetterForm.pageframe1.page1.lblmd.Visible=.F.
-        IF !PEMSTATUS(loLetterForm,"cmdConsult",5)
-            loLetterForm.AddObject("cmdConsult","ConsultButton")
-            loLetterForm.cmdConsult.Left=loLetterForm.Command1.Left-loLetterForm.cmdConsult.Width-6
-            loLetterForm.cmdConsult.Top=loLetterForm.Command1.Top
-            loLetterForm.cmdConsult.Visible=.T.
+        * The experimental Consult button is intentionally absent in V16.66.2.
+        * Remove it when reopening a form created by an earlier V16.66 session.
+        IF PEMSTATUS(loLetterForm,"cmdConsult",5)
+            loLetterForm.cmdConsult.Visible=.F.
+            loLetterForm.RemoveObject("cmdConsult")
         ENDIF
         IF !PEMSTATUS(loLetterForm,"cmdDiagram",5)
             loLetterForm.AddObject("cmdDiagram","DiagramButton")
-            loLetterForm.cmdDiagram.Left=loLetterForm.cmdConsult.Left-loLetterForm.cmdDiagram.Width-6
-            loLetterForm.cmdDiagram.Top=loLetterForm.Command1.Top
-            loLetterForm.cmdDiagram.Visible=.T.
         ENDIF
+        loLetterForm.cmdDiagram.Left=loLetterForm.Command1.Left-loLetterForm.cmdDiagram.Width-6
+        loLetterForm.cmdDiagram.Top=loLetterForm.Command1.Top
+        loLetterForm.cmdDiagram.Visible=.T.
         IF llHasPatient AND lnOpenPatient#lnPatientId
             DO LoadLetterPatient WITH loLetterForm,lnPatientId,lnSavedLeft,lnSavedTop,lnSavedState
         ENDIF
@@ -78,12 +77,8 @@ ENDIF
 * Open the LetterBuilder form only. No letter is opened or created here.
 DO FORM letterform NAME loNewLetterForm
 IF VARTYPE(loNewLetterForm)=="O"
-    loNewLetterForm.AddObject("cmdConsult","ConsultButton")
-    loNewLetterForm.cmdConsult.Left=loNewLetterForm.Command1.Left-loNewLetterForm.cmdConsult.Width-6
-    loNewLetterForm.cmdConsult.Top=loNewLetterForm.Command1.Top
-    loNewLetterForm.cmdConsult.Visible=.T.
     loNewLetterForm.AddObject("cmdDiagram","DiagramButton")
-    loNewLetterForm.cmdDiagram.Left=loNewLetterForm.cmdConsult.Left-loNewLetterForm.cmdDiagram.Width-6
+    loNewLetterForm.cmdDiagram.Left=loNewLetterForm.Command1.Left-loNewLetterForm.cmdDiagram.Width-6
     loNewLetterForm.cmdDiagram.Top=loNewLetterForm.Command1.Top
     loNewLetterForm.cmdDiagram.Visible=.T.
     FOR lnRow=1 TO loNewLetterForm.pageframe1.page1.MD.ListCount
