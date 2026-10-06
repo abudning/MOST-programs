@@ -1,6 +1,12 @@
-# MOSt V16.66.2 LetterBuilder Eye Diagram — development build 1.7.688
+# MOSt V16.66.3 LetterBuilder Eye Diagram — development build 1.7.689
 
 V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9ab7bc37e904fa6c64ad36b352f8fdff4813d9`. It does not include the separate V16.65 consultation-letter experiment.
+
+## V16.66.3 button placement correction
+
+- Diagram is anchored immediately to the left of the legacy Letters button (`Command3`) instead of being positioned relative to Exit.
+- The relative placement prevents Diagram from covering Letters when LetterBuilder is displayed with the clinic workstation's font/display scaling.
+- The copied/inserted bitmap is reduced from 640 x 260 to 384 x 156 pixels (60% in each dimension), while its measurement type is proportionally larger for readability.
 
 ## V16.66.2 layout correction
 

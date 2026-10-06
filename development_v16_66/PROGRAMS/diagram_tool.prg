@@ -1,4 +1,4 @@
-* LetterBuilder eye-diagram helper, V16.66.2.
+* LetterBuilder eye-diagram helper, V16.66.3.
 * Draws a clean monochrome bitmap with Win32 GDI and places it on the
 * Windows clipboard. This avoids dependencies on Paint, modern Office,
 * .NET, or browser clipboard support.
@@ -42,57 +42,59 @@ DECLARE INTEGER CloseClipboard IN user32
 llCopied=.F.
 lnScreenDC=GetDC(0)
 lnMemoryDC=CreateCompatibleDC(lnScreenDC)
-lnBitmap=CreateCompatibleBitmap(lnScreenDC,640,260)
+* The finished Word graphic is 60% of the original 640 x 260 output.
+lnBitmap=CreateCompatibleBitmap(lnScreenDC,384,156)
 lnOldBitmap=SelectObject(lnMemoryDC,lnBitmap)
 lnWhiteBrush=CreateSolidBrush(RGB(255,255,255))
 lnOldBrush=SelectObject(lnMemoryDC,lnWhiteBrush)
 lnPen=CreatePen(0,2,RGB(0,0,0))
 lnOldPen=SelectObject(lnMemoryDC,lnPen)
-=Rectangle(lnMemoryDC,0,0,640,260)
+=Rectangle(lnMemoryDC,0,0,384,156)
 =SetBkMode(lnMemoryDC,1)
 =SetTextColor(lnMemoryDC,RGB(0,0,0))
 * Two pointed almond-shaped eye outlines matching the clinical template.
-=MoveToEx(lnMemoryDC,85,110,0)
-=LineTo(lnMemoryDC,115,87)
-=LineTo(lnMemoryDC,155,73)
-=LineTo(lnMemoryDC,205,73)
-=LineTo(lnMemoryDC,245,87)
-=LineTo(lnMemoryDC,275,110)
-=MoveToEx(lnMemoryDC,85,110,0)
-=LineTo(lnMemoryDC,115,133)
-=LineTo(lnMemoryDC,155,147)
-=LineTo(lnMemoryDC,205,147)
-=LineTo(lnMemoryDC,245,133)
-=LineTo(lnMemoryDC,275,110)
-=MoveToEx(lnMemoryDC,365,110,0)
-=LineTo(lnMemoryDC,395,87)
-=LineTo(lnMemoryDC,435,73)
-=LineTo(lnMemoryDC,485,73)
-=LineTo(lnMemoryDC,525,87)
-=LineTo(lnMemoryDC,555,110)
-=MoveToEx(lnMemoryDC,365,110,0)
-=LineTo(lnMemoryDC,395,133)
-=LineTo(lnMemoryDC,435,147)
-=LineTo(lnMemoryDC,485,147)
-=LineTo(lnMemoryDC,525,133)
-=LineTo(lnMemoryDC,555,110)
+=MoveToEx(lnMemoryDC,51,66,0)
+=LineTo(lnMemoryDC,69,52)
+=LineTo(lnMemoryDC,93,44)
+=LineTo(lnMemoryDC,123,44)
+=LineTo(lnMemoryDC,147,52)
+=LineTo(lnMemoryDC,165,66)
+=MoveToEx(lnMemoryDC,51,66,0)
+=LineTo(lnMemoryDC,69,80)
+=LineTo(lnMemoryDC,93,88)
+=LineTo(lnMemoryDC,123,88)
+=LineTo(lnMemoryDC,147,80)
+=LineTo(lnMemoryDC,165,66)
+=MoveToEx(lnMemoryDC,219,66,0)
+=LineTo(lnMemoryDC,237,52)
+=LineTo(lnMemoryDC,261,44)
+=LineTo(lnMemoryDC,291,44)
+=LineTo(lnMemoryDC,315,52)
+=LineTo(lnMemoryDC,333,66)
+=MoveToEx(lnMemoryDC,219,66,0)
+=LineTo(lnMemoryDC,237,80)
+=LineTo(lnMemoryDC,261,88)
+=LineTo(lnMemoryDC,291,88)
+=LineTo(lnMemoryDC,315,80)
+=LineTo(lnMemoryDC,333,66)
 * Head-tilt indicators lead outward from the lower eye positions.
-=MoveToEx(lnMemoryDC,150,154,0)
-=LineTo(lnMemoryDC,143,163)
-=LineTo(lnMemoryDC,125,171)
-=MoveToEx(lnMemoryDC,490,154,0)
-=LineTo(lnMemoryDC,497,163)
-=LineTo(lnMemoryDC,515,171)
-lnFont=CreateFontA(-17,0,0,0,400,0,0,0,0,0,0,0,0,"Arial")
+=MoveToEx(lnMemoryDC,90,92,0)
+=LineTo(lnMemoryDC,86,98)
+=LineTo(lnMemoryDC,75,103)
+=MoveToEx(lnMemoryDC,294,92,0)
+=LineTo(lnMemoryDC,298,98)
+=LineTo(lnMemoryDC,309,103)
+* Fifteen-pixel type is proportionally larger than in the original output.
+lnFont=CreateFontA(-15,0,0,0,400,0,0,0,0,0,0,0,0,"Arial")
 lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =SetTextAlign(lnMemoryDC,6)
-=GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,320,7)
-=GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,42,99)
-=GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,320,99)
-=GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,598,99)
-=GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,105,177)
-=GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,320,211)
-=GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,535,177)
+=GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,192,3)
+=GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,25,59)
+=GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,192,59)
+=GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,359,59)
+=GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,63,106)
+=GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,192,127)
+=GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,321,106)
 =SelectObject(lnMemoryDC,lnOldFont)
 =SelectObject(lnMemoryDC,lnOldPen)
 =SelectObject(lnMemoryDC,lnOldBrush)
@@ -142,7 +144,7 @@ DO WHILE !EMPTY(lcText)
     IF !EMPTY(lcLine)
         =TextOutA(tnDC,tnX,lnY,lcLine,LEN(lcLine))
     ENDIF
-    lnY=lnY+18
+    lnY=lnY+16
 ENDDO
 RETURN
 ENDFUNC
@@ -182,7 +184,7 @@ DEFINE CLASS DiagramButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS EyeDiagramForm AS Form
-    Caption="Eye Diagram - V16.66.2"
+    Caption="Eye Diagram - V16.66.3"
     Width=670
     Height=370
     AutoCenter=.T.

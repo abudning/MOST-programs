@@ -48,8 +48,10 @@ FOR lnI=1 TO _SCREEN.FormCount
         IF !PEMSTATUS(loLetterForm,"cmdDiagram",5)
             loLetterForm.AddObject("cmdDiagram","DiagramButton")
         ENDIF
-        loLetterForm.cmdDiagram.Left=loLetterForm.Command1.Left-loLetterForm.cmdDiagram.Width-6
-        loLetterForm.cmdDiagram.Top=loLetterForm.Command1.Top
+        * Anchor Diagram immediately left of the legacy Letters button.
+        * This avoids display-scaling overlap with both Letters and Exit.
+        loLetterForm.cmdDiagram.Left=loLetterForm.Command3.Left-loLetterForm.cmdDiagram.Width-6
+        loLetterForm.cmdDiagram.Top=loLetterForm.Command3.Top
         loLetterForm.cmdDiagram.Visible=.T.
         IF llHasPatient AND lnOpenPatient#lnPatientId
             DO LoadLetterPatient WITH loLetterForm,lnPatientId,lnSavedLeft,lnSavedTop,lnSavedState
@@ -78,8 +80,8 @@ ENDIF
 DO FORM letterform NAME loNewLetterForm
 IF VARTYPE(loNewLetterForm)=="O"
     loNewLetterForm.AddObject("cmdDiagram","DiagramButton")
-    loNewLetterForm.cmdDiagram.Left=loNewLetterForm.Command1.Left-loNewLetterForm.cmdDiagram.Width-6
-    loNewLetterForm.cmdDiagram.Top=loNewLetterForm.Command1.Top
+    loNewLetterForm.cmdDiagram.Left=loNewLetterForm.Command3.Left-loNewLetterForm.cmdDiagram.Width-6
+    loNewLetterForm.cmdDiagram.Top=loNewLetterForm.Command3.Top
     loNewLetterForm.cmdDiagram.Visible=.T.
     FOR lnRow=1 TO loNewLetterForm.pageframe1.page1.MD.ListCount
         IF ALLTRIM(loNewLetterForm.pageframe1.page1.MD.List(lnRow,1))==ALLTRIM(lcSelectedMd)
