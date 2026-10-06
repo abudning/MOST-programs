@@ -87,8 +87,6 @@ lnFont=CreateFontA(-17,0,0,0,400,0,0,0,0,0,0,0,0,"Arial")
 lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =SetTextAlign(lnMemoryDC,6)
 =GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,320,7)
-=GdiDiagramText(lnMemoryDC,toForm.leftTop.Value,180,43)
-=GdiDiagramText(lnMemoryDC,toForm.rightTop.Value,460,43)
 =GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,42,99)
 =GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,320,99)
 =GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,598,99)
@@ -194,8 +192,6 @@ DEFINE CLASS EyeDiagramForm AS Form
     BackColor=RGB(255,255,255)
     ADD OBJECT instructions AS Label WITH Caption="Enter measurements in the boxes around the diagram. Use | for a second line (example: 25XT|RH3).",Left=18,Top=12,Width=630,Height=30,WordWrap=.T.,BackStyle=0
     ADD OBJECT topCentre AS DiagramEntry WITH Left=285,Top=43,Width=100,Height=24
-    ADD OBJECT leftTop AS DiagramEntry WITH Left=130,Top=70,Width=100,Height=24
-    ADD OBJECT rightTop AS DiagramEntry WITH Left=440,Top=70,Width=100,Height=24
     ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=132,Width=92,Height=24
     ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=132,Width=92,Height=24
     ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=132,Width=92,Height=24

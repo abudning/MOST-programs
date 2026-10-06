@@ -8,6 +8,7 @@ V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9a
 - The existing Letters button is retained because it returns to the main letters page and refreshes the available letter list after Templates or Canned Text administration.
 - The controls now fit in the order `Letters`, `Diagram`, `Exit` without overlap.
 - The unwanted fourth centre field beneath the middle measurement is removed; the diagram has only top, middle, and bottom centre positions.
+- The two separate fields above the individual eye outlines are removed; this compact deviation diagram is not a full nine-position motility chart.
 - The two lower head-tilt measurements are moved farther outward.
 - Short diagonal head-tilt indicator lines appear between the lower eye positions and those measurements.
 

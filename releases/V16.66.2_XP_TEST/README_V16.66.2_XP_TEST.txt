@@ -15,8 +15,8 @@ V16.66.2 CORRECTIONS
 - The bottom controls now fit as Letters, Diagram, and Exit.
 - The diagram contains only three centre measurement positions: top, middle,
   and bottom. The unwanted fourth centre position is removed.
-- The positions immediately above the individual left and right eyes remain;
-  these correspond to the two zero values in the supplied clinical example.
+- The two positions immediately above the individual left and right eyes are
+  removed; this compact form is not a full nine-position motility chart.
 - The two lower head-tilt values are farther outward, with a short diagonal
   indicator between each eye and its value.
 
@@ -33,7 +33,7 @@ XP / WORD 2000 ACCEPTANCE CHECKS
 2. Confirm Letters still returns to the main letters page after opening Letter
    Templates or Canned Text.
 3. Enter the supplied sample values and confirm there are exactly three centre
-   values, plus the separate positions above the left and right eyes.
+   values and no separate entry positions above the individual eyes.
 4. Confirm the lower head-tilt values and their diagonal indicators are correctly
    positioned.
 5. Test Copy Diagram followed by manual Paste into Word 2000.
