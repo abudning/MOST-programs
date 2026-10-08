@@ -29,6 +29,16 @@ V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9a
 
 Source changes are in `PROGRAMS/diagram_tool.prg` and `PROGRAMS/openletterwriter.prg`. Compilation and Windows XP/Word 2000 workstation acceptance are still required. V16.64.5 and all earlier snapshots remain unchanged.
 
+## V16.66.3 OHIP VHC / SLI correction
+
+- `PROGRAMS/ohipdsk.prg` now establishes the current accounting group and selects the claims table before inspecting encounter service lines.
+- HCP and WCB/WSIB encounters containing a technical `B` service write `OFF` into the HEH Service Location Indicator.
+- G858 is recognized explicitly as a fallback if it reaches OHIP output before or without the normal professional/technical split.
+- RMB and ordinary nontechnical claims retain their existing location handling.
+- `build_tools/test_sli_v16_66_3.prg` passed grouped G858B, WCB/WSIB, another B fee, G858 fallback, RMB, and ordinary HCP regression cases.
+
+The separate FP7-server billing-file patcher is pending an actual generated OHIP output file so its fixed-width positions can be verified safely.
+
 ## Inherited V16.64.5 baseline
 
 V16.64.4 repairs paid history using a patient-only, read-only private-session form (`thirdparty_history.prg`), updates both history entry points, and improves the native HTML viewer Print command. Synthetic checks include both doctors, empty history, excluded/deleted records, selected-invoice rendering and caller-cursor isolation. Full EXE 1.7.684 compiled successfully. Actual XP printing was confirmed working September 29, 2026. Saved-invoice edit/void and manual payment/refund work remain pending; consultation work continues separately in V16.65.1. V16.63.16 stays unchanged. Use `launch_v16_64_4.ps1` / `build_v16_64_4.prg` for the current build; the older notes below describe the V16.64.3 baseline.
