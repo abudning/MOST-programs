@@ -106,6 +106,60 @@ Status: unresolved and required before the next release.
 - The workflow works repeatedly for different patients without carrying over text from the previous patient.
 - Cancellation or a missing template/marker produces a clear message and does not modify another letter.
 
+## Future work — Windows 10/11 EDT transfer helper
+
+Status: planning only. No implementation has been started.
+
+### Current workflow
+
+1. MOSt creates the outgoing OHIP file on the Server 2008 machine.
+2. Staff manually copy the outgoing file to a Windows 10/11 computer.
+3. Staff manually sign in to MCEDT and upload the file.
+4. Staff manually download MCEDT reports.
+5. Staff manually copy the downloaded files into the server's EDT IN folder.
+6. MOSt processes the files from EDT IN.
+
+### Proposed simplified workflow
+
+Create a small program that runs on a supported network-connected Windows 10/11 workstation and has controlled access to the server's EDT OUT and EDT IN folders.
+
+The helper should:
+
+- Read its server EDT OUT and EDT IN locations from a local configuration file.
+- Display new outgoing MOSt claim files that are ready for upload.
+- Validate basic file integrity before presentation, without changing the claim file.
+- Open the official MCEDT website in the workstation's supported default browser.
+- Open or clearly identify the exact outgoing file for the user to select during manual upload.
+- Record that a file was presented for upload, while allowing the user to correct an accidental status.
+- Monitor a designated local download folder for MCEDT response files.
+- Identify supported response/report types and show them for confirmation.
+- Copy confirmed downloads into the server EDT IN folder using safe temporary filenames followed by an atomic rename.
+- Prevent silent overwriting or duplicate importing.
+- Archive transferred outgoing and incoming files on the workstation or server according to a documented retention policy.
+- Provide a simple status history showing filename, transfer direction, date/time, result, and operator action.
+- Avoid storing MCEDT passwords, browser sessions, patient data extracts, or claim contents in its log.
+- Work without installing or using a browser on Server 2008.
+- Leave the existing MOSt EDT generation and processing routines functional as a fallback.
+
+### Important boundary
+
+The first version must not automate clicks, login, upload, or download actions on the MCEDT webpage. Ontario states that the webpage is not intended for scripted automation. The helper may prepare files, open the official site, watch for confirmed downloads, and move files safely.
+
+Fully automatic MCEDT upload/download would be a separate future project using the official EBS/MCEDT web service. That path requires current encryption support, secure key handling, Ministry enrolment and conformance testing, and should run on a supported operating system rather than Server 2008.
+
+### Acceptance tests
+
+- The helper can read EDT OUT and write EDT IN through the intended least-privilege network account.
+- A new outgoing file appears without staff copying it locally by hand.
+- The correct outgoing file can be located immediately for manual upload.
+- A downloaded MCEDT file is recognized and copied safely into EDT IN after confirmation.
+- MOSt can process the transferred incoming file normally.
+- Duplicate filenames and repeat downloads do not overwrite existing files.
+- Network interruption leaves neither a partial outgoing nor partial incoming file.
+- Failure messages identify the affected file and leave the source recoverable.
+- The Server 2008 computer requires no Internet browser or direct Internet access.
+- The original manual process remains available during pilot testing and rollback.
+
 ## Next work
 
 1. Complete the functional test checklist on copied data.
