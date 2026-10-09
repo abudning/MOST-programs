@@ -1,4 +1,4 @@
-* LetterBuilder eye-diagram helper, V16.66.3.
+* LetterBuilder eye-diagram helper, V16.66.4.
 * Draws a clean monochrome bitmap with Win32 GDI and places it on the
 * Windows clipboard. This avoids dependencies on Paint, modern Office,
 * .NET, or browser clipboard support.
@@ -88,13 +88,27 @@ lnOldPen=SelectObject(lnMemoryDC,lnPen)
 lnFont=CreateFontA(-15,0,0,0,400,0,0,0,0,0,0,0,0,"Arial")
 lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =SetTextAlign(lnMemoryDC,6)
-=GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,192,3)
-=GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,25,59)
-=GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,192,59)
-=GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,359,59)
-=GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,63,106)
-=GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,192,127)
-=GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,321,106)
+IF toForm.lDeviationOn
+    =SetTextColor(lnMemoryDC,RGB(0,0,0))
+    =GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,192,3)
+    =GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,25,59)
+    =GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,192,59)
+    =GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,359,59)
+    =GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,63,106)
+    =GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,192,127)
+    =GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,321,106)
+ENDIF
+IF toForm.lMovementOn
+    =SetTextColor(lnMemoryDC,RGB(255,0,0))
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftTop.Value,116,24)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightTop.Value,297,26)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftOuter.Value,77,69)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftInner.Value,153,68)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightInner.Value,257,76)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightOuter.Value,338,80)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftBottom.Value,111,122)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightBottom.Value,285,129)
+ENDIF
 =SelectObject(lnMemoryDC,lnOldFont)
 =SelectObject(lnMemoryDC,lnOldPen)
 =SelectObject(lnMemoryDC,lnOldBrush)
@@ -184,53 +198,172 @@ DEFINE CLASS DiagramButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS EyeDiagramForm AS Form
-    Caption="Eye Diagram - V16.66.3"
+    Caption="Eye Diagram - V16.66.4"
     Width=670
-    Height=370
+    Height=430
     AutoCenter=.T.
     BorderStyle=2
     MaxButton=.F.
     MinButton=.F.
     BackColor=RGB(255,255,255)
-    ADD OBJECT instructions AS Label WITH Caption="Enter measurements in the boxes around the diagram. Use | for a second line (example: 25XT|RH3).",Left=18,Top=12,Width=630,Height=30,WordWrap=.T.,BackStyle=0
-    ADD OBJECT topCentre AS DiagramEntry WITH Left=285,Top=43,Width=100,Height=24
-    ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=132,Width=92,Height=24
-    ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=132,Width=92,Height=24
-    ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=132,Width=92,Height=24
-    ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=228,Width=110,Height=24
-    ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=266,Width=110,Height=24
-    ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=228,Width=110,Height=24
-    ADD OBJECT leye1 AS Line WITH Left=105,Top=112,Width=45,Height=16,LineSlant="/",BorderWidth=1
-    ADD OBJECT leye2 AS Line WITH Left=150,Top=105,Width=75,Height=7,LineSlant="/",BorderWidth=1
-    ADD OBJECT leye3 AS Line WITH Left=225,Top=105,Width=45,Height=18,LineSlant="\\",BorderWidth=1
-    ADD OBJECT leye4 AS Line WITH Left=105,Top=159,Width=45,Height=16,LineSlant="\\",BorderWidth=1
-    ADD OBJECT leye5 AS Line WITH Left=150,Top=175,Width=75,Height=7,LineSlant="\\",BorderWidth=1
-    ADD OBJECT leye6 AS Line WITH Left=225,Top=160,Width=45,Height=15,LineSlant="/",BorderWidth=1
-    ADD OBJECT reye1 AS Line WITH Left=400,Top=112,Width=45,Height=16,LineSlant="/",BorderWidth=1
-    ADD OBJECT reye2 AS Line WITH Left=445,Top=105,Width=75,Height=7,LineSlant="/",BorderWidth=1
-    ADD OBJECT reye3 AS Line WITH Left=520,Top=105,Width=45,Height=18,LineSlant="\\",BorderWidth=1
-    ADD OBJECT reye4 AS Line WITH Left=400,Top=159,Width=45,Height=16,LineSlant="\\",BorderWidth=1
-    ADD OBJECT reye5 AS Line WITH Left=445,Top=175,Width=75,Height=7,LineSlant="\\",BorderWidth=1
-    ADD OBJECT reye6 AS Line WITH Left=520,Top=160,Width=45,Height=15,LineSlant="/",BorderWidth=1
-    ADD OBJECT leftTilt AS Line WITH Left=125,Top=190,Width=25,Height=28,LineSlant="/",BorderWidth=1
-    ADD OBJECT rightTilt AS Line WITH Left=490,Top=190,Width=25,Height=28,LineSlant="\\",BorderWidth=1
-    ADD OBJECT copyButton AS DiagramCopyButton WITH Caption="Copy Diagram",Left=258,Top=320,Width=115,Height=30,Default=.T.
-    ADD OBJECT insertButton AS DiagramInsertButton WITH Caption="Insert into Word",Left=382,Top=320,Width=125,Height=30
-    ADD OBJECT clearButton AS DiagramClearButton WITH Caption="Clear",Left=516,Top=320,Width=65,Height=30
-    ADD OBJECT closeButton AS DiagramCloseButton WITH Caption="Close",Left=590,Top=320,Width=65,Height=30,Cancel=.T.
+    lDeviationOn=.T.
+    lMovementOn=.T.
+    cUndo1=""
+    cUndo2=""
+    ADD OBJECT instructions AS Label WITH Caption="Enter deviations in black and movements in red. Use | for a second line. The toggles control entry and diagram output.",Left=18,Top=10,Width=630,Height=30,WordWrap=.T.,BackStyle=0
+    ADD OBJECT deviationToggle AS DiagramLayerToggle WITH Caption="Deviations: ON",Left=195,Top=42,Width=130,Height=28,Value=1,Tag="D"
+    ADD OBJECT movementToggle AS DiagramLayerToggle WITH Caption="Movements: ON",Left=335,Top=42,Width=130,Height=28,Value=1,Tag="M"
+    ADD OBJECT topCentre AS DiagramEntry WITH Left=285,Top=75,Width=100,Height=24
+    ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=164,Width=92,Height=24
+    ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=164,Width=92,Height=24
+    ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=164,Width=92,Height=24
+    ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=260,Width=110,Height=24
+    ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=298,Width=110,Height=24
+    ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=260,Width=110,Height=24
+    ADD OBJECT moveLeftTop AS MovementEntry WITH Left=165,Top=87,Width=70,Height=24
+    ADD OBJECT moveRightTop AS MovementEntry WITH Left=435,Top=87,Width=70,Height=24
+    ADD OBJECT moveLeftOuter AS MovementEntry WITH Left=78,Top=139,Width=70,Height=24
+    ADD OBJECT moveLeftInner AS MovementEntry WITH Left=233,Top=139,Width=70,Height=24
+    ADD OBJECT moveRightInner AS MovementEntry WITH Left=367,Top=151,Width=70,Height=24
+    ADD OBJECT moveRightOuter AS MovementEntry WITH Left=522,Top=151,Width=70,Height=24
+    ADD OBJECT moveLeftBottom AS MovementEntry WITH Left=155,Top=273,Width=70,Height=24
+    ADD OBJECT moveRightBottom AS MovementEntry WITH Left=445,Top=285,Width=70,Height=24
+    ADD OBJECT leye1 AS Line WITH Left=105,Top=144,Width=45,Height=16,LineSlant="/",BorderWidth=1
+    ADD OBJECT leye2 AS Line WITH Left=150,Top=137,Width=75,Height=7,LineSlant="/",BorderWidth=1
+    ADD OBJECT leye3 AS Line WITH Left=225,Top=137,Width=45,Height=18,LineSlant="\\",BorderWidth=1
+    ADD OBJECT leye4 AS Line WITH Left=105,Top=191,Width=45,Height=16,LineSlant="\\",BorderWidth=1
+    ADD OBJECT leye5 AS Line WITH Left=150,Top=207,Width=75,Height=7,LineSlant="\\",BorderWidth=1
+    ADD OBJECT leye6 AS Line WITH Left=225,Top=192,Width=45,Height=15,LineSlant="/",BorderWidth=1
+    ADD OBJECT reye1 AS Line WITH Left=400,Top=144,Width=45,Height=16,LineSlant="/",BorderWidth=1
+    ADD OBJECT reye2 AS Line WITH Left=445,Top=137,Width=75,Height=7,LineSlant="/",BorderWidth=1
+    ADD OBJECT reye3 AS Line WITH Left=520,Top=137,Width=45,Height=18,LineSlant="\\",BorderWidth=1
+    ADD OBJECT reye4 AS Line WITH Left=400,Top=191,Width=45,Height=16,LineSlant="\\",BorderWidth=1
+    ADD OBJECT reye5 AS Line WITH Left=445,Top=207,Width=75,Height=7,LineSlant="\\",BorderWidth=1
+    ADD OBJECT reye6 AS Line WITH Left=520,Top=192,Width=45,Height=15,LineSlant="/",BorderWidth=1
+    ADD OBJECT leftTilt AS Line WITH Left=125,Top=222,Width=25,Height=28,LineSlant="/",BorderWidth=1
+    ADD OBJECT rightTilt AS Line WITH Left=490,Top=222,Width=25,Height=28,LineSlant="\\",BorderWidth=1
+    ADD OBJECT copyButton AS DiagramCopyButton WITH Caption="Copy Diagram",Left=170,Top=370,Width=115,Height=30,Default=.T.
+    ADD OBJECT insertButton AS DiagramInsertButton WITH Caption="Insert into Word",Left=294,Top=370,Width=125,Height=30
+    ADD OBJECT clearButton AS DiagramClearButton WITH Caption="Clear Active",Left=428,Top=370,Width=90,Height=30
+    ADD OBJECT undoButton AS DiagramUndoButton WITH Caption="Undo",Left=527,Top=370,Width=60,Height=30,Enabled=.F.
+    ADD OBJECT closeButton AS DiagramCloseButton WITH Caption="Close",Left=596,Top=370,Width=60,Height=30,Cancel=.T.
+
+    PROCEDURE Init
+        THIS.RefreshLayers()
+    ENDPROC
+
     PROCEDURE QueryUnload
         NODEFAULT
         THIS.Hide()
     ENDPROC
-    PROCEDURE ClearEntries
+
+    PROCEDURE SerializeEntries
+        LOCAL lcSep
+        lcSep=CHR(30)
+        RETURN TRANSFORM(THIS.topCentre.Value)+lcSep+TRANSFORM(THIS.leftOuter.Value)+lcSep+;
+            TRANSFORM(THIS.leftInner.Value)+lcSep+TRANSFORM(THIS.rightOuter.Value)+lcSep+;
+            TRANSFORM(THIS.leftBottom.Value)+lcSep+TRANSFORM(THIS.bottomCentre.Value)+lcSep+;
+            TRANSFORM(THIS.rightBottom.Value)+lcSep+TRANSFORM(THIS.moveLeftTop.Value)+lcSep+;
+            TRANSFORM(THIS.moveRightTop.Value)+lcSep+TRANSFORM(THIS.moveLeftOuter.Value)+lcSep+;
+            TRANSFORM(THIS.moveLeftInner.Value)+lcSep+TRANSFORM(THIS.moveRightInner.Value)+lcSep+;
+            TRANSFORM(THIS.moveRightOuter.Value)+lcSep+TRANSFORM(THIS.moveLeftBottom.Value)+lcSep+;
+            TRANSFORM(THIS.moveRightBottom.Value)
+    ENDPROC
+
+    PROCEDURE RestoreEntries
+        LPARAMETERS tcState
+        LOCAL ARRAY laValue[15]
+        LOCAL lnCount
+        lnCount=ALINES(laValue,tcState,1,CHR(30))
+        IF lnCount<15
+            RETURN
+        ENDIF
+        THIS.topCentre.Value=laValue[1]
+        THIS.leftOuter.Value=laValue[2]
+        THIS.leftInner.Value=laValue[3]
+        THIS.rightOuter.Value=laValue[4]
+        THIS.leftBottom.Value=laValue[5]
+        THIS.bottomCentre.Value=laValue[6]
+        THIS.rightBottom.Value=laValue[7]
+        THIS.moveLeftTop.Value=laValue[8]
+        THIS.moveRightTop.Value=laValue[9]
+        THIS.moveLeftOuter.Value=laValue[10]
+        THIS.moveLeftInner.Value=laValue[11]
+        THIS.moveRightInner.Value=laValue[12]
+        THIS.moveRightOuter.Value=laValue[13]
+        THIS.moveLeftBottom.Value=laValue[14]
+        THIS.moveRightBottom.Value=laValue[15]
+    ENDPROC
+
+    PROCEDURE PushUndo
+        LPARAMETERS tcState
+        IF EMPTY(tcState) OR tcState==THIS.SerializeEntries()
+            RETURN
+        ENDIF
+        IF tcState==THIS.cUndo1
+            RETURN
+        ENDIF
+        THIS.cUndo2=THIS.cUndo1
+        THIS.cUndo1=tcState
+        THIS.undoButton.Enabled=.T.
+    ENDPROC
+
+    PROCEDURE UndoLast
+        LOCAL lcCurrent
+        IF EMPTY(THIS.cUndo1)
+            RETURN
+        ENDIF
+        lcCurrent=THIS.SerializeEntries()
+        THIS.RestoreEntries(THIS.cUndo1)
+        THIS.cUndo1=THIS.cUndo2
+        THIS.cUndo2=""
+        THIS.undoButton.Enabled=!EMPTY(THIS.cUndo1)
+        THIS.RefreshLayers()
+    ENDPROC
+
+    PROCEDURE RefreshLayers
         LOCAL lnI,loControl
+        THIS.lDeviationOn=THIS.deviationToggle.Value=1
+        THIS.lMovementOn=THIS.movementToggle.Value=1
+        THIS.deviationToggle.Caption="Deviations: "+IIF(THIS.lDeviationOn,"ON","OFF")
+        THIS.movementToggle.Caption="Movements: "+IIF(THIS.lMovementOn,"ON","OFF")
         FOR lnI=1 TO THIS.ControlCount
             loControl=THIS.Controls(lnI)
             IF UPPER(loControl.Class)=="DIAGRAMENTRY"
-                loControl.Value=""
+                loControl.Visible=THIS.lDeviationOn
+                loControl.Enabled=THIS.lDeviationOn
+            ELSE
+                IF UPPER(loControl.Class)=="MOVEMENTENTRY"
+                    loControl.Visible=THIS.lMovementOn
+                    loControl.Enabled=THIS.lMovementOn
+                ENDIF
             ENDIF
         ENDFOR
-        THIS.topCentre.SetFocus()
+    ENDPROC
+
+    PROCEDURE ClearActive
+        LOCAL lcBefore,lnAnswer,lnI,loControl
+        IF !THIS.lDeviationOn AND !THIS.lMovementOn
+            RETURN
+        ENDIF
+        IF THIS.lDeviationOn AND THIS.lMovementOn
+            lnAnswer=MESSAGEBOX("Clear all deviation and movement entries?",36,"Clear Active Entries")
+            IF lnAnswer#6
+                RETURN
+            ENDIF
+        ENDIF
+        lcBefore=THIS.SerializeEntries()
+        FOR lnI=1 TO THIS.ControlCount
+            loControl=THIS.Controls(lnI)
+            IF UPPER(loControl.Class)=="DIAGRAMENTRY" AND THIS.lDeviationOn
+                loControl.Value=""
+            ELSE
+                IF UPPER(loControl.Class)=="MOVEMENTENTRY" AND THIS.lMovementOn
+                    loControl.Value=""
+                ENDIF
+            ENDIF
+        ENDFOR
+        THIS.PushUndo(lcBefore)
     ENDPROC
 ENDDEFINE
 
@@ -240,7 +373,38 @@ DEFINE CLASS DiagramEntry AS TextBox
     MaxLength=30
     FontName="Arial"
     FontSize=9
-    ToolTipText="Use | for a second line"
+    ForeColor=RGB(0,0,0)
+    cBeforeEdit=""
+    ToolTipText="Deviation: use | for a second line"
+    PROCEDURE GotFocus
+        THIS.cBeforeEdit=THISFORM.SerializeEntries()
+    ENDPROC
+    PROCEDURE LostFocus
+        THISFORM.PushUndo(THIS.cBeforeEdit)
+    ENDPROC
+ENDDEFINE
+
+DEFINE CLASS MovementEntry AS DiagramEntry
+    ForeColor=RGB(255,0,0)
+    ToolTipText="Movement: use | for a second line"
+ENDDEFINE
+
+DEFINE CLASS DiagramLayerToggle AS CheckBox
+    Style=1
+    FontBold=.T.
+    PROCEDURE Click
+        IF THIS.Value=0
+            IF UPPER(THIS.Tag)=="D" AND THISFORM.movementToggle.Value=0
+                THIS.Value=1
+                MESSAGEBOX("At least one diagram layer must remain active.",48,"Eye Diagram")
+            ENDIF
+            IF UPPER(THIS.Tag)=="M" AND THISFORM.deviationToggle.Value=0
+                THIS.Value=1
+                MESSAGEBOX("At least one diagram layer must remain active.",48,"Eye Diagram")
+            ENDIF
+        ENDIF
+        THISFORM.RefreshLayers()
+    ENDPROC
 ENDDEFINE
 
 DEFINE CLASS DiagramCopyButton AS CommandButton
@@ -255,7 +419,12 @@ DEFINE CLASS DiagramInsertButton AS CommandButton
 ENDDEFINE
 DEFINE CLASS DiagramClearButton AS CommandButton
     PROCEDURE Click
-        THISFORM.ClearEntries()
+        THISFORM.ClearActive()
+    ENDPROC
+ENDDEFINE
+DEFINE CLASS DiagramUndoButton AS CommandButton
+    PROCEDURE Click
+        THISFORM.UndoLast()
     ENDPROC
 ENDDEFINE
 DEFINE CLASS DiagramCloseButton AS CommandButton
