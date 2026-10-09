@@ -19,6 +19,6 @@ if (-not $buildProcess.WaitForExit(180000)) {
 $logPath = Join-Path $buildRoot 'output\build_v16_66_4.log'
 $exePath = Join-Path $buildRoot 'output\MOST_V16_66_4_1_7_690_TEST.exe'
 if (-not (Test-Path -LiteralPath $logPath) -or (Get-Item -LiteralPath $logPath).LastWriteTime -lt $buildStarted) { throw 'The intended build script did not produce a fresh log.' }
-if ((Get-Content -LiteralPath $logPath -Raw) -notmatch 'SUCCESS V16\.66\.3 1\.7\.689') { throw (Get-Content -LiteralPath $logPath -Raw) }
+if ((Get-Content -LiteralPath $logPath -Raw) -notmatch 'SUCCESS V16\.66\.4 1\.7\.690') { throw (Get-Content -LiteralPath $logPath -Raw) }
 if (-not (Test-Path -LiteralPath $exePath) -or (Get-Item -LiteralPath $exePath).LastWriteTime -lt $buildStarted) { throw 'A fresh executable was not produced.' }
 Get-Item -LiteralPath $exePath | Select-Object FullName,Length,@{Name='Version';Expression={$_.VersionInfo.FileVersion}}
