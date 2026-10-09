@@ -1,4 +1,4 @@
-* LetterBuilder eye-diagram helper, V16.66.5.
+* LetterBuilder eye-diagram helper, V16.66.6.
 * Draws a clean monochrome bitmap with Win32 GDI and places it on the
 * Windows clipboard. This avoids dependencies on Paint, modern Office,
 * .NET, or browser clipboard support.
@@ -100,14 +100,15 @@ IF toForm.lDeviationOn
 ENDIF
 IF toForm.lMovementOn
     =SetTextColor(lnMemoryDC,RGB(255,0,0))
-    =GdiDiagramText(lnMemoryDC,toForm.moveLeftTop.Value,116,24)
-    =GdiDiagramText(lnMemoryDC,toForm.moveRightTop.Value,297,26)
-    =GdiDiagramText(lnMemoryDC,toForm.moveLeftOuter.Value,77,69)
-    =GdiDiagramText(lnMemoryDC,toForm.moveLeftInner.Value,153,68)
-    =GdiDiagramText(lnMemoryDC,toForm.moveRightInner.Value,257,76)
-    =GdiDiagramText(lnMemoryDC,toForm.moveRightOuter.Value,338,80)
-    =GdiDiagramText(lnMemoryDC,toForm.moveLeftBottom.Value,111,122)
-    =GdiDiagramText(lnMemoryDC,toForm.moveRightBottom.Value,285,129)
+    * Movement values form a symmetrical cross around each eye.
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftTop.Value,108,24)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightTop.Value,276,24)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftOuter.Value,70,66)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftInner.Value,146,66)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightInner.Value,238,66)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightOuter.Value,314,66)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftBottom.Value,108,122)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightBottom.Value,276,122)
 ENDIF
 =SelectObject(lnMemoryDC,lnOldFont)
 =SelectObject(lnMemoryDC,lnOldPen)
@@ -198,7 +199,7 @@ DEFINE CLASS DiagramButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS EyeDiagramForm AS Form
-    Caption="Eye Diagram - V16.66.5"
+    Caption="Eye Diagram - V16.66.6"
     Width=670
     Height=430
     AutoCenter=.T.
@@ -220,14 +221,14 @@ DEFINE CLASS EyeDiagramForm AS Form
     ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=260,Width=110,Height=24
     ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=298,Width=110,Height=24
     ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=260,Width=110,Height=24
-    ADD OBJECT moveLeftTop AS MovementEntry WITH Left=165,Top=87,Width=70,Height=24
-    ADD OBJECT moveRightTop AS MovementEntry WITH Left=435,Top=87,Width=70,Height=24
-    ADD OBJECT moveLeftOuter AS MovementEntry WITH Left=78,Top=139,Width=70,Height=24
-    ADD OBJECT moveLeftInner AS MovementEntry WITH Left=233,Top=139,Width=70,Height=24
-    ADD OBJECT moveRightInner AS MovementEntry WITH Left=367,Top=151,Width=70,Height=24
-    ADD OBJECT moveRightOuter AS MovementEntry WITH Left=522,Top=151,Width=70,Height=24
-    ADD OBJECT moveLeftBottom AS MovementEntry WITH Left=155,Top=273,Width=70,Height=24
-    ADD OBJECT moveRightBottom AS MovementEntry WITH Left=445,Top=285,Width=70,Height=24
+    ADD OBJECT moveLeftTop AS MovementEntry WITH Left=153,Top=87,Width=70,Height=24
+    ADD OBJECT moveRightTop AS MovementEntry WITH Left=448,Top=87,Width=70,Height=24
+    ADD OBJECT moveLeftOuter AS MovementEntry WITH Left=85,Top=139,Width=70,Height=24
+    ADD OBJECT moveLeftInner AS MovementEntry WITH Left=220,Top=139,Width=70,Height=24
+    ADD OBJECT moveRightInner AS MovementEntry WITH Left=380,Top=139,Width=70,Height=24
+    ADD OBJECT moveRightOuter AS MovementEntry WITH Left=515,Top=139,Width=70,Height=24
+    ADD OBJECT moveLeftBottom AS MovementEntry WITH Left=153,Top=273,Width=70,Height=24
+    ADD OBJECT moveRightBottom AS MovementEntry WITH Left=448,Top=273,Width=70,Height=24
     ADD OBJECT leye1 AS Line WITH Left=105,Top=144,Width=45,Height=16,LineSlant="/",BorderWidth=1
     ADD OBJECT leye2 AS Line WITH Left=150,Top=137,Width=75,Height=7,LineSlant="/",BorderWidth=1
     ADD OBJECT leye3 AS Line WITH Left=225,Top=137,Width=45,Height=18,LineSlant="\\",BorderWidth=1
