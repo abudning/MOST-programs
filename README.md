@@ -70,6 +70,42 @@ The upgraded program must preserve Visual FoxPro 7-compatible DBF/DBC/CDX/FPT st
 - Test old-to-new and new-to-old writes sequentially on copied data.
 - Do not run `MOStUpDbc.exe` until its changes are documented and verified.
 
+## Current priority — consult letter last-exam insertion (16.65 baseline)
+
+Status: unresolved and required before the next release.
+
+### Required clinical workflow
+
+1. Finish and save the patient's chart.
+2. Open the Letter Builder screen.
+3. Choose the required consult-letter template.
+4. Confirm that the destination/referring MD is correct.
+5. Click the **Consult** button.
+6. Copy the most recent chart visit beginning at **Vision** and continuing through the end of that visit.
+7. Open the newly selected consult template.
+8. Insert the copied visit text at the template insertion point.
+9. Leave the completed consult letter open so the doctor can review, edit, and send it.
+
+### Implementation requirement
+
+- Restore this behaviour using the same Word insertion method used by the movements insertion feature, because that method is working reliably.
+- Support a dedicated marker in the consult template, initially a single **\`*\`**, to identify the exact insertion location.
+- Replace the dedicated marker with the copied last-visit text; do not leave the marker in the finished letter.
+- If marker-based insertion is implemented, the marker must be unique to the insertion location so an unrelated asterisk is not replaced.
+- Do not paste into an older letter, the wrong template, or a letter addressed to the wrong MD.
+- Do not copy earlier visits: the source range is the latest visit's **Vision** heading through the end of that visit.
+- Open the consult letter after insertion completes so the physician remains in control of final review and sending.
+
+### Acceptance tests
+
+- Latest visit is copied from **Vision** through its end, with no preceding visit included.
+- Text is inserted at the designated marker/cursor location.
+- The chosen consult template and confirmed MD are retained.
+- Existing template text before and after the insertion point is preserved.
+- The letter opens automatically after pasting.
+- The workflow works repeatedly for different patients without carrying over text from the previous patient.
+- Cancellation or a missing template/marker produces a clear message and does not modify another letter.
+
 ## Next work
 
 1. Complete the functional test checklist on copied data.
