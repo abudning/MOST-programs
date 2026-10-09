@@ -1,4 +1,4 @@
-* LetterBuilder eye-diagram helper, V16.66.6.
+* LetterBuilder eye-diagram helper, V16.66.7.
 * Draws a clean monochrome bitmap with Win32 GDI and places it on the
 * Windows clipboard. This avoids dependencies on Paint, modern Office,
 * .NET, or browser clipboard support.
@@ -103,10 +103,10 @@ IF toForm.lMovementOn
     * Movement values form a symmetrical cross around each eye.
     =GdiDiagramText(lnMemoryDC,toForm.moveLeftTop.Value,108,24)
     =GdiDiagramText(lnMemoryDC,toForm.moveRightTop.Value,276,24)
-    =GdiDiagramText(lnMemoryDC,toForm.moveLeftOuter.Value,70,66)
-    =GdiDiagramText(lnMemoryDC,toForm.moveLeftInner.Value,146,66)
-    =GdiDiagramText(lnMemoryDC,toForm.moveRightInner.Value,238,66)
-    =GdiDiagramText(lnMemoryDC,toForm.moveRightOuter.Value,314,66)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftOuter.Value,70,58)
+    =GdiDiagramText(lnMemoryDC,toForm.moveLeftInner.Value,146,58)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightInner.Value,238,58)
+    =GdiDiagramText(lnMemoryDC,toForm.moveRightOuter.Value,314,58)
     =GdiDiagramText(lnMemoryDC,toForm.moveLeftBottom.Value,108,122)
     =GdiDiagramText(lnMemoryDC,toForm.moveRightBottom.Value,276,122)
 ENDIF
@@ -199,7 +199,7 @@ DEFINE CLASS DiagramButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS EyeDiagramForm AS Form
-    Caption="Eye Diagram - V16.66.6"
+    Caption="Eye Diagram - V16.66.7"
     Width=670
     Height=430
     AutoCenter=.T.

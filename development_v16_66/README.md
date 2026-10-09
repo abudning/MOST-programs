@@ -1,6 +1,12 @@
-# MOSt V16.66.6 LetterBuilder Eye Diagram — movement alignment correction
+# MOSt V16.66.7 LetterBuilder Eye Diagram — movement alignment fine correction
 
 V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9ab7bc37e904fa6c64ad36b352f8fdff4813d9`. It does not include the separate V16.65 consultation-letter experiment.
+
+## V16.66.7 movement alignment fine correction
+
+- The four red nasal/temporal values move upward by eight bitmap pixels so
+  their text centres sit on the eyes' horizontal centreline.
+- Red top/bottom values and every black deviation coordinate are unchanged.
 
 ## V16.66.6 movement alignment correction
 
@@ -16,8 +22,8 @@ V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9a
 - Hidden layers retain their values and are omitted from Copy Diagram and Insert into Word output.
 - Clear Active clears the selected layer. When both layers are active it asks before clearing both.
 - Undo restores the last two entry edits or clear operations. Changing layer visibility does not consume undo history.
-- The alignment correction compiled successfully as file version 1.7.692 and
-  was packaged as the V16.66.6 XP test installer. Windows XP, clipboard, and Word 2000
+- The fine alignment correction compiled successfully as file version 1.7.693
+  and was packaged as the V16.66.7 XP test installer. Windows XP, clipboard, and Word 2000
   workstation acceptance remain required.
 
 ## V16.66.3 button placement correction
