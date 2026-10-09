@@ -273,11 +273,18 @@ DEFINE CLASS EyeDiagramForm AS Form
     PROCEDURE RestoreEntries
         LPARAMETERS tcState
         LOCAL ARRAY laValue[15]
-        LOCAL lnCount
-        lnCount=ALINES(laValue,tcState,1,CHR(30))
-        IF lnCount<15
-            RETURN
-        ENDIF
+        LOCAL lcWork,lcSep,lnI,lnAt
+        lcWork=tcState
+        lcSep=CHR(30)
+        FOR lnI=1 TO 14
+            lnAt=AT(lcSep,lcWork)
+            IF lnAt=0
+                RETURN
+            ENDIF
+            laValue[lnI]=LEFT(lcWork,lnAt-1)
+            lcWork=SUBSTR(lcWork,lnAt+1)
+        ENDFOR
+        laValue[15]=lcWork
         THIS.topCentre.Value=laValue[1]
         THIS.leftOuter.Value=laValue[2]
         THIS.leftInner.Value=laValue[3]
