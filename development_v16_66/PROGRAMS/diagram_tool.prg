@@ -1,4 +1,4 @@
-* LetterBuilder eye-diagram helper, V16.66.4.
+* LetterBuilder eye-diagram helper, V16.66.5.
 * Draws a clean monochrome bitmap with Win32 GDI and places it on the
 * Windows clipboard. This avoids dependencies on Paint, modern Office,
 * .NET, or browser clipboard support.
@@ -198,7 +198,7 @@ DEFINE CLASS DiagramButton AS CommandButton
 ENDDEFINE
 
 DEFINE CLASS EyeDiagramForm AS Form
-    Caption="Eye Diagram - V16.66.4"
+    Caption="Eye Diagram - V16.66.5"
     Width=670
     Height=430
     AutoCenter=.T.

@@ -1,15 +1,17 @@
-# MOSt V16.66.4 LetterBuilder Eye Diagram — source checkpoint
+# MOSt V16.66.5 LetterBuilder Eye Diagram — XP test build 1.7.691
 
 V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9ab7bc37e904fa6c64ad36b352f8fdff4813d9`. It does not include the separate V16.65 consultation-letter experiment.
 
-## V16.66.4 movement layers and undo
+## V16.66.5 movement layers and undo
 
 - Deviations remain a black measurement layer; eight ocular-movement positions form a separate red layer.
 - Independent graphical toggles select Deviations, Movements, or both. At least one layer remains active.
 - Hidden layers retain their values and are omitted from Copy Diagram and Insert into Word output.
 - Clear Active clears the selected layer. When both layers are active it asks before clearing both.
 - Undo restores the last two entry edits or clear operations. Changing layer visibility does not consume undo history.
-- The source checkpoint is not yet compiled or packaged; Visual FoxPro, Windows XP, clipboard, and Word 2000 acceptance remain required.
+- The executable compiled successfully as file version 1.7.691 and was packaged
+  as the V16.66.5 XP test installer. Windows XP, clipboard, and Word 2000
+  workstation acceptance remain required.
 
 ## V16.66.3 button placement correction
 
