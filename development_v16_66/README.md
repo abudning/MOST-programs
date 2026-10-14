@@ -1,5 +1,22 @@
 # MOSt V16.66.7 LetterBuilder Eye Diagram — movement alignment fine correction
 
+## Patient-screen printer routing source correction
+
+**Status: failed workstation test on 2026-10-14. Do not deploy this build over
+the working V16.66.7 executable. The cause still requires diagnosis.**
+
+- The Patients Print button now routes patient, address and radiology labels to
+  the workstation-local `PARAMETER2.LABEL_PRINTER` selection.
+- Full patient sheets route to `PARAMETER2.MAIN_PRINTER`.
+- MOSt verifies that the configured Windows printer is installed. If it is
+  missing or blank, the user can select a printer for the current job and is
+  directed to Setup > Local Parameters to make the change permanent.
+- The printer that was active before the job is restored afterwards.
+- `PROGRAMS/printer_router.prg` centralizes printer selection so future label
+  printer changes do not require another Patients-form edit.
+- The existing V16.66.7 executable and installer remain unchanged; rebuild and
+  XP printer acceptance are required before packaging this as a new release.
+
 V16.66.1 branches directly from the synchronized V16.64.5 source at commit `9d9ab7bc37e904fa6c64ad36b352f8fdff4813d9`. It does not include the separate V16.65 consultation-letter experiment.
 
 ## V16.66.7 movement alignment fine correction
