@@ -5,6 +5,13 @@
 **Status: failed workstation test on 2026-10-14. Do not deploy this build over
 the working V16.66.7 executable. The cause still requires diagnosis.**
 
+The failed test showed that the legacy `patient_label`, `address_label`, and
+`patient_sheet` programs overrode the router's printer choice and used an
+XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction
+removes those duplicate printer changes and resolves each LBX from the running
+MOSt application directory. Radiology-label behavior is deliberately unchanged
+because it is not used at this clinic.
+
 - The Patients Print button now routes patient, address and radiology labels to
   the workstation-local `PARAMETER2.LABEL_PRINTER` selection.
 - Full patient sheets route to `PARAMETER2.MAIN_PRINTER`.
