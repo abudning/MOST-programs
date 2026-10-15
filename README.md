@@ -19,6 +19,8 @@ Saved: 2026-08-23 17:10 America/Toronto
 
 ## Current result
 
+- Patient-label printing remains unresolved on the Windows XP production workstation. The label-choice form closes normally, the configured printer passes its Windows test page, and no job reaches the printer queue. A diagnostic build now traces printer resolution, patient matching, label preparation, and the `LABEL FORM` command to `%TEMP%\MOSt_Label_Print.log`; test builds must not replace the known working V16.66.7 permanently.
+
 - The Visual FoxPro 7 source builds under Visual FoxPro 9 SP2 x86.
 - The compatibility test executable is version `1.7.611` and has started successfully on the Windows XP test machine.
 - The build retains the legacy database-version safeguard.
