@@ -116,3 +116,63 @@ ENDFOR
 
 RETURN .F.
 ENDFUNC
+
+
+FUNCTION MostPrepareLabel
+LPARAMETERS tcSourceLabel
+LOCAL lcSource, lcSourceMemo, lcTempLabel, lcTempMemo
+
+lcSource = ALLTRIM(IIF(VARTYPE(tcSourceLabel)="C", tcSourceLabel, ""))
+IF EMPTY(lcSource) OR !FILE(lcSource)
+    RETURN ""
+ENDIF
+
+lcSourceMemo = FORCEEXT(lcSource, "lbt")
+lcTempLabel = ADDBS(SYS(2023)) + "most_" + SYS(2015) + ".lbx"
+lcTempMemo = FORCEEXT(lcTempLabel, "lbt")
+
+TRY
+    COPY FILE (lcSource) TO (lcTempLabel)
+    IF FILE(lcSourceMemo)
+        COPY FILE (lcSourceMemo) TO (lcTempMemo)
+    ENDIF
+
+    USE (lcTempLabel) EXCLUSIVE ALIAS mostlabelmeta
+    SELECT mostlabelmeta
+    LOCATE FOR objtype=1 AND objcode=53
+    IF FOUND("mostlabelmeta")
+        REPLACE expr WITH "", tag WITH "", tag2 WITH "" IN mostlabelmeta
+    ENDIF
+    USE IN mostlabelmeta
+CATCH TO loLabelError
+    IF USED("mostlabelmeta")
+        USE IN mostlabelmeta
+    ENDIF
+    =MostCleanupLabel(lcTempLabel)
+    MESSAGEBOX("The label form could not be prepared for the selected printer." + ;
+        CHR(13)+CHR(13) + loLabelError.Message, 16, "MOSt - Label Printing")
+    RETURN ""
+ENDTRY
+
+RETURN lcTempLabel
+ENDFUNC
+
+
+FUNCTION MostCleanupLabel
+LPARAMETERS tcTempLabel
+LOCAL lcTempLabel, lcTempMemo
+
+lcTempLabel = ALLTRIM(IIF(VARTYPE(tcTempLabel)="C", tcTempLabel, ""))
+IF EMPTY(lcTempLabel)
+    RETURN .T.
+ENDIF
+lcTempMemo = FORCEEXT(lcTempLabel, "lbt")
+
+IF FILE(lcTempLabel)
+    ERASE (lcTempLabel)
+ENDIF
+IF FILE(lcTempMemo)
+    ERASE (lcTempMemo)
+ENDIF
+RETURN .T.
+ENDFUNC

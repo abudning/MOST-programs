@@ -1,6 +1,6 @@
 * Patient address label output. Printer selection is handled by printer_router.prg.
 PARAMETERS ident
-LOCAL lcLabelFile
+LOCAL lcLabelFile, lcPrintLabel
 
 IF TYPE("gc_localapp") == "C" AND !EMPTY(gc_localapp)
     lcLabelFile = ADDBS(gc_localapp) + "labels\patients_address.lbx"
@@ -15,5 +15,13 @@ IF !FILE(lcLabelFile)
 ENDIF
 
 SELECT patients
-LABEL FORM (lcLabelFile) FOR patients.ID=ident TO PRINTER NOCONSOLE
+lcPrintLabel = MostPrepareLabel(lcLabelFile)
+IF EMPTY(lcPrintLabel)
+    RETURN .F.
+ENDIF
+TRY
+    LABEL FORM (lcPrintLabel) FOR patients.ID=ident TO PRINTER NOCONSOLE
+FINALLY
+    =MostCleanupLabel(lcPrintLabel)
+ENDTRY
 RETURN .T.

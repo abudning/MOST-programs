@@ -12,6 +12,12 @@ removes those duplicate printer changes and resolves each LBX from the running
 MOSt application directory. Radiology-label behavior is deliberately unchanged
 because it is not used at this clinic.
 
+Further inspection found the decisive printer override inside all three external
+LBX files: their saved report environment targets the retired `\\ETJ\IBM`
+printer on `LPT2:`. The used routines now make a temporary LBX/LBT copy, clear
+only that saved printer environment, print it through the selected current
+printer, and remove the temporary files. Installed label layouts are not edited.
+
 - The Patients Print button now routes patient, address and radiology labels to
   the workstation-local `PARAMETER2.LABEL_PRINTER` selection.
 - Full patient sheets route to `PARAMETER2.MAIN_PRINTER`.
