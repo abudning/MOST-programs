@@ -158,6 +158,9 @@ SET ESCAPE OFF
 SET DATE ANSI
 SET CENTURY ON
 SET EXCLUSIVE OFF
+* Multi-user tables may be briefly locked while another workstation saves.
+* Retry for a bounded period instead of immediately cascading into form-load errors.
+SET REPROCESS TO 5 SECONDS
 SET CONFIRM ON
 SET BELL OFF
 SET CLOCK  OFF

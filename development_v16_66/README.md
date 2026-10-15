@@ -1,5 +1,22 @@
 # MOSt V16.66.7 LetterBuilder Eye Diagram — movement alignment fine correction
 
+## Scheduler stability repair — work in progress, 2026-10-15
+
+The complete clinic error log exposed scheduler patient-search grid/alias
+failures, invalid XP DTPicker assignments, a missing `getSchedule_item` form
+property, and widespread multi-workstation file/record contention predating
+V16.66.7. Copied `schedule.scx/.sct` and `schedule_addNew.scx/.sct` now contain
+a first focused repair: exact patient-ID/health-card matches, temporary-alias
+guards, restoration of the 17-column search grid, invalid appointment-date
+rejection, and the missing form property. Startup now retries a briefly locked
+shared record for up to five seconds.
+
+**This scheduler repair has not yet completed automated validation, compilation,
+or workstation testing. Do not deploy it. Resume by validating the patched SCX
+methods, overlaying them and `PROGRAMS/oms.prg` into the isolated build tree,
+building V16.66.7, and testing against copied data with one workstation before
+any two-workstation test. Printer diagnostics remain paused.**
+
 ## Patient-screen printer routing source correction
 
 **Status: failed workstation test on 2026-10-14. Do not deploy this build over
