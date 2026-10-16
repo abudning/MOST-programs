@@ -43,8 +43,8 @@ log was found. This indicates that the installed external Patients form is
 executing instead of the form compiled into the EXE. The next diagnostic stage
 has therefore been moved down into `patient_label`, `address_label`, and
 `patient_sheet`; the build script also creates the log at application startup
-and displays its exact path. These source changes are checkpointed but the
-replacement diagnostic EXE has not yet been rebuilt or delivered.
+and displays its exact path. The replacement diagnostic EXE compiled
+successfully at embedded version 1.7.694 and was delivered on 2026-10-16.
 
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
