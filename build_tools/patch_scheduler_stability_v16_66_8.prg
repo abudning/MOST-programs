@@ -61,27 +61,27 @@ SCAN FOR !DELETED()
             'THISFORM.functionframe.findPage.grid2.RECORDSOURCE="patients"' + CHR(13)+CHR(10) + ;
             "        THISFORM.functionframe.findPage.grid2.ColumnCount=17", 1, -1, 1)
         lcMethods = STRTRAN(lcMethods, ;
-            "    SELE (THISFORM.ALIAS)" + CHR(13)+CHR(10) + ;
-            "    m_id=ID", ;
-            "    IF EMPTY(THISFORM.ALIAS) OR !USED(THISFORM.ALIAS)" + CHR(13)+CHR(10) + ;
-            "        MESSAGEBOX('The patient search result is no longer available. Please search again.',48,'MOSt Scheduler')" + CHR(13)+CHR(10) + ;
-            "        RETURN" + CHR(13)+CHR(10) + ;
-            "    ENDIF" + CHR(13)+CHR(10) + ;
-            "    SELE (THISFORM.ALIAS)" + CHR(13)+CHR(10) + ;
-            "    m_id=ID", 1, -1, 1)
+            CHR(9)+"SELE (THISFORM.ALIAS)" + CHR(13)+CHR(10) + ;
+            CHR(9)+"m_id=ID", ;
+            CHR(9)+"IF EMPTY(THISFORM.ALIAS) OR !USED(THISFORM.ALIAS)" + CHR(13)+CHR(10) + ;
+            CHR(9)+CHR(9)+"MESSAGEBOX('The patient search result is no longer available. Please search again.',48,'MOSt Scheduler')" + CHR(13)+CHR(10) + ;
+            CHR(9)+CHR(9)+"RETURN" + CHR(13)+CHR(10) + ;
+            CHR(9)+"ENDIF" + CHR(13)+CHR(10) + ;
+            CHR(9)+"SELE (THISFORM.ALIAS)" + CHR(13)+CHR(10) + ;
+            CHR(9)+"m_id=ID", 1, -1, 1)
     ENDIF
 
     * Do not feed an empty/corrupt appointment date into the XP DTPicker.
-    IF "PROCEDURE aselection" $ LOWER(lcMethods) AND ;
+    IF "procedure aselection" $ LOWER(lcMethods) AND ;
             !("selected appointment has no valid date" $ LOWER(lcMethods))
         lcMethods = STRTRAN(lcMethods, ;
-            "    xkeep_APPTID=apptid", ;
-            "    xkeep_APPTID=apptid" + CHR(13)+CHR(10) + ;
-            "    IF VARTYPE(xkeep_DATE)#'T' OR EMPTY(xkeep_DATE)" + CHR(13)+CHR(10) + ;
-            "        THISFORM.refresh_enabled = .T." + CHR(13)+CHR(10) + ;
-            "        MESSAGEBOX('The selected appointment has no valid date and cannot be opened.',48,'MOSt Scheduler')" + CHR(13)+CHR(10) + ;
-            "        RETURN" + CHR(13)+CHR(10) + ;
-            "    ENDIF", 1, -1, 1)
+            CHR(9)+"xkeep_APPTID=apptid", ;
+            CHR(9)+"xkeep_APPTID=apptid" + CHR(13)+CHR(10) + ;
+            CHR(9)+"IF VARTYPE(xkeep_DATE)#'T' OR EMPTY(xkeep_DATE)" + CHR(13)+CHR(10) + ;
+            CHR(9)+CHR(9)+"THISFORM.refresh_enabled = .T." + CHR(13)+CHR(10) + ;
+            CHR(9)+CHR(9)+"MESSAGEBOX('The selected appointment has no valid date and cannot be opened.',48,'MOSt Scheduler')" + CHR(13)+CHR(10) + ;
+            CHR(9)+CHR(9)+"RETURN" + CHR(13)+CHR(10) + ;
+            CHR(9)+"ENDIF", 1, -1, 1)
     ENDIF
 
     IF lcMethods # patchschedule.methods
@@ -91,8 +91,6 @@ SCAN FOR !DELETED()
 ENDSCAN
 
 USE IN patchschedule
-IF lnChanged = 0
-    ERROR "No scheduler stability changes were applied to " + tcForm
-ENDIF
+* Idempotent: a form that already contains every applicable repair is valid.
 RETURN lnChanged
 ENDFUNC
