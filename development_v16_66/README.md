@@ -26,6 +26,13 @@ Printer diagnostics remain paused.**
 **Status: failed workstation test on 2026-10-14. Do not deploy this build over
 the working V16.66.7 executable. The cause still requires diagnosis.**
 
+On 2026-10-16 a dedicated printer-trace diagnostic compiled from the validated
+V16.66.8 scheduler baseline. It retains embedded version 1.7.694 deliberately,
+so running the diagnostic does not invoke the legacy database-upgrade path. A
+structural check confirms that all four Patients Print choices enter
+`MostPrintPatientOutput`. The trace displays an entry message and writes each
+stage to `%TEMP%\MOSt_Label_Print.log`. Workstation trace results are pending.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction
