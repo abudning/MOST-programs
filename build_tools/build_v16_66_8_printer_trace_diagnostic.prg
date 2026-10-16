@@ -28,7 +28,8 @@ IF !FILE(lcMost+"PROGRAMS\printer_router.prg")
 ENDIF
 * Make it unmistakable that the workstation launched this diagnostic EXE.
 lcOms=lcMost+"PROGRAMS\oms.prg"
-lcStartupMarker='MESSAGEBOX("Printer trace diagnostic is running.",64,"MOSt V16.66.8 Printer Trace")'
+lcStartupMarker='STRTOFILE("STARTUP printer trace diagnostic "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),ADDBS(SYS(2023))+"MOSt_Label_Print.log",0)'+CHR(13)+CHR(10)+ ;
+    'MESSAGEBOX("Printer trace diagnostic is running."+CHR(13)+CHR(13)+"Diagnostic log: "+ADDBS(SYS(2023))+"MOSt_Label_Print.log",64,"MOSt V16.66.8 Printer Trace")'
 lcOmsText=FILETOSTR(lcOms)
 IF !(lcStartupMarker $ lcOmsText)
     lcOmsText=STRTRAN(lcOmsText,"SET EXCLUSIVE OFF", ;

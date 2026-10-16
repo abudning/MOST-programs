@@ -37,6 +37,15 @@ with zero active direct calls remaining. It displays one message at application
 startup and another on entering the print route, then writes each stage to
 `%TEMP%\MOSt_Label_Print.log`. Corrected workstation trace results are pending.
 
+The corrected EXE displayed its startup marker on the workstation, proving the
+right executable launched, but pressing Print displayed no route marker and no
+log was found. This indicates that the installed external Patients form is
+executing instead of the form compiled into the EXE. The next diagnostic stage
+has therefore been moved down into `patient_label`, `address_label`, and
+`patient_sheet`; the build script also creates the log at application startup
+and displays its exact path. These source changes are checkpointed but the
+replacement diagnostic EXE has not yet been rebuilt or delivered.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction
