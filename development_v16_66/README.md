@@ -39,12 +39,14 @@ startup and another on entering the print route, then writes each stage to
 
 The corrected EXE displayed its startup marker on the workstation, proving the
 right executable launched, but pressing Print displayed no route marker and no
-log was found. This indicates that the installed external Patients form is
-executing instead of the form compiled into the EXE. The next diagnostic stage
-has therefore been moved down into `patient_label`, `address_label`, and
-`patient_sheet`; the build script also creates the log at application startup
-and displays its exact path. The replacement diagnostic EXE compiled
-successfully at embedded version 1.7.694 and was delivered on 2026-10-16.
+print-stage entries were written. The returned log contained only the startup
+line. Inspection then identified the direct cause: when `LABELOPT` is disabled,
+the Patients form supplies `"0"` without a `#copies` suffix. `label_option`
+parsed this as zero copies and returned `A0`; the caller silently ran
+`FOR i=1 TO 0`. The repaired `label_option.scx/.sct` defaults a missing or
+invalid quantity to one and clamps the Print quantity to 1–9. A same-version
+1.7.694 test executable compiled successfully on 2026-10-16; workstation
+confirmation remains pending.
 
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
