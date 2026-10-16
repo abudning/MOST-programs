@@ -29,9 +29,13 @@ the working V16.66.7 executable. The cause still requires diagnosis.**
 On 2026-10-16 a dedicated printer-trace diagnostic compiled from the validated
 V16.66.8 scheduler baseline. It retains embedded version 1.7.694 deliberately,
 so running the diagnostic does not invoke the legacy database-upgrade path. A
-structural check confirms that all four Patients Print choices enter
-`MostPrintPatientOutput`. The trace displays an entry message and writes each
-stage to `%TEMP%\MOSt_Label_Print.log`. Workstation trace results are pending.
+structural check initially covered only the visible Print button, but the first
+workstation test produced no trace message. Further inspection found two more
+legacy entry points in the form and search-box keyboard handlers. The corrected
+diagnostic routes all 12 active label calls through `MostPrintPatientOutput`,
+with zero active direct calls remaining. It displays one message at application
+startup and another on entering the print route, then writes each stage to
+`%TEMP%\MOSt_Label_Print.log`. Corrected workstation trace results are pending.
 
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an

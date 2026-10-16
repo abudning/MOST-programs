@@ -4,7 +4,7 @@ SET SAFETY OFF
 SET EXCLUSIVE ON
 SET TALK OFF
 SET RESOURCE OFF
-LOCAL lcRoot,lcMost,lcLog,loFile
+LOCAL lcRoot,lcMost,lcLog,loFile,lcOms,lcOmsText,lcStartupMarker
 IF VARTYPE(tcWorkingRoot)="C" AND !EMPTY(tcWorkingRoot)
     lcRoot=ADDBS(FULLPATH(tcWorkingRoot))
 ELSE
@@ -25,6 +25,18 @@ IF !FILE(lcMost+"databases\oms.dbc") OR !FILE(lcMost+"databases\oms.dct") OR !FI
 ENDIF
 IF !FILE(lcMost+"PROGRAMS\printer_router.prg")
     ERROR "The printer trace router is missing."
+ENDIF
+* Make it unmistakable that the workstation launched this diagnostic EXE.
+lcOms=lcMost+"PROGRAMS\oms.prg"
+lcStartupMarker='MESSAGEBOX("Printer trace diagnostic is running.",64,"MOSt V16.66.8 Printer Trace")'
+lcOmsText=FILETOSTR(lcOms)
+IF !(lcStartupMarker $ lcOmsText)
+    lcOmsText=STRTRAN(lcOmsText,"SET EXCLUSIVE OFF", ;
+        "SET EXCLUSIVE OFF"+CHR(13)+CHR(10)+lcStartupMarker,1,1,1)
+    IF !(lcStartupMarker $ lcOmsText)
+        ERROR "Could not add the printer-trace startup marker."
+    ENDIF
+    STRTOFILE(lcOmsText,lcOms,0)
 ENDIF
 SET DEFAULT TO (lcMost)
 SET PATH TO (lcMost+";"+lcMost+"PROGRAMS;"+lcMost+"FORMS;"+lcMost+"Classes;"+lcMost+"MENU;"+lcMost+"ICONS;"+lcMost+"REPORTS;"+lcMost+"labels")
