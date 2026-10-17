@@ -55,6 +55,14 @@ install the external-form package. `ZERO-COPY BUILD 2` instead has a unique
 startup marker and instruments the embedded label window's own Print button to
 display and log its exact returned selection and quantity before closing.
 
+Build 2 displayed and logged `A1`, but neither the Patients caller nor the
+patient-label routine ran afterwards, isolating the remaining failure to the
+legacy `DO FORM ... TO MVAR` return handoff. `DIRECT-PRINT BUILD 3` bypasses
+that handoff: the label window calls `MostPrintPatientOutput` directly while it
+still owns the parent Patients form and patient ID, then returns `EXIT` so the
+legacy caller cannot duplicate the print. It compiled successfully at the safe
+test version 1.7.694; workstation results are pending.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction
