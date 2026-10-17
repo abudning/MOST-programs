@@ -1,0 +1,85 @@
+LPARAMETERS tcWorkingRoot
+CLOSE DATABASES ALL
+SET SAFETY OFF
+SET EXCLUSIVE ON
+SET TALK OFF
+SET RESOURCE OFF
+LOCAL lcRoot,lcMost,lcLog,loFile,lcOms,lcOmsText,lcNeedle,lcReplace
+lcRoot=ADDBS(FULLPATH(tcWorkingRoot))
+lcMost=lcRoot+"MOSt\"
+lcLog=lcRoot+"output\build_v16_66_8_legacy_server_printer_fix.log"
+IF !DIRECTORY(lcRoot+"output")
+    MD (lcRoot+"output")
+ENDIF
+ON ERROR DO BuildFailed WITH ERROR(),MESSAGE(),MESSAGE(1),PROGRAM(),LINENO(),lcLog
+STRTOFILE("START"+CHR(13)+CHR(10),lcLog,0)
+IF !FILE(lcMost+"most.pjx") OR !FILE(lcRoot+"genmenu.prg") OR ;
+        !FILE(lcMost+"PROGRAMS\mostprintpatientoutput.prg")
+    ERROR "The isolated MOSt source or printer router is missing."
+ENDIF
+IF !FILE(lcMost+"databases\oms.dbc") OR !FILE(lcMost+"databases\oms.dct") OR !FILE(lcMost+"databases\oms.dcx")
+    ERROR "The isolated source is missing OMS database metadata."
+ENDIF
+
+* This code-only client build must never invoke the legacy upgrade program.
+* Limit the bypass to this exact embedded maintenance version.
+lcOms=lcMost+"PROGRAMS\oms.prg"
+lcOmsText=FILETOSTR(lcOms)
+IF !("llPrinterFixClientOnly" $ lcOmsText)
+    lcOmsText=STRTRAN(lcOmsText, ;
+        "LOCAL llV1615CodeOnly, llLegacySchemaVersion", ;
+        "LOCAL llV1615CodeOnly, llLegacySchemaVersion, llPrinterFixClientOnly",1,1,0)
+    lcNeedle='llLegacySchemaVersion = normalized_version(server_database_ver) <= normalized_version("1.7.609")'
+    lcReplace=lcNeedle+CHR(13)+CHR(10)+ ;
+        'llPrinterFixClientOnly = normalized_version(m_current_most_ver) == normalized_version("1.7.694")'
+    lcOmsText=STRTRAN(lcOmsText,lcNeedle,lcReplace,1,1,0)
+    lcOmsText=STRTRAN(lcOmsText, ;
+        "AND !llV1615CodeOnly AND !llLegacySchemaVersion", ;
+        "AND !llV1615CodeOnly AND !llLegacySchemaVersion AND !llPrinterFixClientOnly",1,-1,0)
+    IF OCCURS("!llPrinterFixClientOnly",lcOmsText)<2
+        ERROR "Could not install the legacy-server upgrade guard."
+    ENDIF
+    STRTOFILE(lcOmsText,lcOms,0)
+ENDIF
+
+SET DEFAULT TO (lcMost)
+SET PATH TO (lcMost+";"+lcMost+"PROGRAMS;"+lcMost+"FORMS;"+lcMost+"Classes;"+lcMost+"MENU;"+lcMost+"ICONS;"+lcMost+"REPORTS;"+lcMost+"labels")
+USE (lcMost+"most.pjx") EXCLUSIVE ALIAS patchproject
+RECALL FOR type='d' AND FILE(STRTRAN(name,CHR(0),'')) IN patchproject
+REPLACE name WITH LOWER(lcMost+"most.pjx")+CHR(0), homedir WITH LOWER(lcMost)+CHR(0) FOR type='H' IN patchproject
+REPLACE ALL homedir WITH LOWER(lcMost)+CHR(0) FOR !EMPTY(homedir) IN patchproject
+DELETE FOR exclude AND type<>'H' AND !FILE(STRTRAN(name,CHR(0),'')) IN patchproject
+DELETE FOR LOWER(JUSTFNAME(STRTRAN(name,CHR(0),"")))="dispcrnt.prg" IN patchproject
+DELETE FOR LOWER(JUSTFNAME(STRTRAN(name,CHR(0),"")))="printer_router.prg" IN patchproject
+USE IN patchproject
+MODIFY PROJECT (lcMost+"most.pjx") NOWAIT
+_VFP.ActiveProject.VersionNumber="1.7.694"
+loFile=_VFP.ActiveProject
+loFile.Files.Add(lcMost+"PROGRAMS\thirdparty_freehand.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\thirdparty_store.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\thirdparty_history.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\resolve_chart_root.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\waitinglist_find.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\diagram_tool.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\mostprintpatientoutput.prg")
+_GENMENU=lcRoot+"genmenu.prg"
+_VFP.Visible=.T.
+_SCREEN.Visible=.T.
+_SCREEN.WindowState=2
+STRTOFILE("BUILD START"+CHR(13)+CHR(10),lcLog,1)
+loFile.Close()
+BUILD EXE (lcRoot+"output\MOST_V16_66_8_1_7_694_LEGACY_SERVER_CLIENT_FIX.exe") FROM (lcMost+"most.pjx") RECOMPILE
+LOCAL ARRAY laVersion[1]
+IF AGETFILEVERSION(laVersion,lcRoot+"output\MOST_V16_66_8_1_7_694_LEGACY_SERVER_CLIENT_FIX.exe")=0 OR ALLTRIM(laVersion[4])#"1.7.694"
+    ERROR "Executable was not created at safe version 1.7.694."
+ENDIF
+STRTOFILE("SUCCESS LEGACY SERVER CLIENT FIX 1.7.694 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),lcLog,1)
+ON ERROR
+QUIT
+
+PROCEDURE BuildFailed
+LPARAMETERS tnError,tcMessage,tcCode,tcProgram,tnLine,tcLog
+STRTOFILE("ERROR "+TRANSFORM(tnError)+" "+tcMessage+" | "+tcProgram+" | line "+TRANSFORM(tnLine)+CHR(13)+CHR(10)+tcCode+CHR(13)+CHR(10),tcLog,0)
+ON ERROR
+QUIT
+ENDPROC
