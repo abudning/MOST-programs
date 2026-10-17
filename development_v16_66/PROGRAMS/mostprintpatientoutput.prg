@@ -193,7 +193,8 @@ TRY
         COPY FILE (lcSourceMemo) TO (lcTempMemo)
     ENDIF
 
-    USE (lcTempLabel) EXCLUSIVE ALIAS mostlabelmeta
+    * Never replace the caller's PATIENTS work area while editing LBX metadata.
+    USE (lcTempLabel) EXCLUSIVE IN 0 ALIAS mostlabelmeta
     SELECT mostlabelmeta
     LOCATE FOR objtype=1 AND objcode=53
     IF FOUND("mostlabelmeta")

@@ -70,6 +70,14 @@ Build 4 renames the module to `mostprintpatientoutput.prg`, updates the project
 entry, and removes the obsolete project record. It compiled successfully at
 1.7.694; workstation confirmation is pending.
 
+Build 4 then printed successfully through the configured Brother label printer.
+The trace exposed a post-print defect in `MostPrepareLabel`: opening the
+temporary LBX without `IN 0` replaced the current PATIENTS work area. When focus
+returned, Patients.GotFocus raised Error 13 (`Alias PATIENTS is not found`) and
+the legacy error path prompted for a file. Alias-safe Build 5 opens the LBX in a
+separate work area, preserving PATIENTS. It compiled successfully at 1.7.694;
+workstation confirmation is pending.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction

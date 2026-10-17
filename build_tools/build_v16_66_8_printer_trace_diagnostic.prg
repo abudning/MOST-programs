@@ -28,8 +28,8 @@ IF !FILE(lcMost+"PROGRAMS\mostprintpatientoutput.prg")
 ENDIF
 * Make it unmistakable that the workstation launched this diagnostic EXE.
 lcOms=lcMost+"PROGRAMS\oms.prg"
-lcStartupMarker='STRTOFILE("STARTUP ROUTER-NAME BUILD 4 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),ADDBS(SYS(2023))+"MOSt_Label_Print.log",0)'+CHR(13)+CHR(10)+ ;
-    'MESSAGEBOX("ROUTER-NAME BUILD 4 is running."+CHR(13)+CHR(13)+"Diagnostic log: "+ADDBS(SYS(2023))+"MOSt_Label_Print.log",64,"MOSt V16.66.8 Printer Trace")'
+lcStartupMarker='STRTOFILE("STARTUP ALIAS-SAFE BUILD 5 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),ADDBS(SYS(2023))+"MOSt_Label_Print.log",0)'+CHR(13)+CHR(10)+ ;
+    'MESSAGEBOX("ALIAS-SAFE BUILD 5 is running."+CHR(13)+CHR(13)+"Diagnostic log: "+ADDBS(SYS(2023))+"MOSt_Label_Print.log",64,"MOSt V16.66.8 Printer Trace")'
 lcOmsText=FILETOSTR(lcOms)
 IF !(lcStartupMarker $ lcOmsText)
     lcOmsText=STRTRAN(lcOmsText,"SET EXCLUSIVE OFF", ;
