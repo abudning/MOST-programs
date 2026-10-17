@@ -10,11 +10,7 @@ lcKind = UPPER(ALLTRIM(IIF(VARTYPE(tcOutputKind)="C", tcOutputKind, "")))
 lcPurpose = IIF(lcKind == "D", "patient sheet", "patient label")
 lcConfigured = ""
 lcLog = ADDBS(SYS(2023)) + "MOSt_Label_Print.log"
-=STRTOFILE("MOSt patient printing diagnostic" + CHR(13)+CHR(10), lcLog, 0)
 =MostPrintLog("START kind=" + lcKind + "; patient-id type=" + VARTYPE(tnPatientId))
-MESSAGEBOX("Printer trace started." + CHR(13)+CHR(13) + ;
-    "Output type: " + lcKind + CHR(13) + ;
-    "Diagnostic log: " + lcLog, 64, "MOSt V16.66.8 Printer Trace Diagnostic")
 
 IF lcKind == "D"
     IF TYPE("main_printer") == "C"
@@ -82,11 +78,7 @@ FINALLY
     =MostPrintLog("Printer restored=" + SET("PRINTER", 2))
 ENDTRY
 
-IF llPrinted
-    MESSAGEBOX("MOSt completed the patient-label print command." + CHR(13)+CHR(13) + ;
-        "Printer: " + lcSelected + CHR(13) + ;
-        "Diagnostic log: " + lcLog, 64, "MOSt - Diagnostic Print")
-ELSE
+IF !llPrinted
     MESSAGEBOX("MOSt did not complete the patient-label print command." + CHR(13)+CHR(13) + ;
         "Diagnostic log: " + lcLog, 48, "MOSt - Diagnostic Print")
 ENDIF

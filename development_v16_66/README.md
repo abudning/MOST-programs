@@ -78,6 +78,13 @@ the legacy error path prompted for a file. Alias-safe Build 5 opens the LBX in a
 separate work area, preserving PATIENTS. It compiled successfully at 1.7.694;
 workstation confirmation is pending.
 
+Build 5 printed successfully on the separate test system and returned to the
+Patients screen without Error 13. The only remaining prompt was the diagnostic
+log overwrite. The clean V16.66.9 release candidate removes all diagnostic
+startup/A1/success messages and the overwrite operation while retaining useful
+error logging. It compiled successfully as file/product version 1.7.695. Final
+clean-release testing and controlled all-workstation deployment are pending.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction

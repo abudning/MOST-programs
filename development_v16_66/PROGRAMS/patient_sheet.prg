@@ -2,11 +2,6 @@
 PARAMETERS ident
 LOCAL lcLabelFile, lcPrintLabel
 
-=MostPrintLog("DIRECT ENTRY patient_sheet; patient-id type=" + VARTYPE(ident))
-MESSAGEBOX("Direct patient-sheet routine reached." + CHR(13)+CHR(13) + ;
-    "Diagnostic log: " + ADDBS(SYS(2023)) + "MOSt_Label_Print.log", ;
-    64, "MOSt V16.66.8 Printer Trace")
-
 IF TYPE("gc_localapp") == "C" AND !EMPTY(gc_localapp)
     lcLabelFile = ADDBS(gc_localapp) + "labels\patient_sheet.lbx"
 ELSE
