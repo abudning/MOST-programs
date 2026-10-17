@@ -1,0 +1,1 @@
+"Ref'd by: "+substr(alltrim(refering.fname),1,1)+". "+proper(alltrim(refering.lname))+" "+patients.referr_md
