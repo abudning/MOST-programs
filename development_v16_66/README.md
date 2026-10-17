@@ -63,6 +63,13 @@ still owns the parent Patients form and patient ID, then returns `EXIT` so the
 legacy caller cannot duplicate the print. It compiled successfully at the safe
 test version 1.7.694; workstation results are pending.
 
+Build 3 reached and logged A1 twice but stopped before the router's first line.
+The router entry function was named `MostPrintPatientOutput` while its module
+was named `printer_router.prg`, preventing normal VFP runtime filename lookup.
+Build 4 renames the module to `mostprintpatientoutput.prg`, updates the project
+entry, and removes the obsolete project record. It compiled successfully at
+1.7.694; workstation confirmation is pending.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction

@@ -23,13 +23,13 @@ ENDIF
 IF !FILE(lcMost+"databases\oms.dbc") OR !FILE(lcMost+"databases\oms.dct") OR !FILE(lcMost+"databases\oms.dcx")
     ERROR "The isolated source copy is missing OMS database procedure metadata."
 ENDIF
-IF !FILE(lcMost+"PROGRAMS\printer_router.prg")
+IF !FILE(lcMost+"PROGRAMS\mostprintpatientoutput.prg")
     ERROR "The printer trace router is missing."
 ENDIF
 * Make it unmistakable that the workstation launched this diagnostic EXE.
 lcOms=lcMost+"PROGRAMS\oms.prg"
-lcStartupMarker='STRTOFILE("STARTUP DIRECT-PRINT BUILD 3 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),ADDBS(SYS(2023))+"MOSt_Label_Print.log",0)'+CHR(13)+CHR(10)+ ;
-    'MESSAGEBOX("DIRECT-PRINT BUILD 3 is running."+CHR(13)+CHR(13)+"Diagnostic log: "+ADDBS(SYS(2023))+"MOSt_Label_Print.log",64,"MOSt V16.66.8 Printer Trace")'
+lcStartupMarker='STRTOFILE("STARTUP ROUTER-NAME BUILD 4 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),ADDBS(SYS(2023))+"MOSt_Label_Print.log",0)'+CHR(13)+CHR(10)+ ;
+    'MESSAGEBOX("ROUTER-NAME BUILD 4 is running."+CHR(13)+CHR(13)+"Diagnostic log: "+ADDBS(SYS(2023))+"MOSt_Label_Print.log",64,"MOSt V16.66.8 Printer Trace")'
 lcOmsText=FILETOSTR(lcOms)
 IF !(lcStartupMarker $ lcOmsText)
     lcOmsText=STRTRAN(lcOmsText,"SET EXCLUSIVE OFF", ;
@@ -47,6 +47,7 @@ REPLACE name WITH LOWER(lcMost+"most.pjx")+CHR(0), homedir WITH LOWER(lcMost)+CH
 REPLACE ALL homedir WITH LOWER(lcMost)+CHR(0) FOR !EMPTY(homedir) IN patchproject
 DELETE FOR exclude AND type<>'H' AND !FILE(STRTRAN(name,CHR(0),'')) IN patchproject
 DELETE FOR LOWER(JUSTFNAME(STRTRAN(name,CHR(0),"")))="dispcrnt.prg" IN patchproject
+DELETE FOR LOWER(JUSTFNAME(STRTRAN(name,CHR(0),"")))="printer_router.prg" IN patchproject
 USE IN patchproject
 STRTOFILE("PROJECT PATCHED"+CHR(13)+CHR(10),lcLog,1)
 MODIFY PROJECT (lcMost+"most.pjx") NOWAIT
@@ -61,7 +62,7 @@ loFile.Files.Add(lcMost+"PROGRAMS\thirdparty_history.prg")
 loFile.Files.Add(lcMost+"PROGRAMS\resolve_chart_root.prg")
 loFile.Files.Add(lcMost+"PROGRAMS\waitinglist_find.prg")
 loFile.Files.Add(lcMost+"PROGRAMS\diagram_tool.prg")
-loFile.Files.Add(lcMost+"PROGRAMS\printer_router.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\mostprintpatientoutput.prg")
 STRTOFILE("NATIVE HOME: "+loFile.HomeDir+CHR(13)+CHR(10),lcLog,1)
 FOR EACH loNative IN loFile.Files
  IF !FILE(loNative.Name)

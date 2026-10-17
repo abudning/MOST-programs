@@ -1,4 +1,4 @@
-* Full patient sheet output. Printer selection is handled by printer_router.prg.
+* Full patient sheet output. Printer selection is handled by mostprintpatientoutput.prg.
 PARAMETERS ident
 LOCAL lcLabelFile, lcPrintLabel
 

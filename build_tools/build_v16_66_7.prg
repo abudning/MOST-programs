@@ -49,7 +49,7 @@ loFile.Files.Add(lcMost+"PROGRAMS\resolve_chart_root.prg")
 loFile.Files.Add(lcMost+"PROGRAMS\waitinglist_find.prg")
 loFile.Files.Add(lcMost+"PROGRAMS\diagram_tool.prg")
 * Patient-screen printing now honours workstation-local printer settings.
-loFile.Files.Add(lcMost+"PROGRAMS\printer_router.prg")
+loFile.Files.Add(lcMost+"PROGRAMS\mostprintpatientoutput.prg")
 STRTOFILE("NATIVE HOME: "+loFile.HomeDir+CHR(13)+CHR(10),lcLog,1)
 FOR EACH loNative IN loFile.Files
  IF !FILE(loNative.Name)

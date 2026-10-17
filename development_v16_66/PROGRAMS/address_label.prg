@@ -1,4 +1,4 @@
-* Patient address label output. Printer selection is handled by printer_router.prg.
+* Patient address label output. Printer selection is handled by mostprintpatientoutput.prg.
 PARAMETERS ident
 LOCAL lcLabelFile, lcPrintLabel
 

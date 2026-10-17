@@ -1,4 +1,5 @@
 * Central printer routing for patient-screen output, V16.66.8.
+* The PRG filename matches the public entry function for VFP runtime lookup.
 * LABEL_PRINTER and MAIN_PRINTER are workstation-local PARAMETER2 settings.
 
 FUNCTION MostPrintPatientOutput
