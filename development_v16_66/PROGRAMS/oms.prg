@@ -637,6 +637,10 @@ RELEASE PROCEDURE (m.regfile)
 OPEN DATABASE ALLTRIM(path_to_data)+"oms"   && open that oms database regardless of where it may be
 
 DO main_menu.mpr   && start main mainu
+* Use the Windows CHM launcher instead of relying on VFP's legacy HELP command.
+* This also gives the menu item and F1 the same predictable local-file route.
+ON SELECTION BAR 1 OF help DO MostOpenHelp
+ON KEY LABEL F1 DO MostOpenHelp
 
 USE gc_localapp + "databases\options"
 

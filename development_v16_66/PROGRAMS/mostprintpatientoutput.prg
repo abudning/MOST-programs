@@ -5,6 +5,7 @@
 FUNCTION MostPrintPatientOutput
 LPARAMETERS tcOutputKind, tnPatientId, tcRadiologyText
 LOCAL lcKind, lcPurpose, lcConfigured, lcPrevious, lcSelected, llPrinted, lcLog
+LOCAL llPrinterReady,lcWindowsDefault,llChangedWindowsDefault
 
 lcKind = UPPER(ALLTRIM(IIF(VARTYPE(tcOutputKind)="C", tcOutputKind, "")))
 lcPurpose = IIF(lcKind == "D", "patient sheet", "patient label")
@@ -33,33 +34,45 @@ ENDIF
 lcPrevious = ALLTRIM(SET("PRINTER", 2))
 =MostPrintLog("Printer before selection=" + IIF(EMPTY(lcPrevious), "<empty>", lcPrevious))
 llPrinted = .F.
+llPrinterReady = .T.
+lcWindowsDefault = MostGetWindowsDefaultPrinter()
+llChangedWindowsDefault = .F.
 
 TRY
     SET PRINTER TO NAME (lcSelected)
     =MostPrintLog("Requested printer=" + lcSelected + "; active printer=" + SET("PRINTER", 2))
     IF UPPER(ALLTRIM(SET("PRINTER", 2))) # UPPER(lcSelected)
-        =MostPrintLog("STOP Windows did not select requested printer")
-        MESSAGEBOX("Windows did not select the " + lcPurpose + " printer:" + CHR(13) + ;
-            lcSelected, 16, "MOSt - Printer Not Available")
-        RETURN .F.
+        =MostPrintLog("Direct selection failed; trying temporary Windows default")
+        llChangedWindowsDefault = MostSetWindowsDefaultPrinter(lcSelected)
+        IF llChangedWindowsDefault
+            SET PRINTER TO DEFAULT
+            =MostPrintLog("Default fallback active printer=" + SET("PRINTER", 2))
+        ENDIF
+        llPrinterReady = UPPER(ALLTRIM(SET("PRINTER", 2))) == UPPER(lcSelected)
+        IF !llPrinterReady
+            =MostPrintLog("STOP Windows did not select requested printer")
+            MESSAGEBOX("Windows did not select the " + lcPurpose + " printer:" + CHR(13) + ;
+                lcSelected, 16, "MOSt - Printer Not Available")
+        ENDIF
     ENDIF
 
-    DO CASE
-    CASE lcKind == "A"
-        llPrinted = patient_label(tnPatientId)
-    CASE lcKind == "B"
-        llPrinted = address_label(tnPatientId)
-    CASE lcKind == "D"
-        llPrinted = patient_sheet(tnPatientId)
-    CASE lcKind == "E"
-        radiology_label(tnPatientId, tcRadiologyText)
-        llPrinted = .T.
-    OTHERWISE
-        =MostPrintLog("STOP unknown output selection")
-        MESSAGEBOX("Unknown patient print selection: " + lcKind, 16, "MOSt - Printing")
-        RETURN .F.
-    ENDCASE
-    =MostPrintLog("Output routine returned " + TRANSFORM(llPrinted))
+    IF llPrinterReady
+        DO CASE
+        CASE lcKind == "A"
+            llPrinted = patient_label(tnPatientId)
+        CASE lcKind == "B"
+            llPrinted = address_label(tnPatientId)
+        CASE lcKind == "D"
+            llPrinted = patient_sheet(tnPatientId)
+        CASE lcKind == "E"
+            radiology_label(tnPatientId, tcRadiologyText)
+            llPrinted = .T.
+        OTHERWISE
+            =MostPrintLog("STOP unknown output selection")
+            MESSAGEBOX("Unknown patient print selection: " + lcKind, 16, "MOSt - Printing")
+        ENDCASE
+        =MostPrintLog("Output routine returned " + TRANSFORM(llPrinted))
+    ENDIF
 CATCH TO loPrintError
     =MostPrintLog("ERROR " + TRANSFORM(loPrintError.ErrorNo) + ": " + ;
         loPrintError.Message + "; procedure=" + loPrintError.Procedure + ;
@@ -70,6 +83,10 @@ CATCH TO loPrintError
         "Diagnostic log: " + lcLog, 16, "MOSt - Printing")
 FINALLY
     SET PRINTER OFF
+    IF llChangedWindowsDefault AND !EMPTY(lcWindowsDefault)
+        =MostSetWindowsDefaultPrinter(lcWindowsDefault)
+        =MostPrintLog("Windows default restored=" + lcWindowsDefault)
+    ENDIF
     IF !EMPTY(lcPrevious) AND MostPrinterInstalled(lcPrevious)
         SET PRINTER TO NAME (lcPrevious)
     ELSE
@@ -84,6 +101,33 @@ IF !llPrinted
 ENDIF
 
 RETURN llPrinted
+ENDFUNC
+
+
+FUNCTION MostGetWindowsDefaultPrinter
+LOCAL lcBuffer,lnBuffer,lnResult
+lcBuffer=SPACE(512)
+lnBuffer=LEN(lcBuffer)
+DECLARE INTEGER GetDefaultPrinter IN winspool.drv STRING @pszBuffer, INTEGER @pcchBuffer
+lnResult=GetDefaultPrinter(@lcBuffer,@lnBuffer)
+IF lnResult=0
+    RETURN ""
+ENDIF
+RETURN ALLTRIM(LEFT(lcBuffer,AT(CHR(0),lcBuffer+CHR(0))-1))
+ENDFUNC
+
+
+FUNCTION MostSetWindowsDefaultPrinter
+LPARAMETERS tcPrinter
+LOCAL lcPrinter,lnResult
+lcPrinter=ALLTRIM(IIF(VARTYPE(tcPrinter)="C",tcPrinter,""))
+IF EMPTY(lcPrinter)
+    RETURN .F.
+ENDIF
+DECLARE INTEGER SetDefaultPrinter IN winspool.drv STRING pszPrinter
+lnResult=SetDefaultPrinter(lcPrinter)
+=MostPrintLog("Set Windows default="+lcPrinter+"; result="+TRANSFORM(lnResult))
+RETURN lnResult#0
 ENDFUNC
 
 
