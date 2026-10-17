@@ -48,6 +48,13 @@ invalid quantity to one and clamps the Print quantity to 1–9. A same-version
 1.7.694 test executable compiled successfully on 2026-10-16; workstation
 confirmation remains pending.
 
+On 2026-10-17 the zero-copy test again produced only the startup trace. This
+confirms that the running installation loads the external
+`FORMS\label_option.scx/.sct` pair rather than the form compiled into a replaced
+EXE. A matched repaired form pair was therefore packaged for a controlled test
+on the user's fully separate test workstation/server. No database files are
+included or changed.
+
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
 XP-only `C:\Program Files\MOSt\labels` path. The follow-up source correction
