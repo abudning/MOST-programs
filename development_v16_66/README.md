@@ -49,11 +49,11 @@ invalid quantity to one and clamps the Print quantity to 1–9. A same-version
 confirmation remains pending.
 
 On 2026-10-17 the zero-copy test again produced only the startup trace. This
-confirms that the running installation loads the external
-`FORMS\label_option.scx/.sct` pair rather than the form compiled into a replaced
-EXE. A matched repaired form pair was therefore packaged for a controlled test
-on the user's fully separate test workstation/server. No database files are
-included or changed.
+initially suggested an external `FORMS\label_option.scx/.sct` override, but the
+user confirmed that the separate test installation has no FORMS folder. Do not
+install the external-form package. `ZERO-COPY BUILD 2` instead has a unique
+startup marker and instruments the embedded label window's own Print button to
+display and log its exact returned selection and quantity before closing.
 
 The failed test showed that the legacy `patient_label`, `address_label`, and
 `patient_sheet` programs overrode the router's printer choice and used an
