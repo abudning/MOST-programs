@@ -42,9 +42,10 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   asks whether to insert the prepared information. Yes/Enter replaces only the
   marker; the original chart is excluded.
 - The row is arranged Consult, Diagram, Letters, Exit and shifted left once.
-- Source is implemented under `development_v16_67`; both changed programs pass
-  standalone VFP compilation. Full EXE 1.7.696 compilation and real XP/Word
-  acceptance remain pending.
+- Source is implemented under `development_v16_67`; both changed programs and
+  the full V16.67.1 executable compile as version 1.7.696. The complete XP test
+  archive and its 16 payload hashes verify after extraction. Real XP/Word
+  acceptance remains pending.
 
 ## Current saved state
 

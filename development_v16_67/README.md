@@ -24,9 +24,11 @@ The bottom button row is dynamically arranged as Consult, Diagram, Letters,
 Exit from left to right and shifted left once. The one-time layout flag prevents
 the buttons from drifting on repeated LetterBuilder activation.
 
-Target: V16.67.1 / executable version 1.7.696. Both changed programs passed
-standalone Visual FoxPro compilation on October 18, 2026. A full EXE build and
-XP/Word workstation acceptance are still required before deployment.
+V16.67.1 / executable version 1.7.696 compiled successfully from a fresh,
+isolated full source copy on October 18, 2026. The XP test package contains the
+runtime/support files, Help, the Epson patient-label layout, verified backup
+installer, test plan and hashes. All archive payload hashes passed after a clean
+extraction. XP/Word workstation acceptance is still required before deployment.
 
 # Inherited MOSt V16.66.8 Scheduler stability repair
 
