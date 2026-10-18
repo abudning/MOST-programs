@@ -161,6 +161,24 @@ ENDTRY
 RETURN .NULL.
 ENDFUNC
 
+FUNCTION BringConsultWordToFront
+LPARAMETERS toWord,toDocument
+LOCAL lnWordHwnd
+TRY
+    toDocument.Activate()
+    toWord.Visible=.T.
+    lnWordHwnd=toWord.Hwnd
+    DECLARE INTEGER ShowWindow IN user32.dll AS ConsultShowWindow ;
+        INTEGER hWnd, INTEGER nCmdShow
+    DECLARE INTEGER SetForegroundWindow IN user32.dll AS ConsultSetForeground ;
+        INTEGER hWnd
+    =ConsultShowWindow(lnWordHwnd,5)
+    =ConsultSetForeground(lnWordHwnd)
+CATCH
+ENDTRY
+RETURN .T.
+ENDFUNC
+
 DEFINE CLASS ConsultButton AS CommandButton
     Caption="Consult"
     Width=55
@@ -181,11 +199,21 @@ DEFINE CLASS ConsultMergeTimer AS Timer
     InitialDocumentCount=0
     ConsultText=""
     NewDocumentTicks=0
+    FocusDocument=.NULL.
+    FocusTicks=0
 
     PROCEDURE Timer
         LOCAL loNew,loRange,lnDoc,lnAnswer,loError,llReenable,lcCandidateName
         THIS.Enabled=.F.
         llReenable=.F.
+        IF THIS.FocusTicks>0
+            =BringConsultWordToFront(THIS.WordApp,THIS.FocusDocument)
+            THIS.FocusTicks=THIS.FocusTicks-1
+            IF THIS.FocusTicks>0
+                THIS.Enabled=.T.
+            ENDIF
+            RETURN
+        ENDIF
         TRY
             IF VARTYPE(THIS.WordApp)#"O" OR THIS.WordApp.Documents.Count=0
                 llReenable=.T.
@@ -211,15 +239,17 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                         loRange=FindConsultMarker(loNew)
                         IF VARTYPE(loRange)=="O"
                             loRange.Text=THIS.ConsultText
-                            loNew.Activate()
-                            THIS.WordApp.Visible=.T.
                             THIS.ConsultText=""
+                            THIS.FocusDocument=loNew
+                            THIS.FocusTicks=3
+                            THIS.Enabled=.T.
                         ELSE
                             =WordOwnedConsultMessage(THIS.WordApp,;
                                 "The consultation marker [[CONSULT]] is not present. No text was inserted.",;
                                 48)
-                            loNew.Activate()
-                            THIS.WordApp.Visible=.T.
+                            THIS.FocusDocument=loNew
+                            THIS.FocusTicks=3
+                            THIS.Enabled=.T.
                         ENDIF
                     ENDIF
                 ELSE
@@ -231,8 +261,9 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                 "The prepared consultation information could not be inserted."+CHR(13)+loError.Message,;
                 16)
             TRY
-                loNew.Activate()
-                THIS.WordApp.Visible=.T.
+                THIS.FocusDocument=loNew
+                THIS.FocusTicks=3
+                THIS.Enabled=.T.
             CATCH
             ENDTRY
         ENDTRY

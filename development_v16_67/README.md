@@ -4,6 +4,8 @@ V16.67.6 searches the entire merged letter for `[[CONSULT]]`, including its
 main body, headers, footers, linked Word story ranges and floating text boxes.
 All result/error messages are owned by Word, and the merged letter is explicitly
 reactivated so the operator can continue printing or faxing it.
+The Consult, Diagram, Letters and Exit row is shifted a further 16 pixels left
+to reduce the unused space between Exit and the form's right edge.
 
 V16.67.5 uses the exact template marker `[[CONSULT]]`. The insertion question
 is owned by the merged Word window and forced to the foreground. Word Find has

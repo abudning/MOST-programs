@@ -99,6 +99,8 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   plus document-level floating text boxes.
 - All insertion, missing-marker and error messages are owned by Word. The merged
   letter is reactivated after a failure so the operator can still print or fax.
+- The LetterBuilder button row is shifted a further 16 pixels left to reduce
+  the unused space after Exit.
 
 ## Current saved state
 
