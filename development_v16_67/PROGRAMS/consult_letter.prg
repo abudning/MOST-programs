@@ -33,9 +33,11 @@ TRY
         lcConsultText=SUBSTR(lcChartText,lnVision)
         lcConsultText=STRTRAN(lcConsultText,CHR(7),"")
 
-        IF PEMSTATUS(toForm,"ConsultMergeTimer",5)
-            toForm.ConsultMergeTimer.Enabled=.F.
-            REMOVEPROPERTY(toForm,"ConsultMergeTimer")
+        * Own the watcher at application level so LetterBuilder's New action
+        * cannot discard it while refreshing its form state.
+        IF PEMSTATUS(_SCREEN,"ConsultMergeTimer",5)
+            _SCREEN.ConsultMergeTimer.Enabled=.F.
+            REMOVEPROPERTY(_SCREEN,"ConsultMergeTimer")
         ENDIF
 
         loTimer=NEWOBJECT("ConsultMergeTimer","consult_letter.prg")
@@ -45,8 +47,8 @@ TRY
         loTimer.ChartName=loChart.FullName
         loTimer.InitialDocumentCount=loWord.Documents.Count
         loTimer.ConsultText=lcConsultText
-        ADDPROPERTY(toForm,"ConsultMergeTimer",loTimer)
-        toForm.ConsultMergeTimer.Enabled=.T.
+        ADDPROPERTY(_SCREEN,"ConsultMergeTimer",loTimer)
+        _SCREEN.ConsultMergeTimer.Enabled=.T.
         llPrepared=.T.
     ENDIF
 CATCH TO loError
@@ -93,28 +95,11 @@ DEFINE CLASS ConsultMergeTimer AS Timer
             IF VARTYPE(THIS.WordApp)#"O" OR THIS.WordApp.Documents.Count<=THIS.InitialDocumentCount
                 llReenable=.T.
             ELSE
-                loNew=.NULL.
-                FOR lnDoc=THIS.InitialDocumentCount+1 TO THIS.WordApp.Documents.Count
-                    loRange=THIS.WordApp.Documents.Item(lnDoc).Content.Duplicate
-                    loFind=loRange.Find
-                    loFind.ClearFormatting()
-                    loFind.Text="*"
-                    loFind.Forward=.T.
-                    loFind.Wrap=0
-                    IF loFind.Execute()
-                        loNew=THIS.WordApp.Documents.Item(lnDoc)
-                        EXIT
-                    ENDIF
-                ENDFOR
-
-                IF VARTYPE(loNew)#"O"
-                    THIS.NewDocumentTicks=THIS.NewDocumentTicks+1
-                    IF THIS.NewDocumentTicks<40
-                        llReenable=.T.
-                    ELSE
-                        MESSAGEBOX("The merged document opened, but its consultation insertion marker (*) was not found. No text was inserted.",48,"Consult")
-                    ENDIF
-                ELSE
+                * The chart was the sole document at preparation time. Select
+                * the first document Word added; marker validation follows the
+                * operator confirmation and is not used to detect the merge.
+                loNew=THIS.WordApp.Documents.Item(THIS.InitialDocumentCount+1)
+                IF VARTYPE(loNew)=="O"
                     loNew.Activate()
                     THIS.WordApp.Visible=.T.
                     lnAnswer=MESSAGEBOX("Insert the prepared consultation information into this merged document?",4+32,"Consult")
@@ -136,6 +121,8 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                             MESSAGEBOX("The consultation marker (*) is no longer present. No text was inserted.",48,"Consult")
                         ENDIF
                     ENDIF
+                ELSE
+                    llReenable=.T.
                 ENDIF
             ENDIF
         CATCH TO loError

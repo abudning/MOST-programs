@@ -1,4 +1,12 @@
-# MOSt V16.67.2 Consultation workflow — corrected test build
+# MOSt V16.67.3 Consultation merge detection
+
+The V16.67.2 workstation test prepared the text and completed the manual merge,
+but did not display the insertion confirmation or replace `*`. V16.67.3 owns
+the watcher at application level so LetterBuilder's New action cannot discard
+it. A newly added Word document now triggers the confirmation before the marker
+search. The full executable compiled as 1.7.698.
+
+# V16.67.2 Consultation workflow — corrected test build
 
 V16.67.2 fixes the first workstation test. The chart heading may be either
 `Vision:` or `Vision`. The merge watcher no longer executes RETURN from inside

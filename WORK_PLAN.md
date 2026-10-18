@@ -58,6 +58,15 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   packaged-file hashes passed after clean ZIP extraction. Workstation retest is
   pending.
 
+### V16.67.3 merge detection correction — October 18, 2026
+
+- V16.67.2 prepared the chart text and the normal LetterBuilder merge completed,
+  but no insertion prompt appeared and `*` was not replaced.
+- The watcher is now owned by the MOSt application instead of LetterBuilder, so
+  New cannot discard it during an internal form refresh. Detection now uses the
+  newly added Word document first; marker validation occurs after confirmation.
+- Full EXE 1.7.698 compiled successfully; workstation retest is pending.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
