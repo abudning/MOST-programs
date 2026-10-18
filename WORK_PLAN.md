@@ -38,7 +38,7 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   the final `Vision:` in the sole open Word patient chart, then arms a quiet
   watcher while the operator uses New, selects the template, verifies the
   referring source, and clicks the existing Word button.
-- When the new merged document containing `*` appears, MOSt activates it and
+- When the new merged document containing `[[CONSULT]]` appears, MOSt activates it and
   asks whether to insert the prepared information. Yes/Enter replaces only the
   marker; the original chart is excluded.
 - The row is arranged Consult, Diagram, Letters, Exit and shifted left once.
@@ -80,6 +80,16 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   document; explicitly disable Word Find wildcards before searching for the
   literal `*`; if the marker is still not found, inspect Word story ranges such
   as text boxes rather than changing or saving the document.
+
+### V16.67.5 foreground and marker correction — October 18, 2026
+
+- The consultation template now uses the unique exact marker `[[CONSULT]]`
+  instead of `*`.
+- The insertion question is owned by the merged Word window and forced to the
+  foreground/topmost position.
+- Word Find explicitly disables wildcard, case, and whole-word matching before
+  replacing only the exact marker. Missing-marker behavior remains unchanged:
+  no text is inserted and the document is not saved or otherwise modified.
 
 ## Current saved state
 

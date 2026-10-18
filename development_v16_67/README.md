@@ -1,4 +1,9 @@
-# MOSt V16.67.4 Replacement-document detection
+# MOSt V16.67.5 Consult insertion correction
+
+V16.67.5 uses the exact template marker `[[CONSULT]]`. The insertion question
+is owned by the merged Word window and forced to the foreground. Word Find has
+wildcards explicitly disabled before replacing the marker. If the exact marker
+is absent, the merged document remains unchanged.
 
 The workstation confirmed that LetterBuilder closes the original patient chart
 when Word opens the merged consultation. The Word document count therefore
@@ -42,10 +47,11 @@ the final `Vision:` heading. It does not open LetterBuilder or trigger its merge
 The operator continues to click New, select the template, verify the referring
 source, and click the existing Word button.
 
-A quiet LetterBuilder-owned timer detects the new merged Word document. It
-accepts only a document added after preparation and containing the `*` insertion
-marker. That merged document is activated and a Yes/No confirmation appears;
-Yes is the default so Enter inserts the prepared text in place of `*`. The
+A quiet application-owned timer detects the replacement merged Word document.
+It accepts only a document whose full name differs from the captured chart and
+containing the exact `[[CONSULT]]` insertion marker. That merged document is
+activated and a foreground Yes/No confirmation appears; Yes is the default so
+Enter inserts the prepared text in place of `[[CONSULT]]`. The
 original patient chart is never an insertion candidate. A missing marker leaves
 both documents unchanged.
 

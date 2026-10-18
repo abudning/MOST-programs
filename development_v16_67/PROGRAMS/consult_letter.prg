@@ -66,6 +66,28 @@ ENDIF
 RETURN llPrepared
 ENDFUNC
 
+FUNCTION ConfirmConsultInsert
+LPARAMETERS toWord
+LOCAL lnWordHwnd,lnAnswer
+lnWordHwnd=0
+lnAnswer=0
+TRY
+    lnWordHwnd=toWord.Hwnd
+    DECLARE INTEGER MessageBox IN user32.dll AS ConsultMessageBox ;
+        INTEGER hWnd, STRING lpText, STRING lpCaption, INTEGER uType
+    * Own the question with Word and force it to the foreground/topmost position.
+    * MB_YESNO + MB_ICONQUESTION + MB_SETFOREGROUND + MB_TOPMOST.
+    lnAnswer=ConsultMessageBox(lnWordHwnd,;
+        "Insert the prepared consultation information into this merged document?",;
+        "Consult",4+32+65536+262144)
+CATCH
+    * Retain a safe fallback on older Word versions that do not expose Hwnd.
+    lnAnswer=MESSAGEBOX("Insert the prepared consultation information into this merged document?",;
+        4+32+4096,"Consult")
+ENDTRY
+RETURN lnAnswer
+ENDFUNC
+
 DEFINE CLASS ConsultButton AS CommandButton
     Caption="Consult"
     Width=55
@@ -110,15 +132,18 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                 IF VARTYPE(loNew)=="O"
                     loNew.Activate()
                     THIS.WordApp.Visible=.T.
-                    lnAnswer=MESSAGEBOX("Insert the prepared consultation information into this merged document?",4+32,"Consult")
+                    lnAnswer=ConfirmConsultInsert(THIS.WordApp)
                     IF lnAnswer=6
                         * Find the marker again after confirmation and replace only that marker.
                         loRange=loNew.Content.Duplicate
                         loFind=loRange.Find
                         loFind.ClearFormatting()
-                        loFind.Text="*"
+                        loFind.Text="[[CONSULT]]"
                         loFind.Forward=.T.
                         loFind.Wrap=0
+                        loFind.MatchWildcards=.F.
+                        loFind.MatchCase=.F.
+                        loFind.MatchWholeWord=.F.
                         llFound=loFind.Execute()
                         IF llFound
                             loRange.Text=THIS.ConsultText
@@ -126,7 +151,7 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                             THIS.WordApp.Visible=.T.
                             THIS.ConsultText=""
                         ELSE
-                            MESSAGEBOX("The consultation marker (*) is no longer present. No text was inserted.",48,"Consult")
+                            MESSAGEBOX("The consultation marker [[CONSULT]] is not present. No text was inserted.",48,"Consult")
                         ENDIF
                     ENDIF
                 ELSE
