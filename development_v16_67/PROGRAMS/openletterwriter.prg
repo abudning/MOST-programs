@@ -193,7 +193,7 @@ IF VARTYPE(toLetterForm)#"O"
     RETURN
 ENDIF
 lnGap=4
-lnShift=28
+lnShift=44
 IF PEMSTATUS(toLetterForm,"LayoutV167Done",5) AND toLetterForm.LayoutV167Done
     toLetterForm.cmdDiagram.Visible=.T.
     toLetterForm.cmdConsult.Visible=.T.

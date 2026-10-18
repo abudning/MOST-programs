@@ -240,6 +240,12 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                         IF VARTYPE(loRange)=="O"
                             loRange.Text=THIS.ConsultText
                             THIS.ConsultText=""
+                            * Prevent the timer's owner form from reclaiming focus
+                            * when this event returns. It reopens normally later.
+                            TRY
+                                THIS.TargetForm.Hide()
+                            CATCH
+                            ENDTRY
                             THIS.FocusDocument=loNew
                             THIS.FocusTicks=3
                             THIS.Enabled=.T.
@@ -247,6 +253,10 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                             =WordOwnedConsultMessage(THIS.WordApp,;
                                 "The consultation marker [[CONSULT]] is not present. No text was inserted.",;
                                 48)
+                            TRY
+                                THIS.TargetForm.Hide()
+                            CATCH
+                            ENDTRY
                             THIS.FocusDocument=loNew
                             THIS.FocusTicks=3
                             THIS.Enabled=.T.

@@ -4,8 +4,10 @@ V16.67.6 searches the entire merged letter for `[[CONSULT]]`, including its
 main body, headers, footers, linked Word story ranges and floating text boxes.
 All result/error messages are owned by Word, and the merged letter is explicitly
 reactivated so the operator can continue printing or faxing it.
-The Consult, Diagram, Letters and Exit row is shifted a further 16 pixels left
-to reduce the unused space between Exit and the form's right edge.
+The Consult, Diagram, Letters and Exit row is shifted 32 pixels farther left
+than its original position to reduce the unused space after Exit.
+After the merged-letter insertion step, LetterBuilder is hidden before focus is
+returned to Word. Reopening LetterBuilder later uses the existing normal action.
 
 V16.67.5 uses the exact template marker `[[CONSULT]]`. The insertion question
 is owned by the merged Word window and forced to the foreground. Word Find has

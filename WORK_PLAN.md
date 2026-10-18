@@ -99,8 +99,13 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   plus document-level floating text boxes.
 - All insertion, missing-marker and error messages are owned by Word. The merged
   letter is reactivated after a failure so the operator can still print or fax.
-- The LetterBuilder button row is shifted a further 16 pixels left to reduce
-  the unused space after Exit.
+- The LetterBuilder button row is shifted 32 pixels left from its original
+  position to reduce the unused space after Exit.
+- V16.67.7 workstation testing still returned to LetterBuilder after a
+  successful insertion because the timer's owner form reclaimed focus after
+  its event returned. The next build hides LetterBuilder at that point before
+  restoring the merged Word consultation, preventing the competing form from
+  taking the foreground. LetterBuilder can be reopened normally afterward.
 
 ## Current saved state
 
