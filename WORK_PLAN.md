@@ -30,6 +30,22 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 - Do not use commit `26fa460` as the starting point because it produced a blank document with partial text.
 - When resumed, preserve LetterBuilder's existing merge action, wait for the newly merged document, identify it deterministically, activate it, and insert the chart text without replacing the patient chart.
 
+### V16.67.1 consultation source checkpoint — October 18, 2026
+
+- Consultation development has moved to a separate V16.67 series based on the
+  current V16.66 source; V16.65 and V16.66 remain unchanged.
+- LetterBuilder is already open. Its compact Consult button captures text from
+  the final `Vision:` in the sole open Word patient chart, then arms a quiet
+  watcher while the operator uses New, selects the template, verifies the
+  referring source, and clicks the existing Word button.
+- When the new merged document containing `*` appears, MOSt activates it and
+  asks whether to insert the prepared information. Yes/Enter replaces only the
+  marker; the original chart is excluded.
+- The row is arranged Consult, Diagram, Letters, Exit and shifted left once.
+- Source is implemented under `development_v16_67`; both changed programs pass
+  standalone VFP compilation. Full EXE 1.7.696 compilation and real XP/Word
+  acceptance remain pending.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
