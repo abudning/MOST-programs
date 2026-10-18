@@ -73,7 +73,13 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   and opens the merged consultation, leaving Word's document count at one.
 - The watcher now detects an open document whose full name differs from the
   captured chart, then confirms and replaces `*`. Full EXE 1.7.699 compiled;
-  workstation retest is pending.
+  workstation retest found that detection now succeeds, but the confirmation
+  appears behind the Word document. After Yes is selected, MOSt reports that
+  `*` is no longer present and inserts nothing.
+- Next consultation work: present the confirmation in front of the merged Word
+  document; explicitly disable Word Find wildcards before searching for the
+  literal `*`; if the marker is still not found, inspect Word story ranges such
+  as text boxes rather than changing or saving the document.
 
 ## Current saved state
 

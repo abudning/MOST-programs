@@ -6,6 +6,13 @@ remains one. V16.67.4 detects the consultation by comparing its full name with
 the captured chart instead of waiting for the document count to increase. The
 full executable compiled successfully as 1.7.699.
 
+Workstation result: the insertion confirmation now occurs, proving replacement
+document detection works, but the confirmation is behind Word. Selecting Yes
+then reports that `*` is no longer present. Before another build, make the
+confirmation foreground-visible and force Word Find to treat `*` literally
+(`MatchWildcards=.F.`); inspect non-body story ranges if the template marker is
+not in the main document content.
+
 # V16.67.3 Consultation merge detection
 
 The V16.67.2 workstation test prepared the text and completed the manual merge,
