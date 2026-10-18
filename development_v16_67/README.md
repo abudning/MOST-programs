@@ -1,4 +1,9 @@
-# MOSt V16.67.5 Consult insertion correction
+# MOSt V16.67.6 Merged-letter marker search
+
+V16.67.6 searches the entire merged letter for `[[CONSULT]]`, including its
+main body, headers, footers, linked Word story ranges and floating text boxes.
+All result/error messages are owned by Word, and the merged letter is explicitly
+reactivated so the operator can continue printing or faxing it.
 
 V16.67.5 uses the exact template marker `[[CONSULT]]`. The insertion question
 is owned by the merged Word window and forced to the foreground. Word Find has

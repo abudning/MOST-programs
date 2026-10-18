@@ -68,6 +68,13 @@ ENDFUNC
 
 FUNCTION ConfirmConsultInsert
 LPARAMETERS toWord
+RETURN WordOwnedConsultMessage(toWord,;
+    "Insert the prepared consultation information into this merged document?",;
+    4+32)
+ENDFUNC
+
+FUNCTION WordOwnedConsultMessage
+LPARAMETERS toWord,tcText,tnType
 LOCAL lnWordHwnd,lnAnswer
 lnWordHwnd=0
 lnAnswer=0
@@ -75,17 +82,83 @@ TRY
     lnWordHwnd=toWord.Hwnd
     DECLARE INTEGER MessageBox IN user32.dll AS ConsultMessageBox ;
         INTEGER hWnd, STRING lpText, STRING lpCaption, INTEGER uType
-    * Own the question with Word and force it to the foreground/topmost position.
-    * MB_YESNO + MB_ICONQUESTION + MB_SETFOREGROUND + MB_TOPMOST.
-    lnAnswer=ConsultMessageBox(lnWordHwnd,;
-        "Insert the prepared consultation information into this merged document?",;
-        "Consult",4+32+65536+262144)
+    * Own every workflow message with Word and keep the merged document in front.
+    lnAnswer=ConsultMessageBox(lnWordHwnd,tcText,"Consult",tnType+65536+262144)
 CATCH
     * Retain a safe fallback on older Word versions that do not expose Hwnd.
-    lnAnswer=MESSAGEBOX("Insert the prepared consultation information into this merged document?",;
-        4+32+4096,"Consult")
+    lnAnswer=MESSAGEBOX(tcText,tnType+4096,"Consult")
 ENDTRY
 RETURN lnAnswer
+ENDFUNC
+
+FUNCTION FindConsultMarkerInRange
+LPARAMETERS toSourceRange
+LOCAL loRange,loFind,llFound
+loRange=.NULL.
+llFound=.F.
+TRY
+    loRange=toSourceRange.Duplicate
+    loFind=loRange.Find
+    loFind.ClearFormatting()
+    loFind.Text="[[CONSULT]]"
+    loFind.Forward=.T.
+    loFind.Wrap=0
+    loFind.MatchWildcards=.F.
+    loFind.MatchCase=.F.
+    loFind.MatchWholeWord=.F.
+    llFound=loFind.Execute()
+CATCH
+    llFound=.F.
+ENDTRY
+IF llFound
+    RETURN loRange
+ENDIF
+RETURN .NULL.
+ENDFUNC
+
+FUNCTION FindConsultMarker
+LPARAMETERS toDocument
+LOCAL loRange,loStory,loNext,loShape,lnStory,lnLink
+loRange=.NULL.
+
+* Main text, headers, footers, footnotes, endnotes, comments and text-frame
+* stories can each contain template text. Search every available Word story.
+FOR lnStory=1 TO 17
+    loStory=.NULL.
+    TRY
+        loStory=toDocument.StoryRanges.Item(lnStory)
+    CATCH
+    ENDTRY
+    lnLink=0
+    DO WHILE VARTYPE(loStory)=="O" AND lnLink<100
+        loRange=FindConsultMarkerInRange(loStory)
+        IF VARTYPE(loRange)=="O"
+            RETURN loRange
+        ENDIF
+        loNext=.NULL.
+        TRY
+            loNext=loStory.NextStoryRange
+        CATCH
+        ENDTRY
+        loStory=loNext
+        lnLink=lnLink+1
+    ENDDO
+ENDFOR
+
+* Also inspect document-level floating text boxes directly. Some older Word
+* templates do not expose these through StoryRanges until they are selected.
+TRY
+    FOR EACH loShape IN toDocument.Shapes
+        IF loShape.TextFrame.HasText
+            loRange=FindConsultMarkerInRange(loShape.TextFrame.TextRange)
+            IF VARTYPE(loRange)=="O"
+                RETURN loRange
+            ENDIF
+        ENDIF
+    ENDFOR
+CATCH
+ENDTRY
+RETURN .NULL.
 ENDFUNC
 
 DEFINE CLASS ConsultButton AS CommandButton
@@ -110,7 +183,7 @@ DEFINE CLASS ConsultMergeTimer AS Timer
     NewDocumentTicks=0
 
     PROCEDURE Timer
-        LOCAL loNew,loRange,loFind,lnDoc,lnAnswer,llFound,loError,llReenable,lcCandidateName
+        LOCAL loNew,loRange,lnDoc,lnAnswer,loError,llReenable,lcCandidateName
         THIS.Enabled=.F.
         llReenable=.F.
         TRY
@@ -134,24 +207,19 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                     THIS.WordApp.Visible=.T.
                     lnAnswer=ConfirmConsultInsert(THIS.WordApp)
                     IF lnAnswer=6
-                        * Find the marker again after confirmation and replace only that marker.
-                        loRange=loNew.Content.Duplicate
-                        loFind=loRange.Find
-                        loFind.ClearFormatting()
-                        loFind.Text="[[CONSULT]]"
-                        loFind.Forward=.T.
-                        loFind.Wrap=0
-                        loFind.MatchWildcards=.F.
-                        loFind.MatchCase=.F.
-                        loFind.MatchWholeWord=.F.
-                        llFound=loFind.Execute()
-                        IF llFound
+                        * Search the main body and all template story/text-box ranges.
+                        loRange=FindConsultMarker(loNew)
+                        IF VARTYPE(loRange)=="O"
                             loRange.Text=THIS.ConsultText
                             loNew.Activate()
                             THIS.WordApp.Visible=.T.
                             THIS.ConsultText=""
                         ELSE
-                            MESSAGEBOX("The consultation marker [[CONSULT]] is not present. No text was inserted.",48,"Consult")
+                            =WordOwnedConsultMessage(THIS.WordApp,;
+                                "The consultation marker [[CONSULT]] is not present. No text was inserted.",;
+                                48)
+                            loNew.Activate()
+                            THIS.WordApp.Visible=.T.
                         ENDIF
                     ENDIF
                 ELSE
@@ -159,7 +227,14 @@ DEFINE CLASS ConsultMergeTimer AS Timer
                 ENDIF
             ENDIF
         CATCH TO loError
-            MESSAGEBOX("The prepared consultation information could not be inserted."+CHR(13)+loError.Message,16,"Consult")
+            =WordOwnedConsultMessage(THIS.WordApp,;
+                "The prepared consultation information could not be inserted."+CHR(13)+loError.Message,;
+                16)
+            TRY
+                loNew.Activate()
+                THIS.WordApp.Visible=.T.
+            CATCH
+            ENDTRY
         ENDTRY
         IF llReenable
             THIS.Enabled=.T.

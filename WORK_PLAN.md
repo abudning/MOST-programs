@@ -91,6 +91,15 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   replacing only the exact marker. Missing-marker behavior remains unchanged:
   no text is inserted and the document is not saved or otherwise modified.
 
+### V16.67.6 merged-letter search correction — October 18, 2026
+
+- Workstation testing showed `[[CONSULT]]` visibly in the merged letter while
+  the main-content-only search reported it missing.
+- Marker lookup now searches every available Word story range and linked range,
+  plus document-level floating text boxes.
+- All insertion, missing-marker and error messages are owned by Word. The merged
+  letter is reactivated after a failure so the operator can still print or fax.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
