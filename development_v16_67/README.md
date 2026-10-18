@@ -9,6 +9,14 @@ than its original position to reduce the unused space after Exit.
 After the merged-letter insertion step, LetterBuilder is hidden before focus is
 returned to Word. Reopening LetterBuilder later uses the existing normal action.
 
+## V16.67.8 workstation result
+
+Insertion succeeds, but immediately afterward both the merged Word letter and
+LetterBuilder close. This build must not be deployed. The next revision must
+remove the `TargetForm.Hide()` workaround and trace the merge cleanup/timer
+lifetime to find the actual Word-close path. The required result is that the
+merged letter remains open and active for printing or faxing.
+
 V16.67.5 uses the exact template marker `[[CONSULT]]`. The insertion question
 is owned by the merged Word window and forced to the foreground. Word Find has
 wildcards explicitly disabled before replacing the marker. If the exact marker

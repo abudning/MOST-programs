@@ -107,6 +107,20 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   restoring the merged Word consultation, preventing the competing form from
   taking the foreground. LetterBuilder can be reopened normally afterward.
 
+### V16.67.8 workstation stopping checkpoint — October 18, 2026
+
+- The consultation text successfully replaces `[[CONSULT]]` in the merged Word
+  letter.
+- Immediately afterward, both the merged Word letter and LetterBuilder close.
+  This is not acceptable because the merged letter must remain open for the
+  operator to print or fax.
+- Do not deploy V16.67.8 beyond the single test workstation.
+- Next work: remove the LetterBuilder `Hide()` focus workaround; trace the
+  LetterBuilder/Word merge cleanup and timer lifetime to identify which close
+  or release path is terminating Word; preserve the merged document object and
+  leave it open and active without closing or hiding LetterBuilder as a side
+  effect. Rebuild only after that close path is understood.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
