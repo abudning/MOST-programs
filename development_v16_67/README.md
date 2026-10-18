@@ -1,4 +1,12 @@
-# MOSt V16.67.3 Consultation merge detection
+# MOSt V16.67.4 Replacement-document detection
+
+The workstation confirmed that LetterBuilder closes the original patient chart
+when Word opens the merged consultation. The Word document count therefore
+remains one. V16.67.4 detects the consultation by comparing its full name with
+the captured chart instead of waiting for the document count to increase. The
+full executable compiled successfully as 1.7.699.
+
+# V16.67.3 Consultation merge detection
 
 The V16.67.2 workstation test prepared the text and completed the manual merge,
 but did not display the insertion confirmation or replace `*`. V16.67.3 owns

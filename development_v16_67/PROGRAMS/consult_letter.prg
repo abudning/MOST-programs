@@ -88,17 +88,25 @@ DEFINE CLASS ConsultMergeTimer AS Timer
     NewDocumentTicks=0
 
     PROCEDURE Timer
-        LOCAL loNew,loRange,loFind,lnDoc,lnAnswer,llFound,loError,llReenable
+        LOCAL loNew,loRange,loFind,lnDoc,lnAnswer,llFound,loError,llReenable,lcCandidateName
         THIS.Enabled=.F.
         llReenable=.F.
         TRY
-            IF VARTYPE(THIS.WordApp)#"O" OR THIS.WordApp.Documents.Count<=THIS.InitialDocumentCount
+            IF VARTYPE(THIS.WordApp)#"O" OR THIS.WordApp.Documents.Count=0
                 llReenable=.T.
             ELSE
-                * The chart was the sole document at preparation time. Select
-                * the first document Word added; marker validation follows the
-                * operator confirmation and is not used to detect the merge.
-                loNew=THIS.WordApp.Documents.Item(THIS.InitialDocumentCount+1)
+                * LetterBuilder closes the sole patient chart and opens the
+                * merged consultation, so the document count can remain one.
+                * Select the first open document whose full name differs from
+                * the chart captured at preparation time.
+                loNew=.NULL.
+                FOR lnDoc=1 TO THIS.WordApp.Documents.Count
+                    lcCandidateName=THIS.WordApp.Documents.Item(lnDoc).FullName
+                    IF UPPER(ALLTRIM(lcCandidateName))#UPPER(ALLTRIM(THIS.ChartName))
+                        loNew=THIS.WordApp.Documents.Item(lnDoc)
+                        EXIT
+                    ENDIF
+                ENDFOR
                 IF VARTYPE(loNew)=="O"
                     loNew.Activate()
                     THIS.WordApp.Visible=.T.

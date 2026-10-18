@@ -67,6 +67,14 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   newly added Word document first; marker validation occurs after confirmation.
 - Full EXE 1.7.698 compiled successfully; workstation retest is pending.
 
+### V16.67.4 replacement-document correction — October 18, 2026
+
+- Workstation observation confirmed that LetterBuilder closes the patient chart
+  and opens the merged consultation, leaving Word's document count at one.
+- The watcher now detects an open document whose full name differs from the
+  captured chart, then confirms and replaces `*`. Full EXE 1.7.699 compiled;
+  workstation retest is pending.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
