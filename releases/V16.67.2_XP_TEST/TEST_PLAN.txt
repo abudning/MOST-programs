@@ -1,0 +1,53 @@
+MOSt V16.67.2 / 1.7.697 - XP WORKSTATION TEST
+
+STATUS
+This is a test release, not an approved clinic-wide deployment. It combines the
+current V16.66 scheduler, printer, label, Help and report-performance source with
+the corrected consultation workflow. V16.67.2 accepts both `Vision:` and
+`Vision`, and removes the invalid RETURN statements from the timer's TRY/CATCH.
+It performs no database upgrade and must not be installed on the server.
+
+SAFE INSTALLATION
+1. Make a normal verified server/data backup.
+2. Begin with one Windows XP workstation only.
+3. Close MOSt on that workstation. For the first launch, close MOSt on every
+   other workstation as an added safety check.
+4. Extract the complete ZIP into one folder.
+5. Run Install-MOSt-V16.67.2-XP.cmd as a local Administrator.
+6. Keep the Upgrade_Backup_V16_67_2 folder reported by the installer.
+7. Start MOSt and verify that the displayed executable is 1.7.697.
+
+CONSULTATION TEST
+1. Open LetterBuilder and leave it open for the entire test.
+2. Open one test patient's chart in Word. It must be the only Word document
+   open and must contain a Vision or Vision: heading.
+3. Click Consult in LetterBuilder. Confirm that MOSt reports the information is
+   prepared.
+4. Click the existing New button, choose the normal consultation template, and
+   verify or correct the referring source.
+5. Click the existing Word button. Do not return to LetterBuilder.
+6. When the merged document opens, confirm that the insertion question appears
+   over the workflow. Press Enter (Yes).
+7. Confirm that text beginning at the chart's final Vision: replaces the * in
+   the merged consultation and that the patient chart is unchanged.
+8. Use the normal existing consultation save/file process. The new code must
+   not save, rename, close or file the document automatically.
+9. Repeat once after cancelling the insertion question. Neither document should
+   be changed by the cancelled insertion.
+
+LAYOUT AND REGRESSION CHECK
+- Confirm the row reads Consult, Diagram, Letters, Exit without overlap.
+- Close and reopen/raise LetterBuilder several times; the buttons must not drift.
+- Recheck Scheduler search/new appointments, Patients, Claims, EDT, billing,
+  Help, Daily Summary, Check In, patient-label printing and the eye diagram.
+- The Epson TM-U220 patient label remains 76 mm wide and omits health-card and
+  telephone fields.
+
+ROLLBACK
+Close MOSt. Restore the files from the installer-created
+Upgrade_Backup_V16_67_2 folder to the same installation locations. Restore the
+two label files to the labels subfolder. Do not alter any database files.
+
+Report the exact message and step if the consultation prompt does not appear,
+the marker is not found, the wrong Word document changes, or the button row
+overlaps.

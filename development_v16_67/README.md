@@ -1,4 +1,13 @@
-# MOSt V16.67.1 Consultation workflow — source checkpoint
+# MOSt V16.67.2 Consultation workflow — corrected test build
+
+V16.67.2 fixes the first workstation test. The chart heading may be either
+`Vision:` or `Vision`. The merge watcher no longer executes RETURN from inside
+a TRY/CATCH while it waits for Word, eliminating the immediate Visual FoxPro
+"Return/Retry statement not allowed in Try/Catch" error. The full executable
+compiled successfully as 1.7.697, and all 16 package hashes passed after clean
+ZIP extraction. V16.67.1 remains archived as the failed initial test package.
+
+# V16.67.1 consultation source checkpoint
 
 V16.67.1 begins a separate development series based on the current V16.66
 source. The V16.65 and V16.66 directories and releases remain unchanged.

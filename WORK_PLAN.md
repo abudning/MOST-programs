@@ -47,6 +47,17 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   archive and its 16 payload hashes verify after extraction. Real XP/Word
   acceptance remains pending.
 
+### V16.67.2 immediate watcher correction — October 18, 2026
+
+- The first workstation test successfully captured chart text but exposed a VFP
+  runtime restriction: the timer's ordinary wait path executed RETURN inside a
+  TRY/CATCH and immediately raised "Return/Retry statement not allowed in
+  Try/Catch."
+- V16.67.2 removes all timer returns from the protected block and accepts both
+  `Vision:` and `Vision` headings. The full EXE compiled as 1.7.697 and all 16
+  packaged-file hashes passed after clean ZIP extraction. Workstation retest is
+  pending.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
