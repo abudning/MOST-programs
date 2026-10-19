@@ -90,7 +90,9 @@ lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =SetTextAlign(lnMemoryDC,6)
 IF toForm.lDeviationOn
     =SetTextColor(lnMemoryDC,RGB(0,0,0))
+    =GdiDiagramText(lnMemoryDC,toForm.leftTop.Value,63,3)
     =GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,192,3)
+    =GdiDiagramText(lnMemoryDC,toForm.rightTop.Value,321,3)
     =GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,25,59)
     =GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,192,59)
     =GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,359,59)
@@ -211,24 +213,26 @@ DEFINE CLASS EyeDiagramForm AS Form
     lMovementOn=.T.
     cUndo1=""
     cUndo2=""
-    ADD OBJECT instructions AS Label WITH Caption="Enter deviations in black and movements in red. Use | for a second line. The toggles control entry and diagram output.",Left=18,Top=10,Width=630,Height=30,WordWrap=.T.,BackStyle=0
+    ADD OBJECT instructions AS Label WITH Caption="Enter deviations in black and movements in red. Press Enter for a second line. The toggles control entry and diagram output.",Left=18,Top=10,Width=630,Height=30,WordWrap=.T.,BackStyle=0
     ADD OBJECT deviationToggle AS DiagramLayerToggle WITH Caption="Deviations: ON",Left=195,Top=42,Width=130,Height=28,Value=1,Tag="D"
     ADD OBJECT movementToggle AS DiagramLayerToggle WITH Caption="Movements: ON",Left=335,Top=42,Width=130,Height=28,Value=1,Tag="M"
-    ADD OBJECT topCentre AS DiagramEntry WITH Left=285,Top=75,Width=100,Height=24
-    ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=164,Width=92,Height=24
-    ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=164,Width=92,Height=24
-    ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=164,Width=92,Height=24
-    ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=260,Width=110,Height=24
-    ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=298,Width=110,Height=24
-    ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=260,Width=110,Height=24
-    ADD OBJECT moveLeftTop AS MovementEntry WITH Left=153,Top=87,Width=70,Height=24
-    ADD OBJECT moveRightTop AS MovementEntry WITH Left=448,Top=87,Width=70,Height=24
-    ADD OBJECT moveLeftOuter AS MovementEntry WITH Left=85,Top=139,Width=70,Height=24
-    ADD OBJECT moveLeftInner AS MovementEntry WITH Left=220,Top=139,Width=70,Height=24
-    ADD OBJECT moveRightInner AS MovementEntry WITH Left=380,Top=139,Width=70,Height=24
-    ADD OBJECT moveRightOuter AS MovementEntry WITH Left=515,Top=139,Width=70,Height=24
-    ADD OBJECT moveLeftBottom AS MovementEntry WITH Left=153,Top=273,Width=70,Height=24
-    ADD OBJECT moveRightBottom AS MovementEntry WITH Left=448,Top=273,Width=70,Height=24
+    ADD OBJECT leftTop AS DiagramEntry WITH Left=30,Top=75,Width=110,Height=38
+    ADD OBJECT topCentre AS DiagramEntry WITH Left=280,Top=75,Width=110,Height=38
+    ADD OBJECT rightTop AS DiagramEntry WITH Left=530,Top=75,Width=110,Height=38
+    ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=164,Width=92,Height=38
+    ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=164,Width=92,Height=38
+    ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=164,Width=92,Height=38
+    ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=260,Width=110,Height=38
+    ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=298,Width=110,Height=38
+    ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=260,Width=110,Height=38
+    ADD OBJECT moveLeftTop AS MovementEntry WITH Left=153,Top=75,Width=70,Height=38
+    ADD OBJECT moveRightTop AS MovementEntry WITH Left=448,Top=75,Width=70,Height=38
+    ADD OBJECT moveLeftOuter AS MovementEntry WITH Left=85,Top=139,Width=70,Height=38
+    ADD OBJECT moveLeftInner AS MovementEntry WITH Left=220,Top=139,Width=70,Height=38
+    ADD OBJECT moveRightInner AS MovementEntry WITH Left=380,Top=139,Width=70,Height=38
+    ADD OBJECT moveRightOuter AS MovementEntry WITH Left=515,Top=139,Width=70,Height=38
+    ADD OBJECT moveLeftBottom AS MovementEntry WITH Left=153,Top=273,Width=70,Height=38
+    ADD OBJECT moveRightBottom AS MovementEntry WITH Left=448,Top=273,Width=70,Height=38
     ADD OBJECT leye1 AS Line WITH Left=105,Top=144,Width=45,Height=16,LineSlant="/",BorderWidth=1
     ADD OBJECT leye2 AS Line WITH Left=150,Top=137,Width=75,Height=7,LineSlant="/",BorderWidth=1
     ADD OBJECT leye3 AS Line WITH Left=225,Top=137,Width=45,Height=18,LineSlant="\\",BorderWidth=1
@@ -261,7 +265,8 @@ DEFINE CLASS EyeDiagramForm AS Form
     PROCEDURE SerializeEntries
         LOCAL lcSep
         lcSep=CHR(30)
-        RETURN TRANSFORM(THIS.topCentre.Value)+lcSep+TRANSFORM(THIS.leftOuter.Value)+lcSep+;
+        RETURN TRANSFORM(THIS.leftTop.Value)+lcSep+TRANSFORM(THIS.topCentre.Value)+lcSep+;
+            TRANSFORM(THIS.rightTop.Value)+lcSep+TRANSFORM(THIS.leftOuter.Value)+lcSep+;
             TRANSFORM(THIS.leftInner.Value)+lcSep+TRANSFORM(THIS.rightOuter.Value)+lcSep+;
             TRANSFORM(THIS.leftBottom.Value)+lcSep+TRANSFORM(THIS.bottomCentre.Value)+lcSep+;
             TRANSFORM(THIS.rightBottom.Value)+lcSep+TRANSFORM(THIS.moveLeftTop.Value)+lcSep+;
@@ -273,11 +278,11 @@ DEFINE CLASS EyeDiagramForm AS Form
 
     PROCEDURE RestoreEntries
         LPARAMETERS tcState
-        LOCAL ARRAY laValue[15]
+        LOCAL ARRAY laValue[17]
         LOCAL lcWork,lcSep,lnI,lnAt
         lcWork=tcState
         lcSep=CHR(30)
-        FOR lnI=1 TO 14
+        FOR lnI=1 TO 16
             lnAt=AT(lcSep,lcWork)
             IF lnAt=0
                 RETURN
@@ -285,22 +290,24 @@ DEFINE CLASS EyeDiagramForm AS Form
             laValue[lnI]=LEFT(lcWork,lnAt-1)
             lcWork=SUBSTR(lcWork,lnAt+1)
         ENDFOR
-        laValue[15]=lcWork
-        THIS.topCentre.Value=laValue[1]
-        THIS.leftOuter.Value=laValue[2]
-        THIS.leftInner.Value=laValue[3]
-        THIS.rightOuter.Value=laValue[4]
-        THIS.leftBottom.Value=laValue[5]
-        THIS.bottomCentre.Value=laValue[6]
-        THIS.rightBottom.Value=laValue[7]
-        THIS.moveLeftTop.Value=laValue[8]
-        THIS.moveRightTop.Value=laValue[9]
-        THIS.moveLeftOuter.Value=laValue[10]
-        THIS.moveLeftInner.Value=laValue[11]
-        THIS.moveRightInner.Value=laValue[12]
-        THIS.moveRightOuter.Value=laValue[13]
-        THIS.moveLeftBottom.Value=laValue[14]
-        THIS.moveRightBottom.Value=laValue[15]
+        laValue[17]=lcWork
+        THIS.leftTop.Value=laValue[1]
+        THIS.topCentre.Value=laValue[2]
+        THIS.rightTop.Value=laValue[3]
+        THIS.leftOuter.Value=laValue[4]
+        THIS.leftInner.Value=laValue[5]
+        THIS.rightOuter.Value=laValue[6]
+        THIS.leftBottom.Value=laValue[7]
+        THIS.bottomCentre.Value=laValue[8]
+        THIS.rightBottom.Value=laValue[9]
+        THIS.moveLeftTop.Value=laValue[10]
+        THIS.moveRightTop.Value=laValue[11]
+        THIS.moveLeftOuter.Value=laValue[12]
+        THIS.moveLeftInner.Value=laValue[13]
+        THIS.moveRightInner.Value=laValue[14]
+        THIS.moveRightOuter.Value=laValue[15]
+        THIS.moveLeftBottom.Value=laValue[16]
+        THIS.moveRightBottom.Value=laValue[17]
     ENDPROC
 
     PROCEDURE PushUndo
@@ -375,15 +382,18 @@ DEFINE CLASS EyeDiagramForm AS Form
     ENDPROC
 ENDDEFINE
 
-DEFINE CLASS DiagramEntry AS TextBox
+DEFINE CLASS DiagramEntry AS EditBox
     Value=""
     Alignment=2
-    MaxLength=30
+    MaxLength=60
+    ScrollBars=0
+    WordWrap=.F.
+    EnterKeyBehavior=.T.
     FontName="Arial"
     FontSize=9
     ForeColor=RGB(0,0,0)
     cBeforeEdit=""
-    ToolTipText="Deviation: use | for a second line"
+    ToolTipText="Deviation: press Enter for a second line"
     PROCEDURE GotFocus
         THIS.cBeforeEdit=THISFORM.SerializeEntries()
     ENDPROC
@@ -394,7 +404,7 @@ ENDDEFINE
 
 DEFINE CLASS MovementEntry AS DiagramEntry
     ForeColor=RGB(255,0,0)
-    ToolTipText="Movement: use | for a second line"
+    ToolTipText="Movement: press Enter for a second line"
 ENDDEFINE
 
 DEFINE CLASS DiagramLayerToggle AS CheckBox

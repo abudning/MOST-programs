@@ -6,16 +6,28 @@ All result/error messages are owned by Word, and the merged letter is explicitly
 reactivated so the operator can continue printing or faxing it.
 The Consult, Diagram, Letters and Exit row is shifted 32 pixels farther left
 than its original position to reduce the unused space after Exit.
-After the merged-letter insertion step, LetterBuilder is hidden before focus is
-returned to Word. Reopening LetterBuilder later uses the existing normal action.
+The V16.67.8 LetterBuilder `Hide()` workaround has been removed because the
+workstation test showed it closed both LetterBuilder and the merged Word letter.
 
 ## V16.67.8 workstation result
 
 Insertion succeeds, but immediately afterward both the merged Word letter and
 LetterBuilder close. This build must not be deployed. The next revision must
-remove the `TargetForm.Hide()` workaround and trace the merge cleanup/timer
+trace the merge cleanup/timer
 lifetime to find the actual Word-close path. The required result is that the
 merged letter remains open and active for printing or faxing.
+
+## V16.68.1 Claims and diagram source
+
+- Claims now stores the first nonblank Billing MD on the live Claims form and
+  restores it when Claims or Letters + Claims reuses that form. Closing Claims
+  destroys the session value, so a newly opened Claims form starts blank.
+- The upper-left and upper-right deviation entry boxes are restored.
+- Diagram entries are two-line edit boxes. Press Enter between entries such as
+  `LXT5` and `RH3`; both lines are rendered separately in the copied diagram.
+- The V16.67.8 LetterBuilder `Hide()` workaround is removed. Consultation
+  foreground behavior remains pending, but this build must not close Word or
+  LetterBuilder after insertion.
 
 V16.67.5 uses the exact template marker `[[CONSULT]]`. The insertion question
 is owned by the merged Word window and forced to the foreground. Word Find has

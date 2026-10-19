@@ -121,6 +121,18 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   leave it open and active without closing or hiding LetterBuilder as a side
   effect. Rebuild only after that close path is understood.
 
+### V16.68.1 Claims and diagram checkpoint — October 19, 2026
+
+- The live Claims form now owns a session Billing MD value. Claims and Letters
+  + Claims capture and restore it whenever the existing form is reused. Closing
+  Claims naturally clears it for the next session.
+- Restored the missing upper-left and upper-right deviation positions.
+- Converted diagram values to two-line edit boxes: Enter starts the second line,
+  and the diagram renderer outputs each line separately.
+- Removed the V16.67.8 `TargetForm.Hide()` workaround so the next build cannot
+  repeat the observed closing of Word and LetterBuilder. Consultation foreground
+  behavior is still a known limitation pending focused investigation.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
