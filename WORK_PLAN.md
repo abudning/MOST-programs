@@ -150,6 +150,25 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 - Claims Save now explicitly runs the ID-field reset after a successful entry,
   clearing the old claim rows while preserving the session Billing MD.
 
+### Next morning priorities after V16.68.2 workstation test — October 20, 2026
+
+Do not rebuild until these are addressed together in the next version:
+
+1. Billing MD still disappears. Preserve the first selected Billing MD for the
+   entire lifetime of the open Claims window, including after Save/reset and
+   Patient-form Claims or Letter + Claims reuse. Clear it only when Claims is
+   actually closed and reopened.
+2. The health-card-expired warning appears when there is no expiry date and
+   when the expiry is still valid. Warn only when a real expiry date exists and
+   is earlier than the appropriate current/service date.
+3. Premium entry is working; do not regress it.
+4. Modify Claims is working well; do not regress it.
+5. Diagram is working well, except the centre-bottom box is too low and its
+   second line is clipped. Move it upward enough to show both lines completely.
+6. Optional/non-critical: upper oblique boxes only require one line (for values
+   such as `+1`), so they may be reduced to single-line height if safe.
+7. Consultation workflow is ready for workstation testing.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
