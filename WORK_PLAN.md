@@ -145,6 +145,11 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
 - New report: LetterBuilder Delete is not behaving correctly. Inspect its method
   in `letterform.scx`, confirm the selected letter key, add confirmation, delete
   only that record, then refresh and reposition the list. This is the next item.
+- Claims regressions now take priority over LetterBuilder Delete. The Claims
+  premium selector stored `$`-prefixed captions with `VAL()`, producing zero;
+  it now strips `$` before conversion for premium and special-visit arrays.
+- Claims Save now explicitly runs the ID-field reset after a successful entry,
+  clearing the old claim rows while preserving the session Billing MD.
 
 ## Current saved state
 
