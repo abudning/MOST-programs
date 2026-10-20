@@ -90,9 +90,9 @@ lnOldFont=SelectObject(lnMemoryDC,lnFont)
 =SetTextAlign(lnMemoryDC,6)
 IF toForm.lDeviationOn
     =SetTextColor(lnMemoryDC,RGB(0,0,0))
-    =GdiDiagramText(lnMemoryDC,toForm.leftTop.Value,63,3)
+    =GdiDiagramText(lnMemoryDC,toForm.leftTop.Value,146,3)
     =GdiDiagramText(lnMemoryDC,toForm.topCentre.Value,192,3)
-    =GdiDiagramText(lnMemoryDC,toForm.rightTop.Value,321,3)
+    =GdiDiagramText(lnMemoryDC,toForm.rightTop.Value,238,3)
     =GdiDiagramText(lnMemoryDC,toForm.leftOuter.Value,25,59)
     =GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,192,59)
     =GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,359,59)
@@ -216,9 +216,9 @@ DEFINE CLASS EyeDiagramForm AS Form
     ADD OBJECT instructions AS Label WITH Caption="Enter deviations in black and movements in red. Press Enter for a second line. The toggles control entry and diagram output.",Left=18,Top=10,Width=630,Height=30,WordWrap=.T.,BackStyle=0
     ADD OBJECT deviationToggle AS DiagramLayerToggle WITH Caption="Deviations: ON",Left=195,Top=42,Width=130,Height=28,Value=1,Tag="D"
     ADD OBJECT movementToggle AS DiagramLayerToggle WITH Caption="Movements: ON",Left=335,Top=42,Width=130,Height=28,Value=1,Tag="M"
-    ADD OBJECT leftTop AS DiagramEntry WITH Left=30,Top=75,Width=110,Height=38
+    ADD OBJECT leftTop AS DiagramEntry WITH Left=170,Top=75,Width=100,Height=38
     ADD OBJECT topCentre AS DiagramEntry WITH Left=280,Top=75,Width=110,Height=38
-    ADD OBJECT rightTop AS DiagramEntry WITH Left=530,Top=75,Width=110,Height=38
+    ADD OBJECT rightTop AS DiagramEntry WITH Left=400,Top=75,Width=100,Height=38
     ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=164,Width=92,Height=38
     ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=164,Width=92,Height=38
     ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=164,Width=92,Height=38

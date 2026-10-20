@@ -133,6 +133,19 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   repeat the observed closing of Word and LetterBuilder. Consultation foreground
   behavior is still a known limitation pending focused investigation.
 
+### V16.68.2 diagram and label checkpoint — October 20, 2026
+
+- Moved the upper-left and upper-right oblique diagram values inward, beside
+  the centre position, matching the marked clinical layout.
+- Finished the Epson TM-U220 patient label: five compact single-spaced lines;
+  removed the Printed and Last Edit labels and values.
+- Added V16.68.2 / 1.7.705 build scripts. The first isolated build reached the
+  Visual FoxPro BUILD stage but did not produce a verified executable; resume
+  from the saved build scripts rather than distributing an unverified package.
+- New report: LetterBuilder Delete is not behaving correctly. Inspect its method
+  in `letterform.scx`, confirm the selected letter key, add confirmation, delete
+  only that record, then refresh and reposition the list. This is the next item.
+
 ## Current saved state
 
 ### V16.64.2 implementation checkpoint — September 27
