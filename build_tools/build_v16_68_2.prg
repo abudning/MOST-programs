@@ -6,7 +6,7 @@ SET TALK OFF
 SET RESOURCE OFF
 LOCAL lcRoot,lcMost,lcLog,loFile,lcOms,lcOmsText,lcNeedle,lcReplace
 LOCAL lnNeed,llFound,lcNativeName,loNative
-LOCAL ARRAY laNeeded[10]
+LOCAL ARRAY laNeeded[13]
 lcRoot=ADDBS(FULLPATH(tcWorkingRoot))
 lcMost=lcRoot+"MOSt\"
 lcLog=lcRoot+"output\build_v16_68_2.log"
@@ -48,6 +48,9 @@ ENDIF
 
 SET DEFAULT TO (lcMost)
 SET PATH TO (lcMost+";"+lcMost+"PROGRAMS;"+lcMost+"FORMS;"+lcMost+"Classes;"+lcMost+"MENU;"+lcMost+"ICONS;"+lcMost+"REPORTS;"+lcMost+"labels")
+IF FILE(HOME()+"foxtools.fll")
+    SET LIBRARY TO (HOME()+"foxtools.fll") ADDITIVE
+ENDIF
 USE (lcMost+"most.pjx") EXCLUSIVE ALIAS patchproject
 RECALL FOR type='d' AND FILE(STRTRAN(name,CHR(0),'')) IN patchproject
 REPLACE name WITH LOWER(lcMost+"most.pjx")+CHR(0), homedir WITH LOWER(lcMost)+CHR(0) FOR type='H' IN patchproject
@@ -70,6 +73,9 @@ laNeeded[7]="mostprintpatientoutput.prg"
 laNeeded[8]="mostopenhelp.prg"
 laNeeded[9]="consult_letter.prg"
 laNeeded[10]="openpatientclaim.prg"
+laNeeded[11]="rxcenter.prg"
+laNeeded[12]="letterpatientreloadtimer.prg"
+laNeeded[13]="chg_default_printer.prg"
 FOR lnNeed=1 TO ALEN(laNeeded,1)
     llFound=.F.
     FOR EACH loNative IN loFile.Files
@@ -90,7 +96,10 @@ _SCREEN.Visible=.T.
 _SCREEN.WindowState=2
 STRTOFILE("BUILD START"+CHR(13)+CHR(10),lcLog,1)
 loFile.Close()
-BUILD EXE (lcRoot+"output\MOST_V16_68_2_1_7_705_XP_TEST.exe") FROM (lcMost+"most.pjx") RECOMPILE
+* Incremental build is intentional. A forced full recompile reaches untouched
+* legacy EDT code with a historical C:\Program Files\MOSt\CFHDR.H include and
+* blocks on its error dialog. Changed PRG/SCX files compile by timestamp here.
+BUILD EXE (lcRoot+"output\MOST_V16_68_2_1_7_705_XP_TEST.exe") FROM (lcMost+"most.pjx")
 LOCAL ARRAY laVersion[1]
 IF AGETFILEVERSION(laVersion,lcRoot+"output\MOST_V16_68_2_1_7_705_XP_TEST.exe")=0 OR ALLTRIM(laVersion[4])#"1.7.705"
     ERROR "Executable was not created at version 1.7.705."

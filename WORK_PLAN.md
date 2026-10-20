@@ -139,12 +139,11 @@ Current development baseline: V16.64.1 on branch `codex/v16.28-verified`. V16.63
   the centre position, matching the marked clinical layout.
 - Finished the Epson TM-U220 patient label: five compact single-spaced lines;
   removed the Printed and Last Edit labels and values.
-- Added V16.68.2 / 1.7.705 build scripts. The first isolated build reached the
-  Visual FoxPro BUILD stage but did not produce a verified executable; resume
-  from the saved build scripts rather than distributing an unverified package.
-- New report: LetterBuilder Delete is not behaving correctly. Inspect its method
-  in `letterform.scx`, confirm the selected letter key, add confirmation, delete
-  only that record, then refresh and reposition the list. This is the next item.
+- V16.68.2 / 1.7.705 now builds successfully. The project restores and includes
+  `rxcenter.prg`, `letterpatientreloadtimer.prg`, and the legacy printer helper;
+  FoxTools calls are late-bound so the compiler does not search for REGFN.PRG.
+- LetterBuilder Delete investigation is on hold at the user's request because
+  the button now appears to be working. No Delete behavior was changed.
 - Claims regressions now take priority over LetterBuilder Delete. The Claims
   premium selector stored `$`-prefixed captions with `VAL()`, producing zero;
   it now strips `$` before conversion for premium and special-visit arrays.
