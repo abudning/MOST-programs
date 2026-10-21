@@ -1,0 +1,88 @@
+MOSt V16.68.3B / 1.7.706 - XP WORKSTATION TEST
+
+STATUS
+This is a test release, not an approved clinic-wide deployment. It combines the
+current V16.66 scheduler, printer, label, Help and report-performance source with
+the current consultation, Claims-session, health-card warning, diagram and label source. V16.68.3B recognizes that LetterBuilder
+closes the original chart before opening the consultation, leaving Word's
+document count at one. It identifies the replacement document by its different
+full name before looking for the exact `[[CONSULT]]` insertion marker. It
+searches the merged letter's body, headers, footers, linked stories and text
+boxes. Its messages are attached to Word, and the merged letter is reactivated.
+It performs no database upgrade and must not be installed on the server.
+
+SAFE INSTALLATION
+1. Make a normal verified server/data backup.
+2. Begin with one Windows XP workstation only.
+3. Close MOSt on that workstation. For the first launch, close MOSt on every
+   other workstation as an added safety check.
+4. Extract the complete ZIP into one folder.
+5. Run Install-MOSt-V16.68.3B-XP.cmd as a local Administrator.
+6. Keep the Upgrade_Backup_V16_68_3B folder reported by the installer.
+7. Start MOSt and verify that the displayed executable is 1.7.706.
+
+CONSULTATION TEST
+1. Open LetterBuilder and leave it open for the entire test.
+2. Put `[[CONSULT]]` exactly once in the consultation Word template, including
+   both pairs of square brackets. Open one test patient's chart in Word. It
+   must be the only Word document open and contain a Vision or Vision: heading.
+3. Click Consult in LetterBuilder. Confirm that MOSt reports the information is
+   prepared.
+4. Click the existing New button, choose the normal consultation template, and
+   verify or correct the referring source.
+5. Click the existing Word button. Do not return to LetterBuilder.
+6. When the merged document opens, confirm that the insertion question appears
+   over the workflow. Press Enter (Yes).
+7. Confirm that text beginning at the chart's final Vision: replaces
+   `[[CONSULT]]` in the merged consultation and the patient chart is unchanged.
+8. Use the normal existing consultation save/file process. The new code must
+   not save, rename, close or file the document automatically.
+9. Repeat once after cancelling the insertion question. Neither document should
+   be changed by the cancelled insertion.
+
+KNOWN CONSULTATION LIMITATION
+The V16.67.8 Hide workaround was removed because it closed Word and
+LetterBuilder. Consultation insertion should work and both windows must remain
+open; Word foreground behavior remains under investigation.
+
+CLAIMS SESSION BILLING MD TEST
+1. Open Claims for a patient and select the Billing MD.
+2. Save a claim, then press Claims again from the Patient form. Confirm the same
+   Billing MD remains selected.
+3. Repeat through Letters + Claims and with another patient during the same
+   open Claims-form session. The Billing MD must remain selected.
+4. Close Claims completely, reopen it, and confirm Billing MD starts blank and
+   must be selected for the first billing of the new session.
+5. Enter a normal service and add a premium from the bubble. Choose its time
+   and code. Confirm the proper premium fee appears immediately, not $0.00.
+6. Save the claim. Confirm every old claim-entry row clears for the next claim
+   without closing Claims, while the session Billing MD remains selected.
+7. Test a patient with no health-card expiry date and one with a future expiry;
+   neither may show the expired-card warning. A genuinely past expiry must warn.
+
+DIAGRAM TEST
+1. Confirm upper-left and upper-right black deviation boxes are present near
+   the centre positions, not at the outside edges.
+2. In a crowded position enter `LXT5`, press Enter, then enter `RH3`.
+3. Confirm the entry box displays two lines and the copied/inserted diagram
+   displays both lines distinctly and inside the diagram boundary.
+4. Confirm the centre-bottom two-line box is high enough that its second line is
+   fully visible, and both upper oblique boxes are compact single-line boxes.
+
+LAYOUT AND REGRESSION CHECK
+- Confirm the row reads Consult, Diagram, Letters, Exit without overlap and is
+  shifted left with less empty space after Exit.
+- Close and reopen/raise LetterBuilder several times; the buttons must not drift.
+- Recheck Scheduler search/new appointments, Patients, Claims, EDT, billing,
+  Help, Daily Summary, Check In, patient-label printing and the eye diagram.
+- Print an Epson TM-U220 patient label. Confirm the five retained lines are
+  compact and single-spaced, and Printed and Last Edit do not appear.
+
+ROLLBACK
+Close MOSt. Restore the files from the installer-created
+Upgrade_Backup_V16_68_3B folder to the same installation locations. Restore the
+two label files to the labels subfolder. Do not alter any database files.
+
+Report the exact message and step if the consultation prompt does not appear,
+the marker is not found, the wrong Word document changes, or the button row
+overlaps.
