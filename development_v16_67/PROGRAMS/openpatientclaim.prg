@@ -1,5 +1,23 @@
 LPARAMETERS toPatientForm
-LOCAL lnPatientId, lnI, loClaimForm, lcBillingMd
+LOCAL lnPatientId, lnI, loClaimForm, lcBillingMd, llClaimWasOpen
+PUBLIC gcClaimsSessionBillingMd
+gcClaimsSessionBillingMd=""
+llClaimWasOpen=.F.
+FOR lnI=1 TO _SCREEN.FormCount
+    loClaimForm=_SCREEN.Forms(lnI)
+    IF UPPER(ALLTRIM(loClaimForm.Caption))=="CLAIMS"
+        llClaimWasOpen=.T.
+        TRY
+            lcBillingMd=ALLTRIM(TRANSFORM(loClaimForm.billing_md.Value))
+            IF EMPTY(lcBillingMd) AND PEMSTATUS(loClaimForm,"cSessionBillingMd",5)
+                lcBillingMd=ALLTRIM(TRANSFORM(loClaimForm.cSessionBillingMd))
+            ENDIF
+            gcClaimsSessionBillingMd=lcBillingMd
+        CATCH
+        ENDTRY
+        EXIT
+    ENDIF
+ENDFOR
 lnPatientId=0
 IF VARTYPE(toPatientForm)=="O"
     TRY
@@ -113,6 +131,12 @@ ENDIF
 lcBillingMd=ALLTRIM(TRANSFORM(toClaimForm.billing_md.Value))
 IF !EMPTY(lcBillingMd)
     toClaimForm.cSessionBillingMd=lcBillingMd
+    gcClaimsSessionBillingMd=lcBillingMd
+ELSE
+    lcBillingMd=ALLTRIM(gcClaimsSessionBillingMd)
+    IF !EMPTY(lcBillingMd)
+        toClaimForm.cSessionBillingMd=lcBillingMd
+    ENDIF
 ENDIF
 RETURN .T.
 ENDFUNC
@@ -121,6 +145,9 @@ FUNCTION RestoreClaimSessionBillingMd
 LPARAMETERS toClaimForm
 IF !EnsureClaimSessionBillingMd(toClaimForm)
     RETURN .F.
+ENDIF
+IF EMPTY(ALLTRIM(toClaimForm.cSessionBillingMd)) AND !EMPTY(ALLTRIM(gcClaimsSessionBillingMd))
+    toClaimForm.cSessionBillingMd=ALLTRIM(gcClaimsSessionBillingMd)
 ENDIF
 IF !EMPTY(ALLTRIM(toClaimForm.cSessionBillingMd))
     toClaimForm.billing_md.Value=toClaimForm.cSessionBillingMd

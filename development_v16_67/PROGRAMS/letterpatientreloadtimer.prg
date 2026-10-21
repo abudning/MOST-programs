@@ -6,9 +6,11 @@ DEFINE CLASS LetterPatientReloadTimer AS Timer
     SavedLeft=0
     SavedTop=0
     SavedState=0
+    SelectedTemplate=""
+    SelectedIndex=0
 
     PROCEDURE Timer
-        LOCAL loForm
+        LOCAL loForm,lnRow,lnTarget,lcCandidate
         THIS.Enabled=.F.
         loForm=THIS.TargetForm
         IF VARTYPE(loForm)#"O"
@@ -24,7 +26,20 @@ DEFINE CLASS LetterPatientReloadTimer AS Timer
         loForm.onemd_letterlist()
         loForm.pageframe1.page1.letter_name.SetFocus()
         IF loForm.pageframe1.page1.list_letters.ListCount>0
-            loForm.pageframe1.page1.list_letters.Selected(1)=.T.
+            lnTarget=0
+            IF !EMPTY(THIS.SelectedTemplate)
+                FOR lnRow=1 TO loForm.pageframe1.page1.list_letters.ListCount
+                    lcCandidate=ALLTRIM(TRANSFORM(loForm.pageframe1.page1.list_letters.List(lnRow,1)))
+                    IF UPPER(lcCandidate)==UPPER(ALLTRIM(THIS.SelectedTemplate))
+                        lnTarget=lnRow
+                        EXIT
+                    ENDIF
+                ENDFOR
+            ENDIF
+            IF lnTarget=0
+                lnTarget=MAX(1,MIN(THIS.SelectedIndex,loForm.pageframe1.page1.list_letters.ListCount))
+            ENDIF
+            loForm.pageframe1.page1.list_letters.Selected(lnTarget)=.T.
             loForm.pageframe1.page1.list_letters.Click()
         ENDIF
         loForm.pageframe1.page1.list_letters.Refresh()

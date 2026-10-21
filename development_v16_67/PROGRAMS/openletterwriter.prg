@@ -157,11 +157,16 @@ IF VARTYPE(loNewLetterForm)=="O"
 ENDIF
 PROCEDURE LoadLetterPatient
 LPARAMETERS toLetterForm,tnPatientId,tnSavedLeft,tnSavedTop,tnSavedState
-LOCAL lcId,loReloadTimer
+LOCAL lcId,loReloadTimer,lcSelectedTemplate,lnSelectedIndex
 IF VARTYPE(toLetterForm)#"O" OR tnPatientId<=0
     RETURN
 ENDIF
 lcId=ALLTRIM(STR(INT(tnPatientId)))
+lcSelectedTemplate=""
+lnSelectedIndex=toLetterForm.pageframe1.page1.list_letters.ListIndex
+IF lnSelectedIndex>0
+    lcSelectedTemplate=ALLTRIM(TRANSFORM(toLetterForm.pageframe1.page1.list_letters.List(lnSelectedIndex,1)))
+ENDIF
 * First normal ID-and-Enter pass loads the patient heading.
 toLetterForm.pageframe1.page1.id.Click()
 toLetterForm.pageframe1.page1.search.Value=lcId
@@ -176,6 +181,8 @@ loReloadTimer.PatientId=lcId
 loReloadTimer.SavedLeft=tnSavedLeft
 loReloadTimer.SavedTop=tnSavedTop
 loReloadTimer.SavedState=tnSavedState
+loReloadTimer.SelectedTemplate=lcSelectedTemplate
+loReloadTimer.SelectedIndex=lnSelectedIndex
 loReloadTimer.Phase=1
 IF PEMSTATUS(toLetterForm,"PatientReloadTimer",5)
     toLetterForm.PatientReloadTimer.Enabled=.F.
