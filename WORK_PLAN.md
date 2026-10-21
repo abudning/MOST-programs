@@ -301,3 +301,9 @@ The V16.64.5 XP test installer is packaged with executable 1.7.686, the same
 verified V16.64.4 forms/runtime payload, automatic binary-verified backup and
 rollback, acceptance instructions, and SHA-256 manifest. All 13 payload files
 listed in the manifest verified successfully after extracting the final ZIP.
+
+# October 21, 2026 — V16.68.3 Claims/diagram checkpoint
+
+V16.68.3 (executable 1.7.706) keeps the selected Billing MD for the lifetime of the open Claims form, including after Save and reuse from Claims or Letters + Claims; closing/reopening Claims starts a new session. The expired-health-card warning now requires a non-empty valid date in the past. Premium calculation and Modify Claims behavior from V16.68.2 are preserved. The centre-bottom diagram entry was raised so both lines remain visible, and the upper oblique entries are compact single-line boxes near the centre. LetterBuilder Delete was deliberately left unchanged. Consultation remains ready for workstation testing.
+
+The isolated Visual FoxPro build succeeded. The XP workstation package contains no database upgrade, backs up all replaced files, and includes an 18-entry SHA-256 manifest that passed complete extracted-package verification. Workstation acceptance remains required before broader deployment.

@@ -97,7 +97,7 @@ IF toForm.lDeviationOn
     =GdiDiagramText(lnMemoryDC,toForm.leftInner.Value,192,59)
     =GdiDiagramText(lnMemoryDC,toForm.rightOuter.Value,359,59)
     =GdiDiagramText(lnMemoryDC,toForm.leftBottom.Value,63,106)
-    =GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,192,127)
+    =GdiDiagramText(lnMemoryDC,toForm.bottomCentre.Value,192,116)
     =GdiDiagramText(lnMemoryDC,toForm.rightBottom.Value,321,106)
 ENDIF
 IF toForm.lMovementOn
@@ -216,14 +216,14 @@ DEFINE CLASS EyeDiagramForm AS Form
     ADD OBJECT instructions AS Label WITH Caption="Enter deviations in black and movements in red. Press Enter for a second line. The toggles control entry and diagram output.",Left=18,Top=10,Width=630,Height=30,WordWrap=.T.,BackStyle=0
     ADD OBJECT deviationToggle AS DiagramLayerToggle WITH Caption="Deviations: ON",Left=195,Top=42,Width=130,Height=28,Value=1,Tag="D"
     ADD OBJECT movementToggle AS DiagramLayerToggle WITH Caption="Movements: ON",Left=335,Top=42,Width=130,Height=28,Value=1,Tag="M"
-    ADD OBJECT leftTop AS DiagramEntry WITH Left=170,Top=75,Width=100,Height=38
+    ADD OBJECT leftTop AS DiagramEntry WITH Left=170,Top=83,Width=100,Height=22,EnterKeyBehavior=.F.
     ADD OBJECT topCentre AS DiagramEntry WITH Left=280,Top=75,Width=110,Height=38
-    ADD OBJECT rightTop AS DiagramEntry WITH Left=400,Top=75,Width=100,Height=38
+    ADD OBJECT rightTop AS DiagramEntry WITH Left=400,Top=83,Width=100,Height=22,EnterKeyBehavior=.F.
     ADD OBJECT leftOuter AS DiagramEntry WITH Left=12,Top=164,Width=92,Height=38
     ADD OBJECT leftInner AS DiagramEntry WITH Left=289,Top=164,Width=92,Height=38
     ADD OBJECT rightOuter AS DiagramEntry WITH Left=566,Top=164,Width=92,Height=38
     ADD OBJECT leftBottom AS DiagramEntry WITH Left=55,Top=260,Width=110,Height=38
-    ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=298,Width=110,Height=38
+    ADD OBJECT bottomCentre AS DiagramEntry WITH Left=280,Top=282,Width=110,Height=38
     ADD OBJECT rightBottom AS DiagramEntry WITH Left=505,Top=260,Width=110,Height=38
     ADD OBJECT moveLeftTop AS MovementEntry WITH Left=153,Top=75,Width=70,Height=38
     ADD OBJECT moveRightTop AS MovementEntry WITH Left=448,Top=75,Width=70,Height=38
