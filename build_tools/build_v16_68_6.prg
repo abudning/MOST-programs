@@ -18,12 +18,14 @@ STRTOFILE("START"+CHR(13)+CHR(10),lcLog,0)
 IF !FILE(lcMost+"most.pjx") OR !FILE(lcRoot+"genmenu.prg") OR ;
         !FILE(lcMost+"PROGRAMS\consult_letter.prg") OR ;
         !FILE(lcMost+"PROGRAMS\mostprintpatientoutput.prg") OR ;
-        !FILE(lcMost+"PROGRAMS\mostopenhelp.prg")
+        !FILE(lcMost+"PROGRAMS\mostopenhelp.prg") OR ;
+        !FILE(lcMost+"PROGRAMS\letter_word_guard.prg")
     ERROR "The isolated V16.68.6 source is incomplete."
 ENDIF
 IF !FILE(lcMost+"databases\oms.dbc") OR !FILE(lcMost+"databases\oms.dct") OR !FILE(lcMost+"databases\oms.dcx")
     ERROR "The isolated source is missing OMS database metadata."
 ENDIF
+STRTOFILE("CHECKPOINT PREFLIGHT"+CHR(13)+CHR(10),lcLog,1)
 
 * V16.68.6 is a workstation code-only build. It must coexist temporarily with
 * the legacy server without invoking the old database upgrade program.
@@ -45,10 +47,14 @@ IF !("llV1674CodeOnly" $ lcOmsText)
     ENDIF
     STRTOFILE(lcOmsText,lcOms,0)
 ENDIF
+STRTOFILE("CHECKPOINT OMS"+CHR(13)+CHR(10),lcLog,1)
 
 SET DEFAULT TO (lcMost)
 SET PATH TO (lcMost+";"+lcMost+"PROGRAMS;"+lcMost+"FORMS;"+lcMost+"Classes;"+lcMost+"MENU;"+lcMost+"ICONS;"+lcMost+"REPORTS;"+lcMost+"labels")
 DO (lcRoot+"patch_letterbuilder_dataenv_v16_68_6.prg") WITH lcMost
+STRTOFILE("CHECKPOINT LETTERFORM"+CHR(13)+CHR(10),lcLog,1)
+DO (lcRoot+"patch_about_build_label_v16_68_6.prg") WITH lcMost
+STRTOFILE("CHECKPOINT ABOUT"+CHR(13)+CHR(10),lcLog,1)
 IF FILE(HOME()+"foxtools.fll")
     SET LIBRARY TO (HOME()+"foxtools.fll") ADDITIVE
 ENDIF
@@ -60,9 +66,14 @@ DELETE FOR exclude AND type<>'H' AND !FILE(STRTRAN(name,CHR(0),'')) IN patchproj
 DELETE FOR LOWER(JUSTFNAME(STRTRAN(name,CHR(0),"")))="dispcrnt.prg" IN patchproject
 DELETE FOR LOWER(JUSTFNAME(STRTRAN(name,CHR(0),"")))="printer_router.prg" IN patchproject
 USE IN patchproject
+STRTOFILE("CHECKPOINT PROJECT TABLE"+CHR(13)+CHR(10),lcLog,1)
 
 MODIFY PROJECT (lcMost+"most.pjx") NOWAIT
-_VFP.ActiveProject.VersionNumber="1.7.709"
+STRTOFILE("CHECKPOINT PROJECT OPEN"+CHR(13)+CHR(10),lcLog,1)
+* Preserve the legacy executable/database compatibility version so startup does
+* not treat this code-only workstation build as a database upgrade.  The build
+* identity is displayed in Help > About MOSt's client/customer number field.
+_VFP.ActiveProject.VersionNumber="1.7.609"
 loFile=_VFP.ActiveProject
 laNeeded[1]="thirdparty_freehand.prg"
 laNeeded[2]="thirdparty_store.prg"
@@ -79,6 +90,7 @@ laNeeded[12]="letterpatientreloadtimer.prg"
 laNeeded[13]="chg_default_printer.prg"
 laNeeded[14]="letter_word_guard.prg"
 FOR lnNeed=1 TO ALEN(laNeeded,1)
+    STRTOFILE("CHECK FILE "+laNeeded[lnNeed]+CHR(13)+CHR(10),lcLog,1)
     llFound=.F.
     FOR EACH loNative IN loFile.Files
         lcNativeName=LOWER(JUSTFNAME(loNative.Name))
@@ -88,25 +100,24 @@ FOR lnNeed=1 TO ALEN(laNeeded,1)
         ENDIF
     ENDFOR
     IF !llFound
+        STRTOFILE("ADD FILE "+laNeeded[lnNeed]+CHR(13)+CHR(10),lcLog,1)
         loFile.Files.Add(lcMost+"PROGRAMS\"+laNeeded[lnNeed])
+        STRTOFILE("ADDED FILE "+laNeeded[lnNeed]+CHR(13)+CHR(10),lcLog,1)
     ENDIF
 ENDFOR
 
 _GENMENU=lcRoot+"genmenu.prg"
-_VFP.Visible=.T.
-_SCREEN.Visible=.T.
-_SCREEN.WindowState=2
 STRTOFILE("BUILD START"+CHR(13)+CHR(10),lcLog,1)
 loFile.Close()
 * Incremental build is intentional. A forced full recompile reaches untouched
 * legacy EDT code with a historical C:\Program Files\MOSt\CFHDR.H include and
 * blocks on its error dialog. Changed PRG/SCX files compile by timestamp here.
-BUILD EXE (lcRoot+"output\MOST_V16_68_6_1_7_709_XP_TEST.exe") FROM (lcMost+"most.pjx")
+BUILD EXE (lcRoot+"output\MOST_V16_68_6_COMPAT_1_7_609_XP_TEST.exe") FROM (lcMost+"most.pjx")
 LOCAL ARRAY laVersion[1]
-IF AGETFILEVERSION(laVersion,lcRoot+"output\MOST_V16_68_6_1_7_709_XP_TEST.exe")=0 OR ALLTRIM(laVersion[4])#"1.7.709"
-    ERROR "Executable was not created at version 1.7.709."
+IF AGETFILEVERSION(laVersion,lcRoot+"output\MOST_V16_68_6_COMPAT_1_7_609_XP_TEST.exe")=0 OR ALLTRIM(laVersion[4])#"1.7.609"
+    ERROR "Executable was not created at compatibility version 1.7.609."
 ENDIF
-STRTOFILE("SUCCESS V16.68.6 1.7.709 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),lcLog,1)
+STRTOFILE("SUCCESS V16.68.6 COMPAT 1.7.609 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),lcLog,1)
 ON ERROR
 QUIT
 
