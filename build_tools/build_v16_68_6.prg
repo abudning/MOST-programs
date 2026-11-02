@@ -70,10 +70,10 @@ STRTOFILE("CHECKPOINT PROJECT TABLE"+CHR(13)+CHR(10),lcLog,1)
 
 MODIFY PROJECT (lcMost+"most.pjx") NOWAIT
 STRTOFILE("CHECKPOINT PROJECT OPEN"+CHR(13)+CHR(10),lcLog,1)
-* Preserve the legacy executable/database compatibility version so startup does
-* not treat this code-only workstation build as a database upgrade.  The build
+* Preserve the preceding V16.68.5 executable version. The existing code-only
+* and legacy-schema guards suppress database upgrade handling. The new build
 * identity is displayed in Help > About MOSt's client/customer number field.
-_VFP.ActiveProject.VersionNumber="1.7.609"
+_VFP.ActiveProject.VersionNumber="1.7.708"
 loFile=_VFP.ActiveProject
 laNeeded[1]="thirdparty_freehand.prg"
 laNeeded[2]="thirdparty_store.prg"
@@ -112,12 +112,12 @@ loFile.Close()
 * Incremental build is intentional. A forced full recompile reaches untouched
 * legacy EDT code with a historical C:\Program Files\MOSt\CFHDR.H include and
 * blocks on its error dialog. Changed PRG/SCX files compile by timestamp here.
-BUILD EXE (lcRoot+"output\MOST_V16_68_6_COMPAT_1_7_609_XP_TEST.exe") FROM (lcMost+"most.pjx")
+BUILD EXE (lcRoot+"output\MOST_V16_68_6_SAME_VERSION_1_7_708_XP_TEST.exe") FROM (lcMost+"most.pjx")
 LOCAL ARRAY laVersion[1]
-IF AGETFILEVERSION(laVersion,lcRoot+"output\MOST_V16_68_6_COMPAT_1_7_609_XP_TEST.exe")=0 OR ALLTRIM(laVersion[4])#"1.7.609"
-    ERROR "Executable was not created at compatibility version 1.7.609."
+IF AGETFILEVERSION(laVersion,lcRoot+"output\MOST_V16_68_6_SAME_VERSION_1_7_708_XP_TEST.exe")=0 OR ALLTRIM(laVersion[4])#"1.7.708"
+    ERROR "Executable was not created at the preserved version 1.7.708."
 ENDIF
-STRTOFILE("SUCCESS V16.68.6 COMPAT 1.7.609 "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),lcLog,1)
+STRTOFILE("SUCCESS V16.68.6 SAME VERSION 1.7.708 NO UPGRADE "+TTOC(DATETIME(),1)+CHR(13)+CHR(10),lcLog,1)
 ON ERROR
 QUIT
 
