@@ -25,9 +25,7 @@ IF !FILE(lcMost+"most.pjx") OR !FILE(lcRoot+"genmenu.prg") OR ;
         !FILE(lcMost+"FORMS\letterform.scx") OR ;
         !FILE(lcMost+"FORMS\letterform.sct") OR ;
         !FILE(lcMost+"FORMS\enter_claims.scx") OR ;
-        !FILE(lcMost+"FORMS\enter_claims.sct") OR ;
-        !FILE(lcMost+"FORMS\patients.scx") OR ;
-        !FILE(lcMost+"FORMS\patients.sct")
+        !FILE(lcMost+"FORMS\enter_claims.sct")
     ERROR "The isolated V16.68.6 source is incomplete."
 ENDIF
 IF !FILE(lcMost+"databases\oms.dbc") OR !FILE(lcMost+"databases\oms.dct") OR !FILE(lcMost+"databases\oms.dcx")
@@ -63,8 +61,6 @@ DO (lcRoot+"patch_letterbuilder_dataenv_v16_68_6.prg") WITH lcMost
 STRTOFILE("CHECKPOINT LETTERFORM"+CHR(13)+CHR(10),lcLog,1)
 DO (lcRoot+"patch_about_build_label_v16_68_6.prg") WITH lcMost
 STRTOFILE("CHECKPOINT ABOUT"+CHR(13)+CHR(10),lcLog,1)
-DO (lcRoot+"patch_patients_lc_only_v16_68_6.prg") WITH lcMost
-STRTOFILE("CHECKPOINT PATIENTS L+C"+CHR(13)+CHR(10),lcLog,1)
 IF FILE(HOME()+"foxtools.fll")
     SET LIBRARY TO (HOME()+"foxtools.fll") ADDITIVE
 ENDIF

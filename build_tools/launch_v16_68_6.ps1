@@ -9,7 +9,6 @@ $prg=Join-Path $root 'build_v16_68_6.prg'
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'build_v16_68_6.prg') -Destination $prg -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'patch_letterbuilder_dataenv_v16_68_6.prg') -Destination (Join-Path $root 'patch_letterbuilder_dataenv_v16_68_6.prg') -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'patch_about_build_label_v16_68_6.prg') -Destination (Join-Path $root 'patch_about_build_label_v16_68_6.prg') -Force
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'patch_patients_lc_only_v16_68_6.prg') -Destination (Join-Path $root 'patch_patients_lc_only_v16_68_6.prg') -Force
 Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\letter_word_guard.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\letter_word_guard.prg') -Force
 Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\openletterwriter.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\openletterwriter.prg') -Force
 Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\diagram_tool.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\diagram_tool.prg') -Force

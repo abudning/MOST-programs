@@ -9,7 +9,7 @@ Use this checklist for every build derived from V16.68.6. A completed item is a 
 - [ ] Installer changes workstation program files only, creates a byte-verified rollback folder, and does not contain or alter databases or clinical data.
 - [ ] Premium billing-code bubbles show the real non-zero fee; dollar-prefixed captions are converted correctly rather than becoming `0.00`.
 - [ ] Claims retains Billing MD during the open Claims session and starts blank after Claims is closed and reopened.
-- [ ] Patients uses the ID plus `L+C` workflow; redundant separate Claims, Letters, and letter-list controls remain hidden.
+- [ ] Patients retains the existing Patients, Claims, Letters, and `L+C` controls. `L+C` opens Claims and then LetterBuilder for the entered patient ID.
 - [ ] LetterBuilder reads `DATA_FILES` from Parameters 2 and works against the mapped `K:\PROGRAM FILES\MOST\DATABASES\` path without a Locate File prompt.
 - [ ] LetterBuilder includes Consult and Diagram; the button row remains Consult, Diagram, Letters, Exit without overlap.
 - [ ] Consult preserves the current V16.67/V16.68 workflow and inserts at the exact `[[CONSULT]]` marker without closing the resulting Word consultation.
