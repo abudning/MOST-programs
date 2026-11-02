@@ -9,7 +9,17 @@ $prg=Join-Path $root 'build_v16_68_6.prg'
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'build_v16_68_6.prg') -Destination $prg -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'patch_letterbuilder_dataenv_v16_68_6.prg') -Destination (Join-Path $root 'patch_letterbuilder_dataenv_v16_68_6.prg') -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'patch_about_build_label_v16_68_6.prg') -Destination (Join-Path $root 'patch_about_build_label_v16_68_6.prg') -Force
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'patch_patients_lc_only_v16_68_6.prg') -Destination (Join-Path $root 'patch_patients_lc_only_v16_68_6.prg') -Force
 Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\letter_word_guard.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\letter_word_guard.prg') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\openletterwriter.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\openletterwriter.prg') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\diagram_tool.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\diagram_tool.prg') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\PROGRAMS\consult_letter.prg') -Destination (Join-Path $root 'MOSt\PROGRAMS\consult_letter.prg') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\FORMS\letterform.scx') -Destination (Join-Path $root 'MOSt\FORMS\letterform.scx') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\FORMS\letterform.sct') -Destination (Join-Path $root 'MOSt\FORMS\letterform.sct') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\FORMS\enter_claims.scx') -Destination (Join-Path $root 'MOSt\FORMS\enter_claims.scx') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\FORMS\enter_claims.sct') -Destination (Join-Path $root 'MOSt\FORMS\enter_claims.sct') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\FORMS\patients.scx') -Destination (Join-Path $root 'MOSt\FORMS\patients.scx') -Force
+Copy-Item -LiteralPath (Join-Path $snapshotRoot 'development_v16_67\FORMS\patients.sct') -Destination (Join-Path $root 'MOSt\FORMS\patients.sct') -Force
 $fpw=Join-Path $root 'build_v16_68_6.fpw'
 [IO.File]::WriteAllText($fpw,"SCREEN=OFF`r`nRESOURCE=OFF`r`nTALK=OFF`r`nSAFETY=OFF`r`nCOMMAND=DO `"$prg`" WITH `"$root`"`r`n",[Text.Encoding]::Default)
 $started=Get-Date
