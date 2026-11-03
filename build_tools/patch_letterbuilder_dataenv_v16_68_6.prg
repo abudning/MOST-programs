@@ -18,24 +18,43 @@ ENDIF
 lcMethods=lb686.methods
 TEXT TO lcBefore NOSHOW
 PROCEDURE BeforeOpenTables
-* V16.68.6: path_to_data comes from PARAMETER2.DATA_FILES. Do not let the
-* form's relative ..\databases bindings resolve beside the local executable.
-THIS.Cursor1.Database=ADDBS(path_to_data)+"letters.dbc"
-THIS.Cursor2.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor3.Database=ADDBS(path_to_data)+"letters.dbc"
-THIS.Cursor4.Database=ADDBS(path_to_data)+"letters.dbc"
-THIS.Cursor5.Database=ADDBS(path_to_data)+"letters.dbc"
-THIS.Cursor6.Database=ADDBS(path_to_data)+"letters.dbc"
-THIS.Cursor7.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor8.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor9.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor10.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor11.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor12.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor13.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor14.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor15.Database=ADDBS(path_to_data)+"oms.dbc"
-THIS.Cursor16.Database=ADDBS(path_to_data)+"oms.dbc"
+* Prefer the mapped workstation database folder. Fall back to the validated
+* Parameters 2 value, including the legacy case where it points one level
+* above the databases folder.
+LOCAL lcDataRoot
+lcDataRoot=""
+IF FILE("K:\Program Files\MOSt\databases\oms.dbc") AND FILE("K:\Program Files\MOSt\databases\letters.dbc")
+    lcDataRoot="K:\Program Files\MOSt\databases\"
+ELSE
+    IF FILE("K:\Program Files (x86)\MOSt\databases\oms.dbc") AND FILE("K:\Program Files (x86)\MOSt\databases\letters.dbc")
+        lcDataRoot="K:\Program Files (x86)\MOSt\databases\"
+    ENDIF
+ENDIF
+IF EMPTY(lcDataRoot) AND TYPE("path_to_data")=="C"
+    lcDataRoot=ADDBS(ALLTRIM(path_to_data))
+    IF !FILE(lcDataRoot+"oms.dbc") AND FILE(lcDataRoot+"databases\oms.dbc")
+        lcDataRoot=lcDataRoot+"databases\"
+    ENDIF
+ENDIF
+IF !FILE(lcDataRoot+"oms.dbc") OR !FILE(lcDataRoot+"letters.dbc")
+    ERROR "LetterBuilder cannot find oms.dbc and letters.dbc in the mapped K: database folder or the Parameters 2 DATA_FILES folder."
+ENDIF
+THIS.Cursor1.Database=lcDataRoot+"letters.dbc"
+THIS.Cursor2.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor3.Database=lcDataRoot+"letters.dbc"
+THIS.Cursor4.Database=lcDataRoot+"letters.dbc"
+THIS.Cursor5.Database=lcDataRoot+"letters.dbc"
+THIS.Cursor6.Database=lcDataRoot+"letters.dbc"
+THIS.Cursor7.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor8.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor9.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor10.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor11.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor12.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor13.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor14.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor15.Database=lcDataRoot+"oms.dbc"
+THIS.Cursor16.Database=lcDataRoot+"oms.dbc"
 THIS.Cursor17.Database=oms_local_fullpath
 ENDPROC
 ENDTEXT
